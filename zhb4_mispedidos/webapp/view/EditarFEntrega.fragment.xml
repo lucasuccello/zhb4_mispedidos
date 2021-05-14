@@ -1,0 +1,19 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<Dialog title="Gestion de Fecha de Entrega" state="Information">
+		<l:Grid defaultSpan="L12 M12 S12" width="auto" id="idGridfEntrega">
+			<l:content>
+				<f:SimpleForm id="__fEntregaForm" minWidth="1024" maxContainerCols="2" editable="false" layout="ResponsiveGridLayout" labelSpanL="3"
+					labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="2" columnsM="2">
+					<f:content>
+						<Label required="true" text="Nueva Fecha de Entrega"/>
+						<DatePicker id="_iReemplazoFechaEntrega" valueState="Information" displayFormat="short" class="sapUiSmallMarginBottom"/>
+					</f:content>
+				</f:SimpleForm>
+			</l:content>
+		</l:Grid>
+		<buttons>
+			<Button text="Cancelar" press="onCancelarFechaEntrega" type="Default"/>
+			<Button press="onGrabarFechaEntrega" type="Emphasized" icon="sap-icon://save" tooltip="Guardar Modificación de Fecha"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

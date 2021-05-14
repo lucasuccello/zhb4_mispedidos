@@ -1,0 +1,26 @@
+<template data-controller-name="hb4.zhb4_mispedidos.controller.Poligono">
+	<div id="app" data-sap-ui-type="sap.m.App">
+		<div id="pageMapa1" data-sap-ui-type="sap.m.Page" data-title="Dibujar un poligono del lote ingresado">
+			<div data-sap-ui-aggregation="content">
+                <div id="floating-panel" style="width:40%;">
+                    <input id="address" type="textbox" placeholder="Buscar dirección" style="width:90%;"/>
+                    <input id="submit" type="button" value="Buscar" />
+                    <!--<br />
+                    <input id="long" type="textbox" placeholder="Latitud" />
+                    <input id="lat" type="textbox" placeholder="longitud" />
+                    <input id="submitCoord" type="button" value="Buscar" />-->
+                    <!--<div id="otro">
+                        <input id="dibujar" type="button" value="Dibujar nuevo poligono" />
+                    </div>-->                  
+                </div>          
+                
+                <div id="floating-panel-logo" style="width:40%;">
+                    <img style="width: 8rem; height: 3rem;" src="https://www.hb4.com.ar/wp-content/uploads/2018/11/logo_hb4.png">                 
+                </div>                  
+
+                <div id="map" style="height:100%;">                    
+                </div>
+			</div>
+		</div>
+	</div>
+</template>

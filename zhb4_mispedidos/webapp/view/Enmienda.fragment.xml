@@ -1,0 +1,16 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<Dialog title="Revisión y Firma de Enmienda" state="Information" contentWidth="100%">
+        <VBox justifyContent="Center" alignContent="Center" alignItems="Center" width="100%" class="sapUiMediumMarginTop sapUiLargeMarginBeginEnd">
+            <VBox width="100%" class="sapUiLargeMarginBeginEnd">
+                <core:HTML id="framePDFEnmienda"/>
+            </VBox>
+            <VBox width="100%" alignItems="Center" class="sapUiMediumMarginTop">
+                <Image id="imagenFirmaEnmienda" width="150px" height="100px" visible="false" src=""/>
+            </VBox>
+        </VBox>
+		<buttons>
+			<Button text="Cancelar" press="onCancelarEnmienda" type="Default"/>
+			<Button press="onFirmarEnmienda" type="Emphasized" icon="sap-icon://signature"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

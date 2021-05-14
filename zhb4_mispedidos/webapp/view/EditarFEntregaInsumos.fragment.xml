@@ -1,0 +1,75 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<Dialog title="Gestion de Fecha de Entrega para Insumos" state="Information">
+		<l:Grid defaultSpan="L12 M12 S12" width="auto" id="idGridfEntregaInsumos">
+			<l:content>
+				<f:SimpleForm id="__fEntregaFormInsumos" minWidth="1024" maxContainerCols="2" editable="false" layout="ResponsiveGridLayout" labelSpanL="3"
+					labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="2" columnsM="2">
+					<f:content>
+						<Label required="true" text="Nueva Fecha de Entrega"/>
+						<DatePicker id="_iReemplazoFechaEntregaInsumos" placeholder="La fecha no puede superar la fecha de Cosecha" valueState="Information" displayFormat="short" class="sapUiSmallMarginBottom"/>
+					</f:content>
+				</f:SimpleForm>
+			</l:content>
+		</l:Grid>
+		<MessageStrip text="Solo los componentes a continuación serán actualizados" showIcon="true" showCloseButton="false" class="sapUiMediumMarginBottom"></MessageStrip>
+		<Table id="tableModificables" width="auto" items="{fechaEntrega>/results}" noDataText="No existen registros actualizables"
+			busyIndicatorDelay="{worklistView>/tableBusyDelay}" growing="true" growingScrollToLoad="true" updateFinished=".onUpdateFinished">
+			<columns>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left" width="4rem">
+					<Text text=" "/>
+					<customData>
+						<sap.ui.core:CustomData xmlns:sap.ui.core="sap.ui.core" key="TextoVar" value=" "/>
+						<sap.ui.core:CustomData xmlns:sap.ui.core="sap.ui.core" key="Desktop" value="true"/>
+						<sap.ui.core:CustomData xmlns:sap.ui.core="sap.ui.core" key="Phone" value="true"/>
+						<sap.ui.core:CustomData xmlns:sap.ui.core="sap.ui.core" key="Tablet" value="true"/>
+						<sap.ui.core:CustomData xmlns:sap.ui.core="sap.ui.core" key="Group" value="A"/>
+					</customData>
+				</Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left" width="auto">
+					<Text text="Componente"/>
+					<customData>
+						<sap.ui.core:CustomData xmlns:sap.ui.core="sap.ui.core" key="TextoVar" value="Componente"/>
+						<sap.ui.core:CustomData xmlns:sap.ui.core="sap.ui.core" key="Desktop" value="true"/>
+						<sap.ui.core:CustomData xmlns:sap.ui.core="sap.ui.core" key="Phone" value="true"/>
+						<sap.ui.core:CustomData xmlns:sap.ui.core="sap.ui.core" key="Tablet" value="true"/>
+						<sap.ui.core:CustomData xmlns:sap.ui.core="sap.ui.core" key="Group" value="A"/>
+					</customData>
+				</Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left" width="auto">
+					<Text text="Fecha Entrega Actual"/>
+					<customData>
+						<sap.ui.core:CustomData xmlns:sap.ui.core="sap.ui.core" key="TextoVar" value="Fecha Entrega Actual"/>
+						<sap.ui.core:CustomData xmlns:sap.ui.core="sap.ui.core" key="Desktop" value="true"/>
+						<sap.ui.core:CustomData xmlns:sap.ui.core="sap.ui.core" key="Phone" value="true"/>
+						<sap.ui.core:CustomData xmlns:sap.ui.core="sap.ui.core" key="Tablet" value="true"/>
+						<sap.ui.core:CustomData xmlns:sap.ui.core="sap.ui.core" key="Group" value="A"/>
+					</customData>
+				</Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left" width="auto">
+					<Text text="cantidad Actual"/>
+					<customData>
+						<sap.ui.core:CustomData xmlns:sap.ui.core="sap.ui.core" key="TextoVar" value="cantidad Actual"/>
+						<sap.ui.core:CustomData xmlns:sap.ui.core="sap.ui.core" key="Desktop" value="true"/>
+						<sap.ui.core:CustomData xmlns:sap.ui.core="sap.ui.core" key="Phone" value="true"/>
+						<sap.ui.core:CustomData xmlns:sap.ui.core="sap.ui.core" key="Tablet" value="true"/>
+						<sap.ui.core:CustomData xmlns:sap.ui.core="sap.ui.core" key="Group" value="A"/>
+					</customData>
+				</Column>
+			</columns>
+			<items>
+				<ColumnListItem highlight="Information">
+					<cells>
+						<core:Icon src="sap-icon://product"/>
+						<ObjectIdentifier title="{fechaEntrega>material}"/>
+						<ObjectAttribute text="{fechaEntrega>fechaEntrega}"/>
+						<ObjectAttribute text="{fechaEntrega>cantidadActual}"/>
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+		<buttons>
+			<Button text="Cancelar" press="onCancelarFechaEntregaInsumos" type="Default"/>
+			<Button press="onGrabarFechaEntregaInsumos" type="Emphasized" icon="sap-icon://save" tooltip="Guardar Modificación de Fecha" />
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

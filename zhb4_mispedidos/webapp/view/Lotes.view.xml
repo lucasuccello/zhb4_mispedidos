@@ -1,0 +1,151 @@
+<mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.f.semantic" xmlns:fb="sap.ui.comp.filterbar"
+	controllerName="hb4.zhb4_mispedidos.controller.Lotes" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns:chart="sap.suite.ui.microchart"
+	xmlns:viz="sap.viz.ui5.controls" xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" xmlns:viz.data="sap.viz.ui5.data">
+	<App id="pageApp" xmlns:tnt="sap.tnt">
+		<sap.m.semantic:FullscreenPage xmlns:sap.m.semantic="sap.m.semantic" id="page" backgroundDesign="List" showFooter="false">
+			<sap.m.semantic:content>
+               <fb:FilterBar id="filterBar" class="sapUiResponsivePadding--header sapUiResponsivePadding--content sapUiNoMargin" reset="onReset"
+                    search="onSearch" showGoOnFB="false" showRestoreButton="false" showClearButton="false" useToolbar="false" showFilterConfiguration="false">
+                    <fb:filterGroupItems>
+                        <fb:FilterGroupItem groupName="__$INTERNAL$" name="CartaOfertaSet" label="{i18n>offerCBLabel}" partOfCurrentVariant="true"
+                            visibleInFilterBar="true" mandatory="true">
+                            <fb:control>
+                               <ComboBox id="cbCartaOferta" showSecondaryValues="true" items="{keyContract>/results}" change=".onSelection">
+                                    <core:ListItem key="{keyContract>Pedido}" text="{keyContract>NroCartaOferta}, Campaña: {keyContract>Cultivo} - {keyContract>Anio}"/>
+                                </ComboBox>
+                            </fb:control>
+                        </fb:FilterGroupItem>
+                    </fb:filterGroupItems>
+                </fb:FilterBar>
+                <IconTabBar id="_tablaLotesdeContratos" expanded="{device>/isNoPhone}" class="sapUiResponsiveContentPadding">
+                    <items>
+                        <IconTabFilter id="_TabLotes" text="Lotes">
+                            <content>
+                                <Table id="table" width="auto" items="{tabFilters>/}" noDataText="{worklistView>/tableNoDataText}"
+                                    busyIndicatorDelay="{worklistView>/tableBusyDelay}" growing="true" updateFinished=".onUpdateFinished" alternateRowColors="true"
+                                    growingThreshold="10" growingTriggerText="ver más...">
+                                    <headerToolbar>
+                                        <OverflowToolbar>
+                                            <content>
+                                                <ToolbarSpacer />
+                                                <ToggleButton id="_buttonNuevoLote"
+                                                    icon="sap-icon://add"
+                                                    text="Nuevo Lote"
+                                                    press="onAgregarLote" 
+                                                    visible="false"/>
+                                            </content>
+                                        </OverflowToolbar>
+                                    </headerToolbar>
+                                    <columns>
+                                        <Column width="3rem">
+                                            <Text text=" "/>
+                                        </Column>
+                                        <Column minScreenWidth="Tablet" demandPopin="true" width="12rem" hAlign="Left">
+                                            <Text text="{i18n>tableNombreColumnTitle}"/>
+                                        </Column>
+                                        <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left">
+                                            <Text text="{i18n>tableCultivoColumnTitle}"/>
+                                        </Column>
+                                        <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left">
+                                            <Text text="{i18n>tableVariedadColumnTitle}"/>
+                                        </Column>
+                                        <Column minScreenWidth="Tablet" demandPopin="true" width="15rem" hAlign="Left">
+                                            <Text text="{i18n>tableUbicacionColumnTitle}"/>
+                                        </Column>
+                                        <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                                            <Text text="{i18n>tableAporteColumnTitle}"/>
+                                        </Column>
+                                        <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                                            <Text text="{i18n>tableHaColumnTitle}"/>
+                                        </Column>
+                                        <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                                            <Text text="{i18n>tableFEntregaMColumnTitle}"/>
+                                        </Column>
+                                        <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+                                            <Text text="{i18n>tableEstadoMColumnTitle}"/>
+                                        </Column>
+                                        <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left" visible="false">
+                                            <Text text="{i18n>tableFCosechaColumnTitle}"/>
+                                        </Column>
+                                        <Column minScreenWidth="Tablet" width="12rem" demandPopin="true" hAlign="Center">
+                                            <Text text="{i18n>tableBotoneraColumnTitle}"/>
+                                        </Column>
+                                    </columns>
+                                    <items>
+                                        <ColumnListItem press="onPress" type="Navigation" highlight="{ parts: [ {path: 'tabFilters>estado'} ], formatter: '.formatter.highlightStatus' }">
+                                            <cells>
+                                                <core:Icon src="sap-icon://e-care"/>
+                                                <ObjectIdentifier title="{tabFilters>nombre}"/>
+                                                <tnt:InfoLabel text="{tabFilters>cultivo}" displayOnly="true" colorScheme="{path: 'tabFilters>cultivo', formatter: '.formatter.colorTipoCultivo' }"/>
+                                                <ObjectAttribute text="{tabFilters>variedad}"/>
+                                                <ObjectAttribute text="{tabFilters>provincia} - {tabFilters>localidad}"/>
+                                                <ObjectAttribute text="{ parts: [ {path: 'tabFilters>aporteActual'}, {path: 'tabFilters>cultivo'} ], formatter: '.formatter.formatearMonto' }"/>
+                                                <ObjectAttribute text="{tabFilters>ha}"/>
+                                                <ObjectAttribute text="{tabFilters>fechaEntrega}"/>
+                                                <ObjectStatus text="{ parts: [ {path: 'tabFilters>estado'} ], formatter: '.formatter.textoStatus' }" state="{path: 'tabFilters>estado', formatter: '.formatter.colorEstadoPedido' }"/>
+                                                <DatePicker displayFormat="short" class="sapUiSmallMarginBottom" value="{tabFilters>fechaCosecha}"
+                                                    visible="{ parts: [ {path: 'tabFilters>estado'} ], formatter: '.formatter.visibleFechaCosecha' }"/>
+                                                <FlexBox alignItems="Start" justifyContent="Center" visible="{ parts: [ {path: 'tabFilters>estado'} ], formatter: '.formatter.visibleBotonera' }">
+                                                    <Button type="Emphasized" icon="sap-icon://appointment" press="onModificarFecha" tooltip="Modificar Fecha de Entrega"/>
+                                                    <Button type="Reject" icon="sap-icon://delete" press="onAnularLote" tooltip="Solicitar eliminación de Lote"/>
+                                                </FlexBox>
+                                                <ObjectAttribute text="{tabFilters>pedido}" visible="false"/>
+                                                <ObjectAttribute text="{tabFilters>posicion}" visible="false"/>
+                                                <ObjectAttribute text="{tabFilters>materialLote}" visible="false"/>
+                                            </cells>
+                                        </ColumnListItem>
+                                    </items>
+                                </Table>
+                            </content>
+                        </IconTabFilter>
+                    </items>
+                </IconTabBar>                                    
+                <IconTabBar id="_tablaAnexosContratos" expanded="{device>/isNoPhone}" class="sapUiResponsiveContentPadding">
+                    <items>
+                        <IconTabFilter id="_AnexosContratos" text="Documento Firmado">
+                            <content>
+                            	<Table noDataText="{i18n>sinAnexos}" id="__tblContratosAnexos" alternateRowColors="true" items="{Anexos>/Datos}" width="auto" fixedLayout="false">
+									<items>
+										<ColumnListItem>
+											<cells>
+												<core:Icon src="{Anexos>Icono}" tooltip="{Anexos>Extension}"/>
+												<ObjectAttribute text="{Anexos>NombreArchivo}" active="true" press="onVisualizarAnexo"/>
+												<Text text="{Anexos>Creador}"/>
+												<Text text="{Anexos>FechaCreacion}"/>
+											</cells>
+										</ColumnListItem>
+									</items>
+									<columns>
+										<Column demandPopin="true" hAlign="Left" minScreenWidth="Tablet" width="10px">
+											<header>
+												<Label text=""/>
+											</header>
+										</Column>
+										<Column demandPopin="true" hAlign="Left" minScreenWidth="Tablet">
+											<header>
+												<Label text="Anexo"/>
+											</header>
+										</Column>
+										<Column demandPopin="true" minScreenWidth="Tablet">
+											<header>
+												<Label text="Usuario creador"/>
+											</header>
+										</Column>
+										<Column demandPopin="true" minScreenWidth="Tablet" hAlign="Center">
+											<header>
+												<Label text="Fecha creación"/>
+											</header>
+										</Column>
+									</columns>
+								</Table>
+                                <VBox width="100%" direction="Column">
+                                    <core:HTML id="framePDFContrato"/>
+                                </VBox>
+                            </content>
+                        </IconTabFilter>
+                    </items>
+                </IconTabBar>                
+			</sap.m.semantic:content>
+		</sap.m.semantic:FullscreenPage>
+	</App>
+</mvc:View>

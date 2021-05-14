@@ -1,0 +1,19 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<Dialog title="Solicitud para Disminuir Cantidad de Insumo">
+		<l:Grid defaultSpan="L12 M12 S12" width="auto" id="idGridDisminuir">
+			<l:content>
+				<l:VerticalLayout class="sapUiContentPadding" width="100%">
+					<l:content>
+						<Label text="Favor indique los motivos de dicha solicitud:"/>
+						<TextArea id="_iMotivoDisminuir" required="true" busyIndicatorSize="Large" width="100%"/>
+						<MessageStrip text="En breve nos estaremos contactándo, muchas gracias!" showIcon="true" showCloseButton="false" class="sapUiMediumMarginBottom"></MessageStrip>
+					</l:content>
+				</l:VerticalLayout>
+			</l:content>
+		</l:Grid>
+		<buttons>
+			<Button text="Cancelar" press="onCancelarDisminuirInsumo" type="Default"/>
+			<Button press="onDisminuirInsumo" type="Critical" icon="sap-icon://save" tooltip="Guardar Solicitud disminuir este insumo"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

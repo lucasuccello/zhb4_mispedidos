@@ -1,0 +1,9 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form" xmlns:l="sap.ui.layout">
+
+	<BusyDialog id="bdMensaje"
+		title="Validación"
+		text="Validando..."
+		showCancelButton="false" 
+		/>
+		
+</core:FragmentDefinition>

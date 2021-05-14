@@ -1,0 +1,25 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run zhb4_mispedidos-zhb4_mispedidos",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/@sap/html5-repo-mock/index.js",
+      "args": [
+        "--standalone",
+        "/hb4zhb4_mispedidos/index.html",
+        "--ui5",
+        "{\"version\":\".\"}"
+      ],
+      "cwd": "${workspaceFolder}/zhb4_mispedidos",
+      "env": {
+        "PORT": "6004",
+        "MOCK_LOOKUP_DIRS": "[\"webapp\"]",
+        "run.config": "{\"handlerId\":\"ui5_run_config_handler_id\",\"runnableId\":\"/home/user/projects/zhb4_mispedidos/zhb4_mispedidos\"}"
+      },
+      "envFile": "${workspaceFolder}/zhb4_mispedidos/.env13",
+      "preLaunchTask": "Build zhb4_mispedidos"
+    }
+  ]
+}

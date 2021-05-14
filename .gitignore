@@ -1,0 +1,8 @@
+/mta_archives/
+/node_modules/
+/resources/
+
+# auto generated wildcard
+zhb4_mispedidos/.env7
+# auto generated wildcard
+zhb4_mispedidos/.env8

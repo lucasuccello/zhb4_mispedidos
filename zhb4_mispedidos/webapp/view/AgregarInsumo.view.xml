@@ -1,0 +1,157 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns="sap.m"
+	xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" xmlns:u="sap.ui.unified" xmlns:html="sap.ui.core.HTML"
+	xmlns:uxap="sap.uxap" height="100%" xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" xmlns:smartTable="sap.ui.comp.smarttable"
+	xmlns:tnt="sap.tnt" controllerName="hb4.zhb4_mispedidos.controller.AgregarInsumo">
+	<Page showHeader="true" showNavButton="true" navButtonPress="action" showFooter="true">
+		<uxap:ObjectPageLayout id="ObjectPageLayout">
+			<uxap:headerTitle>
+				<uxap:ObjectPageDynamicHeaderTitle>
+					<uxap:expandedHeading>
+						<Title text="Lote {nombre}" wrapping="true"/>
+					</uxap:expandedHeading>
+					<uxap:snappedHeading>
+						<FlexBox fitContainer="true" alignItems="Center">
+							<Avatar src="sap-icon://add-product" class="sapUiTinyMarginEnd" backgroundColor="Random"/>
+							<Title text="Lote {nombre}" wrapping="true"/>
+						</FlexBox>
+					</uxap:snappedHeading>
+				</uxap:ObjectPageDynamicHeaderTitle>
+			</uxap:headerTitle>
+			<uxap:headerContent>
+				<HBox wrap="Wrap">
+					<Avatar class="sapUiSmallMarginEnd" src="sap-icon://add-product" displaySize="L"/>
+					<VBox class="sapUiLargeMarginEnd">
+                        <HBox class="sapUiTinyMarginBottom">
+                            <tnt:InfoLabel id="_cultivoCode" text="{cultivo}" displayOnly="true" colorScheme="{path: 'cultivo', formatter: '.formatter.colorTipoCultivo' }" />
+						</HBox>
+						<HBox class="sapUiTinyMarginBottom">
+							<ObjectStatus title="{i18n>tableVariedadColumnTitle}" text="{variedad}"/>
+						</HBox>
+                        <HBox class="sapUiTinyMarginBottom">
+							<ObjectStatus id="_hectareasCode" title="{i18n>tableHaColumnTitle}" text="{ha}"/>
+						</HBox>
+					</VBox>
+                    <VBox class="sapUiLargeMarginEnd">
+						<HBox class="sapUiTinyMarginBottom" direction="Column">
+							<Label text="{i18n>tableFEntregaMColumnTitle}" design="Bold" class="sapUiTinyMarginEnd"/>
+							<ObjectStatus id="_fechaCosechaMaxima" text="{fechaEntrega}" state="Error" class="sapMObjectStatusLarge"/>
+						</HBox>
+					</VBox>     
+                    <VBox class="sapUiLargeMarginEnd">
+						<HBox class="sapUiTinyMarginBottom" direction="Column">
+							<Label text="{i18n>tableRindeColumnTitle}" design="Bold" class="sapUiTinyMarginEnd"/>
+							<ObjectStatus text="{ parts: [ {path: 'rindeEsperado'}, {path: 'cultivo'} ], formatter: '.formatter.formatearMonto' } Kg/Ha" class="sapMObjectStatusLarge"/>
+						</HBox>
+					</VBox>
+                    <VBox class="sapUiLargeMarginEnd">
+						<HBox class="sapUiTinyMarginBottom" direction="Column">
+							<Label text="{i18n>tableAporteAColumnTitle}" design="Bold" class="sapUiTinyMarginEnd"/>
+							<ObjectStatus text="{ parts: [ {path: 'aporteActual'}, {path: 'cultivo'} ], formatter: '.formatter.formatearMonto' } Kg/Ha" state="Success" class="sapMObjectStatusLarge"/>
+						</HBox>
+					</VBox>  
+                    <VBox class="sapUiLargeMarginEnd">
+						<HBox class="sapUiTinyMarginBottom" direction="Column">
+							<Label text="Disponible" design="Bold" class="sapUiTinyMarginEnd"/>
+							<ObjectStatus id="__agregarDisponible" state="Warning" class="sapMObjectStatusLarge"/>
+						</HBox>
+					</VBox>  
+                    <VBox>
+                        <HBox class="sapUiTinyMarginBottom">
+                            <TileContent footerColor="Good" unit="SOJA" >
+                                <NumericContent id="_tileSoja" scale="USD" value="" icon="sap-icon://e-care" withMargin="true" />
+                            </TileContent>
+                            <TileContent footerColor="Critical" unit="TRIGO" >
+                                <NumericContent id="_tileTrigo" scale="USD" value="" icon="sap-icon://strikethrough" withMargin="true" />
+                            </TileContent>
+                        </HBox>                       
+                    </VBox>
+				</HBox>
+			</uxap:headerContent>
+			<uxap:sections>
+				<uxap:ObjectPageSection title="{i18n>aAgregar}">
+					<uxap:subSections>
+						<uxap:ObjectPageSubSection>
+							<uxap:blocks>
+								<VBox>
+                                    <HBox wrap="Wrap">
+                                        <VBox width="18rem">
+                                            <HBox class="sapUiTinyMarginBottom" alignContent="End" alignItems="End" justifyContent="Start">
+                                                <Label design="Bold" text="Nuevo Aporte" class="sapUiSmallMarginTop"/>
+                                            </HBox>
+                                            <HBox class="sapUiTinyMarginBottom" alignItems="Center">
+                                                <sap.ui.core:Icon id="__iconNuevoAprote" size="2rem" color="#2DA7D7" xmlns:sap.ui.core="sap.ui.core" src="sap-icon://product"/>
+                                                <ObjectNumber
+                                                    id="__agregarAporteNuevo"
+                                                    class="sapMObjectNumberLarge"
+                                                    unit="Kg/Ha"
+                                                    emphasized="false"
+                                                    state="Success" />
+                                            </HBox>
+                                        </VBox>
+                                    </HBox>
+                                    <MessageStrip
+                                        id="tableDispNotificacion"
+                                        text="No Posee saldo Disponible, no podrá agregar insumos al Contrato"
+                                        type="Warning"
+                                        showIcon="true"
+                                        showCloseButton="true"
+                                        class="sapUiMediumMarginBottom"
+                                        visible="false">
+                                    </MessageStrip>
+									<Table id="tableItemsAgregar" items="{ComponentesAgregados>/}" alternateRowColors="true" noDataText="{i18n>sinComponentes}"
+										fixedLayout="false" updateFinished="onUpdateFinish">
+										<columns>
+											<Column width="1rem" demandPopin="true" minScreenWidth="Tablet">
+												<header>
+													<Label text=""/>
+												</header>
+											</Column>
+											<Column demandPopin="true" minScreenWidth="Tablet" hAlign="Left">
+												<header>
+													<Label text="{i18n>componente}"/>
+												</header>
+											</Column>
+											<Column hAlign="Center" demandPopin="true" minScreenWidth="Tablet">
+												<header>
+													<Label text="{i18n>fechaEntrega}"/>
+												</header>
+											</Column>
+											<Column hAlign="Center" demandPopin="true" minScreenWidth="Tablet">
+												<header>
+													<Label text="{i18n>aPedir}"/>
+												</header>
+											</Column>
+											<Column hAlign="Center" demandPopin="true" minScreenWidth="Tablet">
+												<header>
+													<Label text="{i18n>um}"/>
+												</header>
+											</Column>
+										</columns>
+										<items>
+											<ColumnListItem highlight="Information">
+												<cells>
+													<sap.ui.core:Icon xmlns:sap.ui.core="sap.ui.core" src="sap-icon://add-product"/>
+													<ObjectIdentifier text="{ComponentesAgregados>material}-{ComponentesAgregados>descripcion}"/>
+													<DatePicker minDate="{ parts: [ {path: 'ComponentesAgregados>fechaEntrega'} ], formatter: '.formatter.setMinDateAgregarInsumo' }" displayFormat="short" value="{ComponentesAgregados>fechaEntrega}" change="onChangeCantidad" />
+													<Input value="{ComponentesAgregados>cantidadPedir}" type="Number" visible="true" change="onChangeCantidad"/>
+													<ObjectIdentifier text="{ComponentesAgregados>um}"/>
+                                                    <ObjectIdentifier text="{ComponentesAgregados>material}" visible="false"/>
+												</cells>
+											</ColumnListItem>
+										</items>
+									</Table>
+								</VBox>
+							</uxap:blocks>
+						</uxap:ObjectPageSubSection>
+					</uxap:subSections>
+				</uxap:ObjectPageSection>
+			</uxap:sections>
+		</uxap:ObjectPageLayout>
+		<footer>
+			<OverflowToolbar>
+				<ToolbarSpacer/>
+				<Button id="__buttonAgregar" enabled="false" type="Accept" text="Guardar" press="onPedirInsumo"/>
+			</OverflowToolbar>
+		</footer>
+	</Page>
+</mvc:View>

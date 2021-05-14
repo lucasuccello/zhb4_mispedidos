@@ -1,0 +1,19 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<Dialog title="Solicitud de Anulación de Lote">
+		<l:Grid defaultSpan="L12 M12 S12" width="auto" id="idGridRech">
+			<l:content>
+				<l:VerticalLayout class="sapUiContentPadding" width="100%">
+					<l:content>
+						<Label text="Favor indique los motivos de dicha solicitud:"/>
+						<TextArea id="_iMotivoAnular" required="true" busyIndicatorSize="Large" width="100%"/>
+						<MessageStrip text="En breve nos estaremos contactándo, muchas gracias!" showIcon="true" showCloseButton="false" class="sapUiMediumMarginBottom"></MessageStrip>
+					</l:content>
+				</l:VerticalLayout>
+			</l:content>
+		</l:Grid>
+		<buttons>
+			<Button text="Cancelar" press="onCancelarAnular" type="Default"/>
+			<Button press="onAnular" type="Reject" icon="sap-icon://save" tooltip="Guardar Solicitud de eliminación de Lote"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

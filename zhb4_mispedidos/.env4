@@ -1,0 +1,1 @@
+destinations=[{"name":"HB4_LANDING_SRV","url":"https://HB4_LANDING_SRV.dest","proxyHost":"http://127.0.0.1","proxyPort":"8887"},{"name":"HB4_BACKEND_SAP","url":"http://HB4_BACKEND_SAP.dest","proxyHost":"http://127.0.0.1","proxyPort":"8887"}]

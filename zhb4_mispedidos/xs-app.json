@@ -1,0 +1,27 @@
+{
+  "welcomeFile": "/index.html",
+  "authenticationMethod": "none",
+  "logout": {
+    "logoutEndpoint": "/do/logout"
+  },
+  "routes": [
+    {
+      "authenticationType": "none",
+      "csrfProtection": false,
+      "source": "^/sap/opu/odata/sap/ZOS_HB4_MODIFICACION_PEDIDO_SRV/",
+      "destination": "HB4_BACKEND_SAP"
+    },
+    {
+      "authenticationType": "none",
+      "csrfProtection": false,
+      "source": "^/v2/hb4-landing/",
+      "destination": "HB4_LANDING_SRV"
+    },        
+    {
+      "source": "^(.*)$",
+      "target": "$1",
+      "service": "html5-apps-repo-rt",
+      "authenticationType": "xsuaa"
+    }
+  ]
+}

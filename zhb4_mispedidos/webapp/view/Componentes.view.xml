@@ -1,0 +1,193 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:f="sap.ui.layout.form" xmlns:l="sap.ui.layout" xmlns="sap.m"
+	xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" xmlns:u="sap.ui.unified" xmlns:html="sap.ui.core.HTML"
+	xmlns:uxap="sap.uxap" height="100%" xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" xmlns:smartTable="sap.ui.comp.smarttable"
+	xmlns:tnt="sap.tnt" controllerName="hb4.zhb4_mispedidos.controller.Componentes">
+	<Page showHeader="true" showNavButton="true" navButtonPress="action">
+		<uxap:ObjectPageLayout id="ObjectPageLayout">
+			<uxap:headerTitle>
+				<uxap:ObjectPageDynamicHeaderTitle>
+					<uxap:expandedHeading>
+						<Title text="Lote {nombre}" wrapping="true"/>
+					</uxap:expandedHeading>
+					<uxap:snappedHeading>
+						<FlexBox fitContainer="true" alignItems="Center">
+							<Avatar src="sap-icon://e-care" class="sapUiTinyMarginEnd" backgroundColor="Random"/>
+							<Title text="Lote {nombre}" wrapping="true"/>
+						</FlexBox>
+					</uxap:snappedHeading>
+				</uxap:ObjectPageDynamicHeaderTitle>
+			</uxap:headerTitle>
+			<uxap:headerContent>
+				<HBox wrap="Wrap">
+					<Avatar class="sapUiSmallMarginEnd" src="sap-icon://e-care" displaySize="L"/>
+					<VBox class="sapUiLargeMarginEnd">
+						<HBox class="sapUiTinyMarginBottom">
+                            <tnt:InfoLabel text="{cultivo}" displayOnly="true" colorScheme="{path: 'cultivo', formatter: '.formatter.colorTipoCultivo' }" />
+						</HBox>
+						<HBox class="sapUiTinyMarginBottom">
+							<ObjectStatus title="{i18n>tableVariedadColumnTitle}" text="{variedad}"/>
+						</HBox>
+						<HBox class="sapUiTinyMarginBottom">
+							<ObjectStatus title="{i18n>tableUbicacionColumnTitle}" text="{provincia} - {localidad}"/>
+						</HBox>
+                        <HBox class="sapUiTinyMarginBottom">
+							<ObjectStatus title="{i18n>tableHaColumnTitle}" text="{ha}"/>
+						</HBox>
+					</VBox>
+                    <VBox class="sapUiLargeMarginEnd">
+						<HBox class="sapUiTinyMarginBottom" direction="Column">
+							<Label text="{i18n>tableFEntregaMColumnTitle}" design="Bold" class="sapUiTinyMarginEnd"/>
+							<ObjectStatus id="_fechaMaxima" text="{fechaEntrega}" state="Error" class="sapMObjectStatusLarge"/>
+						</HBox>
+					</VBox>                 
+                    <VBox class="sapUiLargeMarginEnd">
+						<HBox class="sapUiTinyMarginBottom" direction="Column">
+							<Label text="{i18n>tableRindeColumnTitle}" design="Bold" class="sapUiTinyMarginEnd"/>
+							<ObjectStatus text="{ parts: [ {path: 'rindeEsperado'}, {path: 'cultivo'} ], formatter: '.formatter.formatearMonto' } Kg/Ha" class="sapMObjectStatusLarge"/>
+						</HBox>
+					</VBox>    
+                    <VBox class="sapUiLargeMarginEnd">
+						<HBox class="sapUiTinyMarginBottom" direction="Column">
+							<Label text="{i18n>tableAporteAColumnTitle}" design="Bold" class="sapUiTinyMarginEnd"/>
+							<ObjectStatus text="{ parts: [ {path: 'aporteActual'}, {path: 'cultivo'} ], formatter: '.formatter.formatearMonto' } Kg/Ha" state="Success" class="sapMObjectStatusLarge"/>
+                        </HBox>
+					</VBox>      
+					<VBox class="sapUiLargeMarginEnd">
+						<HBox class="sapUiTinyMarginBottom" direction="Column">
+							<Label text="Estado Actual:" design="Bold" class="sapUiTinyMarginEnd"/>
+							<ObjectStatus text="{ parts: [ {path: 'estado'} ], formatter: '.formatter.textoStatus' }"
+								state="{ parts: [ {path: 'estado'} ], formatter: '.formatter.highlightStatus' }" class="sapMObjectStatusLarge"/>
+						</HBox>
+					</VBox>
+				</HBox>
+			</uxap:headerContent>
+			<uxap:sections>
+				<uxap:ObjectPageSection title="{i18n>componentes}">
+					<uxap:subSections>
+						<uxap:ObjectPageSubSection>
+							<uxap:blocks>
+								<Table id="tableItems" items="{Componentes>/}" alternateRowColors="true" noDataText="{i18n>sinComponentes}" fixedLayout="false">
+									<headerToolbar>
+										<OverflowToolbar>
+											<content>
+												<ToolbarSpacer/>
+												<Button icon="sap-icon://add" text="Agregar Insumo" type="Transparent" press="onAgregar"
+													visible="{ parts: [ {path: 'estado'} ], formatter: '.formatter.visibleBotoneraComp' }"/>
+												<Button type="Transparent" icon="sap-icon://appointment" press="onModificarFechaComponentes" tooltip="Modificar Fecha de Entrega"
+													visible="{ parts: [ {path: 'estado'} ], formatter: '.formatter.visibleBotoneraComp' }"/>
+											</content>
+										</OverflowToolbar>
+									</headerToolbar>
+									<columns>
+										<Column width="1rem" demandPopin="true" minScreenWidth="Tablet">
+											<header>
+												<Label text=""/>
+											</header>
+										</Column>
+										<Column demandPopin="true" minScreenWidth="Tablet" hAlign="Left">
+											<header>
+												<Label text="{i18n>componente}"/>
+											</header>
+										</Column>
+										<Column hAlign="Center" demandPopin="true" minScreenWidth="Tablet">
+											<header>
+												<Label text="{i18n>fechaEntrega}"/>
+											</header>
+										</Column>
+										<Column hAlign="Center" demandPopin="true" minScreenWidth="Tablet">
+											<header>
+												<Label text="{i18n>cantActual}"/>
+											</header>
+										</Column>
+										<Column hAlign="Center" width="15rem" demandPopin="true" minScreenWidth="Tablet" visible="false">
+											<header>
+												<Label text="{i18n>aPedir}"/>
+											</header>
+										</Column>
+										<Column hAlign="Center" demandPopin="true" minScreenWidth="Tablet">
+											<header>
+												<Label text=" "/>
+											</header>
+										</Column>
+									</columns>
+									<items>
+										<ColumnListItem>
+											<cells>
+												<sap.ui.core:Icon xmlns:sap.ui.core="sap.ui.core" src="sap-icon://add-product"/>
+												<ObjectIdentifier text="{Componentes>material}"/>
+												<Text text="{Componentes>fechaEntrega}"/>
+												<Text text="{ parts: [ {path: 'Componentes>cantidadActual'}, {path: 'Componentes>um'} ], formatter: '.formatter.formatearMonto' } {path: 'Componentes>um'}"/>
+												<Input value="{ parts: [ {path: 'Componentes>cantidadPedi'}, {path: 'Componentes>um'} ], formatter: '.formatter.formatearMonto' }" type="Number" visible="false"/>
+												<FlexBox alignItems="Start" justifyContent="Center" visible="{ parts: [ {path: 'estado'} ], formatter: '.formatter.visibleBotoneraComp' }">
+													<Button type="Critical" icon="sap-icon://cart-2" press="onDisminuir" tooltip="Disminuir Insumo"
+														visible="{ parts: [ {path: 'Componentes>esDisminuible'} ], formatter: '.formatter.visibleBotonSacar' }"/>
+													<Button type="Reject" icon="sap-icon://delete" press="onAnular" tooltip="Solicitar eliminación de Insumo"
+														visible="{ parts: [ {path: 'Componentes>esBorrable'} ], formatter: '.formatter.visibleBotonBorrar' }"/>
+												</FlexBox>
+											</cells>
+										</ColumnListItem>
+									</items>
+								</Table>
+							</uxap:blocks>
+						</uxap:ObjectPageSubSection>
+					</uxap:subSections>
+				</uxap:ObjectPageSection>
+				<uxap:ObjectPageSection title="{i18n>enmiendas}">
+					<uxap:subSections>
+						<uxap:ObjectPageSubSection>
+							<uxap:blocks>
+								<Table noDataText="{i18n>sinAnexos}" id="__tblEnmiendas" alternateRowColors="true" items="{Anexos>/Datos}" width="auto" fixedLayout="false">
+									<items>
+										<ColumnListItem>
+											<cells>
+												<core:Icon src="{Anexos>Icono}" tooltip="{Anexos>Extension}"/>
+												<ObjectAttribute text="{Anexos>NombreArchivo}" active="true" press="onObtenerAnexo"/>
+												<Text text="{Anexos>Creador}"/>
+												<Text text="{Anexos>FechaCreacion}"/>
+											</cells>
+										</ColumnListItem>
+									</items>
+									<columns>
+										<Column demandPopin="true" hAlign="Left" minScreenWidth="Tablet" width="10px">
+											<header>
+												<Label text=""/>
+											</header>
+										</Column>
+										<Column demandPopin="true" hAlign="Left" minScreenWidth="Tablet">
+											<header>
+												<Label text="Anexo"/>
+											</header>
+										</Column>
+										<Column demandPopin="true" minScreenWidth="Tablet">
+											<header>
+												<Label text="Usuario creador"/>
+											</header>
+										</Column>
+										<Column demandPopin="true" minScreenWidth="Tablet" hAlign="Center">
+											<header>
+												<Label text="Fecha creación"/>
+											</header>
+										</Column>
+									</columns>
+								</Table>
+							</uxap:blocks>
+						</uxap:ObjectPageSubSection>
+					</uxap:subSections>
+					<uxap:subSections>
+						<uxap:ObjectPageSubSection>
+							<uxap:blocks>
+								<core:HTML id="framePDF"/>
+							</uxap:blocks>
+						</uxap:ObjectPageSubSection>
+					</uxap:subSections>
+				</uxap:ObjectPageSection>
+			</uxap:sections>
+		</uxap:ObjectPageLayout>
+		<!--<footer>-->
+		<!--	<OverflowToolbar>-->
+		<!--		<ToolbarSpacer/>-->
+		<!--		<Button type="Accept" text="Guardar"/>-->
+		<!--	</OverflowToolbar>-->
+		<!--</footer>-->
+	</Page>
+</mvc:View>

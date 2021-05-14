@@ -1,0 +1,9 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<BusyDialog
+		title="Lectura"
+		text="...recopilando información por favor aguarde!"
+		showCancelButton="false"
+		close="onDialogClosed" />
+</core:FragmentDefinition>

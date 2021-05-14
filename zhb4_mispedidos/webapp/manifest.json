@@ -1,0 +1,220 @@
+{
+  "_version": "1.12.0",
+  "sap.app": {
+    "id": "hb4.zhb4_mispedidos",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "1.0.4"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "ach": "ach",
+    "sourceTemplate": {
+      "id": "html5moduletemplates.basicSAPUI5ApplicationProjectModule",
+      "version": "1.40.12"
+    },
+    "crossNavigation": {
+        "inbounds": {
+            "intent1": {
+                "signature": {
+                    "parameters": {},
+                    "additionalParameters": "allowed"
+                },
+                "semanticObject": "Modificacion",
+                "action": "display",
+                "title": "Mis Pedidos",
+                "info": "Modificaciones",
+                "subTitle": "Lotes",
+                "icon": "sap-icon://account"
+            }
+        }
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "sap/opu/odata/sap/ZOS_HB4_MODIFICACION_PEDIDO_SRV/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "2.0",
+          "localUri": "localService/metadata.xml"
+        }
+      },
+      "landingService": {
+        "uri": "v2/hb4-landing/",
+        "type": "OData",
+        "settings": {
+            "odataVersion": "2.0",
+            "localUri": "localService/hb4-landing/metadata.xml"
+        }
+      }
+    }
+  },
+  "sap.cloud.portal": {
+      "Modificacion-display": {
+          "vizType": "zhb4.zhb4_tile_pedidos"
+      }
+  },
+  "sap.cloud": {
+    "public": true,
+    "service": "zhb4_mispedidos"
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": false,
+    "rootView": {
+      "viewName": "hb4.zhb4_mispedidos.view.App",
+      "type": "XML",
+      "async": true,
+      "id": "App"
+    },
+    "dependencies": {
+      "minUI5Version": "1.60.1",
+      "libs": {
+        "sap.ui.core": {},
+        "sap.m": {},
+        "sap.ui.layout": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "hb4.zhb4_mispedidos.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "defaultBindingMode": "TwoWay",
+          "defaultCountMode": "Inline",
+          "refreshAfterChange": false
+        }
+      },
+      "landingMDL": {
+        "dataSource": "landingService",
+        "preload": true,
+        "settings": {
+            "defaultBindingMode": "OneWay",
+            "defaultCountMode": "Inline",
+            "refreshAfterChange": false
+        }
+      },
+      "personalMDL": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }            
+      },      
+	  "lotesMDL": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }              
+      },
+	  "dataMDL": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }              
+      },
+	  "rindesMDL": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }              
+      },
+	  "preciosMDL": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }              
+	  }           
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "async": true,
+        "viewPath": "hb4.zhb4_mispedidos.view",
+        "controlAggregation": "pages",
+        "controlId": "app",
+        "clearControlAggregation": false
+      },
+      "routes": [
+        {
+          "name": "Lotes",
+          "pattern": "",
+          "target": [
+            "TargetLotes"
+          ]
+        },
+        {
+            "pattern": "lotesSet/{pedido},{posicion},{materialLote}",
+            "name": "componentes",
+            "target": [
+                "TargetComponentes"
+            ]
+        },
+        {
+            "pattern": "componentesSet/{pedido},{posicion},{materialLote}",
+            "name": "agregarInsumo",
+            "target": [
+                "TargetAgregarInsumo"
+            ]
+        }
+      ],
+      "targets": {
+        "TargetApp": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "App",
+          "viewName": "App"
+        },
+        "TargetLotes": {
+            "viewType": "XML",
+            "transition": "flip",
+            "viewName": "Lotes"
+        },
+        "TargetComponentes": {
+            "viewType": "XML",
+            "transition": "flip",
+            "viewName": "Componentes"
+        },
+        "TargetAgregarInsumo": {
+            "viewType": "XML",
+            "transition": "flip",
+            "viewName": "AgregarInsumo"
+        }
+      }
+    }
+  }
+}

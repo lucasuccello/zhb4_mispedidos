@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0"
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+    xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZOS_HB4_MODIFICACION_PEDIDO_SRV" xml:lang="es" sap:schema-version="1"
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="lotes" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="pedido"/>
+                    <PropertyRef Name="materialLote"/>
+                </Key>
+                <Property Name="pedido" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="materialLote" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="nombre" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="variedad" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="grano" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="kgh" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="usdkg" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="fechaCosecha" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="fechaEntrega" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="estado" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="componentesSet" Relationship="ZOS_HB4_MODIFICACION_PEDIDO_SRV.loteToComponente" FromRole="FromRole_loteToComponente" ToRole="ToRole_loteToComponente"/>
+            </EntityType>
+            <EntityType Name="componentes" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="pedido"/>
+                    <PropertyRef Name="materialLote"/>
+                    <PropertyRef Name="material"/>
+                </Key>
+                <Property Name="pedido" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="materialLote" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="material" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="cantidadActual" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="fechaEntrega" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="cantidadPedir" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="disponible" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="lotes" Relationship="ZOS_HB4_MODIFICACION_PEDIDO_SRV.loteToComponente" FromRole="ToRole_loteToComponente" ToRole="FromRole_loteToComponente"/>
+            </EntityType>
+            <EntityType Name="enmienda" m:HasStream="true" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="NombreAnexo"/>
+                </Key>
+                <Property Name="NombreAnexo" Type="Edm.String" Nullable="false" sap:unicode="false" sap:sortable="false"/>
+                <Property Name="MimeType" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Tipo archivo" sap:sortable="false"/>
+                <Property Name="Value" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Valor" sap:sortable="false"/>
+            </EntityType>
+            <EntityType Name="enmiendaListado" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Anexo"/>
+                    <PropertyRef Name="Bo"/>
+                </Key>
+                <Property Name="Anexo" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Bo" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="NombreArchivo" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Creador" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="FechaCreacion" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Extension" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Icono" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Documento" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+            </EntityType>
+            <Association Name="loteToComponente" sap:content-version="1">
+                <End Type="ZOS_HB4_MODIFICACION_PEDIDO_SRV.lotes" Multiplicity="1" Role="FromRole_loteToComponente"/>
+                <End Type="ZOS_HB4_MODIFICACION_PEDIDO_SRV.componentes" Multiplicity="*" Role="ToRole_loteToComponente"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_loteToComponente">
+                        <PropertyRef Name="pedido"/>
+                        <PropertyRef Name="materialLote"/>
+                    </Principal>
+                    <Dependent Role="ToRole_loteToComponente">
+                        <PropertyRef Name="pedido"/>
+                        <PropertyRef Name="materialLote"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="ZOS_HB4_MODIFICACION_PEDIDO_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="lotesSet" EntityType="ZOS_HB4_MODIFICACION_PEDIDO_SRV.lotes" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="componentesSet" EntityType="ZOS_HB4_MODIFICACION_PEDIDO_SRV.componentes" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="enmiendaSet" EntityType="ZOS_HB4_MODIFICACION_PEDIDO_SRV.enmienda" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="enmiendaListadoSet" EntityType="ZOS_HB4_MODIFICACION_PEDIDO_SRV.enmiendaListado" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <AssociationSet Name="loteToComponenteSet" Association="ZOS_HB4_MODIFICACION_PEDIDO_SRV.loteToComponente" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="lotesSet" Role="FromRole_loteToComponente"/>
+                    <End EntitySet="componentesSet" Role="ToRole_loteToComponente"/>
+                </AssociationSet>
+            </EntityContainer>
+            <atom:link rel="self" href="http://stkazhdbaex.eastus2.cloudapp.azure.com:8002/sap/opu/odata/sap/ZOS_HB4_MODIFICACION_PEDIDO_SRV/$metadata"
+                xmlns:atom="http://www.w3.org/2005/Atom"/>
+                <atom:link rel="latest-version" href="http://stkazhdbaex.eastus2.cloudapp.azure.com:8002/sap/opu/odata/sap/ZOS_HB4_MODIFICACION_PEDIDO_SRV/$metadata"
+                    xmlns:atom="http://www.w3.org/2005/Atom"/>
+                </Schema>
+            </edmx:DataServices>
+        </edmx:Edmx>

@@ -1,0 +1,15 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"> <!-- This part is redundant -->
+
+    <Dialog title="Mapa" contentHeight="100%" contentWidth="100%">
+        <mvc:HTMLView viewName="hb4.zhb4_mispedidos.view.Poligono"/>          
+        <customHeader>
+            <Bar>
+                <contentRight>
+                    <Button text="Borrar poligono" press="onBorrarPoligono" type="Emphasized"/>
+                    <Button text="Finalizar" press="onCerrarMapa" type="Emphasized"/>
+                </contentRight>
+            </Bar>
+        </customHeader>
+    </Dialog>
+
+</core:FragmentDefinition>
