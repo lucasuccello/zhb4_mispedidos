@@ -632,6 +632,8 @@ sap.ui.define([
 
         getPreciosFuturos: function(){
             var oPersonal = this.getModel("personalMdl");
+            //var oPersonal = this.getModel("personalMdl").getData( );
+
             var sPath = "/PreciosPrefijadosPorCuit(cuit='" + oPersonal.getData().cuit + "',cultivo_ID='TR')/precio" ;
 
             //chequeo primero hay un precio por cuit de lo contrario obtengo el precio como siempre
@@ -1216,8 +1218,10 @@ sap.ui.define([
             //var fHectareas = oEvent.getSource().getValue();
             var oLote = this.getModel("viewLoteMdl").getData();
 
-            if(oLote.hectareas < 50){  //@prd
-                sap.m.MessageToast.show("El minimo de hectáreas es 50");
+            
+            if (oLote.hectareas < this._MinimoHectareas) {  //@prd
+            //if(oLote.hectareas < 50){  //@prd
+                sap.m.MessageToast.show("El minimo de hectáreas es " + this._MinimoHectareas);
                 return;
             }
 
@@ -1364,8 +1368,10 @@ sap.ui.define([
                 sap.ui.getCore().byId("iHectareasN").focus();
                 return;
             }             
-            else if(parseFloat(oData.hectareas) < 50){   //@prd
-                sap.m.MessageToast.show("El minimo de hectáreas es 50");
+            //else if(parseFloat(oData.hectareas) < 50){   //@prd
+            else if (parseFloat(oData.hectareas) < this._MinimoHectareas) {  //@prd
+
+                sap.m.MessageToast.show("El minimo de hectáreas es " + this._MinimoHectareas);
                 return;
             }                   
             else if(oData.fechaSiembra === ""){
