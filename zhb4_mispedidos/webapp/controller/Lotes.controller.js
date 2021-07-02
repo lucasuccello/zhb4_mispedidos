@@ -50,8 +50,17 @@ sap.ui.define([
 				onAfterShow: function (oEvent) {
 					oController.onRefresh();
 				}
-			}, oView);
+            }, oView);
+
+            this.getRouter().getRoute("Lotes").attachPatternMatched(this._onObjectMatched, this);
 		},
+
+        _onObjectMatched: function (){
+            if  (oController.selectedItem){
+                    this.byId("cbCartaOferta").setSelectedItem(this.byId("cbCartaOferta").getSelectedKey(oController.selectedItem));
+                    this.onSelection();
+            }
+        },
 
         onAfterRendering: function (){
             oController = this;
@@ -68,10 +77,6 @@ sap.ui.define([
 
         onSetContrato: function () {
             var that = this;
-            
-			//var url = "/sap/opu/odata/sap/ZOS_HB4_MODIFICACION_PEDIDO_SRV/";
-			//var oModel = new sap.ui.model.odata.v2.ODataModel(url);
-			//that.getView().setModel(oModel);
 			var oModel1 = new sap.ui.model.json.JSONModel();
 			oController.getView().getModel().read("/CartaOfertaSet", {
 				success: function (oData, oResponse) {
@@ -98,6 +103,7 @@ sap.ui.define([
         },
 
         onSelection: function(oEvent){
+
             var vKey;
             var vPuedeAgregarLote = "";
             this.byId("framePDFContrato").setContent(null);
@@ -105,6 +111,8 @@ sap.ui.define([
             if  (oEvent){
                 var oComboBox = oEvent.getSource(),
                 vKey = oComboBox.getSelectedKey();
+                var oModelLocal = this.getModel();
+                oController.selectedItem = vKey;
             }else{
                 vKey = this.getView().byId("cbCartaOferta").getSelectedKey();
             }
@@ -2226,7 +2234,7 @@ sap.ui.define([
                     let oCantidades = this.conversorDeCantidadNico(oInsumo, oLote);
 
                     // material principal
-                    if (oCantidades.fCantidad > 0) {
+                    if (oCantidades.fCantidad >= 0) {
                         let oDatos = {
                             pedido: oController.Pedido,
                             posicion: "0",
@@ -2242,7 +2250,7 @@ sap.ui.define([
 
                         aComponentes.push(oDatos);
                     }
-                    if (oCantidades.fCantidadMaterialChico > 0 && oInsumo.materialChico_ID) {
+                    if (oCantidades.fCantidadMaterialChico >= 0 && oInsumo.materialChico_ID) {
                         let oDatosChico = {
 
                             pedido: oController.Pedido,

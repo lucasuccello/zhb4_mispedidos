@@ -1,0 +1,66 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<Dialog id="dialogProdFert" title="Seleccione un fertilizante" contentWidth="75%" busyIndicatorDelay="0">
+		<l:Grid defaultSpan="L12 M12 S12" width="auto" id="idGridProdFert">
+			<l:content>
+                <VBox class="sapUiSmallMargin">
+                    <Table items="{modelProdsFert>/}" id="idTablaProdFert" noDataText="No se encontraron fertilizantes para el estado seleccionado" mode="SingleSelectMaster"
+                        itemPress="handleVHProdFert">
+                        <headerToolbar>
+                            <OverflowToolbar>
+                                <Input id="sfProdFert" placeholder="Buscar fertilizante por Marca o Princ. Act." liveChange="onFiltrarProdFert" width="40%"/>
+                                <ToolbarSpacer/>
+                            </OverflowToolbar>
+                        </headerToolbar>
+                        <columns>
+                            <Column hAlign="Begin" width="2rem" demandPopin="false" popinDisplay="Inline" minScreenWidth="Phone">
+                                <header>
+                                    <Label text=""/>
+                                </header>
+                            </Column>
+                            <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
+                                <header>
+                                    <Label text="Marca"/>
+                                </header>
+                            </Column>
+                            <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
+                                <header>
+                                    <Label text="Principio Activo"/>
+                                </header>
+                            </Column>
+                            <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
+                                <header>
+                                    <Label text="Principio Activo 2"/>
+                                </header>
+                            </Column>
+                            <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
+                                <header>
+                                    <Label text="Grado"/>
+                                </header>
+                            </Column>
+                            <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
+                                <header>
+                                    <Label text="Comp. Química"/>
+                                </header>
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem type="Active">
+                                <cells>
+                                    <core:Icon size="1.5rem" src="sap-icon://product" class="sapUiVisibleOnlyOnDesktop"/>
+                                    <ObjectIdentifier title="{modelProdsFert>MarcaComercial}"/>
+                                    <ObjectAttribute text="{modelProdsFert>PrincipioAct1}"/>
+                                    <ObjectAttribute text="{modelProdsFert>PrincipioAct2}"/>
+                                    <ObjectAttribute text="{modelProdsFert>Grado}"/>
+                                    <ObjectAttribute text="{modelProdsFert>CompQuimica}"/>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </VBox>
+			</l:content>
+		</l:Grid>
+		<buttons>
+			<Button text="Cancelar" press="onCancelarVHProdFert" type="Default"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,93 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<Dialog id="dialogPulv" title="Editar Pulverización" contentWidth="95%" busyIndicatorDelay="0">
+		<l:Grid defaultSpan="L12 M12 S12" width="auto" id="idGridPulv">
+			<l:content>
+                <VBox class="sapUiSmallMargin">
+                    <HBox class="sapUiMediumMarginBottom">
+                        <VBox class="sapUiMediumMarginEnd">
+                            <Label text="Fecha:"/>
+                            <DatePicker id="_fechaPulv" displayFormat="dd/MM/yyyy"/>
+                        </VBox>
+                        <VBox class="sapUiMediumMarginEnd">
+                            <Label text="Superficie:"/>
+                            <HBox alignItems="Center">
+                                <Input id="_superficiePulv" value="{modelAddPulv>/superficie}"/>
+                                <Label class="sapUiTinyMarginBegin" text="Ha"/>
+                            </HBox>
+                        </VBox>
+                        <VBox>
+                            <Label text="Observaciones:"/>
+                            <TextArea id="_observacionesPulv" value="{modelAddPulv>/observaciones}" rows="2"/>
+                        </VBox>
+                    </HBox>
+                    <VBox class="sapUiSmallMarginBottom">
+                        <HBox class="sapUiSmallMarginBottom" width="100%">
+                            <HBox alignItems="Center" class="prodTitle">
+                                <core:Icon size="1.5rem" src="sap-icon://product" class="sapUiTinyMarginEnd"/>
+                                <Title class="prodTitle" level="H2" titleStyle="H3" text="Productos"/>
+                            </HBox>
+                        </HBox>
+                        <VBox items="{modelAddPulv>/productos}">
+                            <items>
+                                <HBox>
+                                    <HBox class="sapUiSmallMarginBottom" alignItems="Start">
+                                        <VBox class="sapUiSmallMarginEnd">
+                                            <Label text="Tipo:"/>
+                                            <Select id="_cbVariedadPulv" selectedKey="{modelAddPulv>variedad}" items="{labores>/VariedadesSet}" change="onChangeVariedad" forceSelection="false">
+                                                <core:Item key="{labores>Variedad}" text="{labores>Descripcion}"/>
+                                            </Select>
+                                        </VBox>
+                                        <HBox>
+                                            <HBox alignItems="Center">
+                                                <core:Icon src="sap-icon://open-command-field" class="sapUiSmallMarginTop sapUiSmallMarginEnd"/>
+                                            </HBox>
+                                            <VBox class="sapUiSmallMarginEnd">
+                                                <Label text="Producto:"/>
+                                                <Input busyIndicatorDelay="0" id="_inpProdPulv" value="{modelAddPulv>marca}" editable="true" showValueHelp="true" valueHelpRequest="onVhProdPulv" valueHelpOnly="true" liveChange="onValidarAgregarPulv"/>
+                                            </VBox>
+                                            <VBox class="sapUiSmallMarginEnd" visible="{= ${modelAddPulv>princAct} !== ''}">
+                                                <Label text="Princ. Activo:"/>
+                                                <Text text="{modelAddPulv>princAct}" class="sapUiTinyMarginTop"/>
+                                            </VBox>
+                                            <VBox class="sapUiSmallMarginEnd" visible="{= ${modelAddPulv>princAct2} !== ''}">
+                                                <Label text="Princ. Activo 2:"/>
+                                                <Text text="{modelAddPulv>princAct2}" class="sapUiTinyMarginTop"/>
+                                            </VBox>
+                                        </HBox>
+                                        <HBox>
+                                            <HBox alignItems="Center">
+                                                <core:Icon src="sap-icon://open-command-field" class="sapUiSmallMarginTop sapUiSmallMarginEnd"/>
+                                            </HBox>
+                                            <HBox alignItems="End">
+                                                <VBox class="sapUiTinyMarginEnd">
+                                                    <Label text="Dosis:"/>
+                                                    <Input id="_inpDosisPulv" type="Number" width="100px" value="{modelAddPulv>dosis}" valueLiveUpdate="true" liveChange="onValidarAgregarPulv"/>
+                                                </VBox>
+                                                <VBox class="sapUiSmallMarginEnd">
+                                                    <Label text="Unidad:"/>
+                                                    <Select id="_cbUnidadPulv" selectedKey="{modelAddPulv>unidad}" change="onValidarAgregarPulv" items="{labores>/UnidadesSet}" forceSelection="false"> 
+                                                        <core:Item key="{labores>Unidad}" text="{labores>Descripcion}"/>
+                                                    </Select>
+                                                </VBox>
+                                            </HBox>
+                                        </HBox>
+                                    </HBox>
+                                    <HBox class="sapUiSmallMarginBottom" alignItems="End"> 
+                                        <HBox alignItems="End"> 
+                                            <Button class="sapUiTinyMarginEnd" icon="sap-icon://decline" type="Reject" press="onBorrarProd" tooltip="{i18n>tltDelProd}" visible="{modelAddPulv>mostrarBorrar}"/>
+                                            <Button icon="sap-icon://add" press="onAgregarProd" tooltip="{i18n>tltAddProd}" visible="{modelAddPulv>mostrarAgregar}"/>
+                                        </HBox>
+                                    </HBox>
+                                </HBox>
+                            </items>
+                        </VBox>
+                    </VBox>
+                </VBox>
+			</l:content>
+		</l:Grid>
+		<buttons>
+			<Button text="Cancelar" press="onCancelarPulv" type="Default"/>
+			<Button text="Guardar" press="onGuardarPulv" type="Emphasized"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

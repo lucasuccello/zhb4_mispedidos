@@ -232,6 +232,52 @@ sap.ui.define([], function () {
 				// 	maximumFractionDigits: '2'
 				// });
             }
+        },
+
+        statusCompleto: function (sValor) {
+
+            if (sValor == 'X' || sValor == "100.000") {
+                return "Modulo completado";
+            } else {
+                return "Modulo incompleto";
+            }
+
+        },
+
+        statusTypeCompleto: function (sValor) {
+
+            if (sValor == 'X' || sValor == "100.000") {
+                return "Success";
+            } else {
+                return "Error";
+            }
+
+        },
+
+        removerCeros: function (sValor) {
+            let iNumero = parseInt(sValor, 10);
+            return iNumero;
+        },
+
+        posicionSAP: function (sValor) {
+
+            let iNumero = parseInt(sValor, 10);
+            return iNumero / 10;
+        },
+
+        cultivo: function (sValor) {
+            if (sValor == "SO") return "Soja";
+            if (sValor == "TR") return "Trigo";
+            return sValor;
+        },
+
+        loteAnulado: function (sValor) {
+            if (sValor == 'X') {
+                return "Anulado";
+            } else {
+                return "Disponible";
+            }
+
         }
 	};
 

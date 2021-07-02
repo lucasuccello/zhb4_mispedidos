@@ -136,47 +136,485 @@
 					<uxap:subSections>
 						<uxap:ObjectPageSubSection>
 							<uxap:blocks>
-								<Table noDataText="{i18n>sinAnexos}" id="__tblEnmiendas" alternateRowColors="true" items="{Anexos>/Datos}" width="auto" fixedLayout="false">
-									<items>
-										<ColumnListItem>
-											<cells>
-												<core:Icon src="{Anexos>Icono}" tooltip="{Anexos>Extension}"/>
-												<ObjectAttribute text="{Anexos>NombreArchivo}" active="true" press="onObtenerAnexo"/>
-												<Text text="{Anexos>Creador}"/>
-												<Text text="{Anexos>FechaCreacion}"/>
-											</cells>
-										</ColumnListItem>
-									</items>
-									<columns>
-										<Column demandPopin="true" hAlign="Left" minScreenWidth="Tablet" width="10px">
-											<header>
-												<Label text=""/>
-											</header>
-										</Column>
-										<Column demandPopin="true" hAlign="Left" minScreenWidth="Tablet">
-											<header>
-												<Label text="Anexo"/>
-											</header>
-										</Column>
-										<Column demandPopin="true" minScreenWidth="Tablet">
-											<header>
-												<Label text="Usuario creador"/>
-											</header>
-										</Column>
-										<Column demandPopin="true" minScreenWidth="Tablet" hAlign="Center">
-											<header>
-												<Label text="Fecha creación"/>
-											</header>
-										</Column>
-									</columns>
-								</Table>
-							</uxap:blocks>
+                                <HBox direction="Column">
+                                    <Table noDataText="{i18n>sinAnexos}" id="__tblEnmiendas" alternateRowColors="true" items="{Anexos>/Datos}" fixedLayout="false">
+                                        <items>
+                                            <ColumnListItem>
+                                                <cells>
+                                                    <core:Icon src="{Anexos>Icono}" tooltip="{Anexos>Extension}"/>
+                                                    <ObjectAttribute text="{Anexos>NombreArchivo}" active="true" press="onObtenerAnexo"/>
+                                                    <Text text="{Anexos>Creador}"/>
+                                                    <Text text="{Anexos>FechaCreacion}"/>
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                        <columns>
+                                            <Column demandPopin="true" hAlign="Left" minScreenWidth="Tablet" width="10px">
+                                                <header>
+                                                    <Label text=""/>
+                                                </header>
+                                            </Column>
+                                            <Column demandPopin="true" hAlign="Left" minScreenWidth="Tablet">
+                                                <header>
+                                                    <Label text="Anexo"/>
+                                                </header>
+                                            </Column>
+                                            <Column demandPopin="true" minScreenWidth="Tablet">
+                                                <header>
+                                                    <Label text="Usuario creador"/>
+                                                </header>
+                                            </Column>
+                                            <Column demandPopin="true" minScreenWidth="Tablet" hAlign="Center">
+                                                <header>
+                                                    <Label text="Fecha creación"/>
+                                                </header>
+                                            </Column>
+                                        </columns>
+                                    </Table>
+                                    <core:HTML id="framePDF" width="100%"/>
+                                </HBox>
+                            </uxap:blocks>
 						</uxap:ObjectPageSubSection>
 					</uxap:subSections>
+				</uxap:ObjectPageSection>
+                <uxap:ObjectPageSection title="{i18n>titSiembra}">
 					<uxap:subSections>
 						<uxap:ObjectPageSubSection>
 							<uxap:blocks>
-								<core:HTML id="framePDF"/>
+                            <Table id="_idTableSiembra" width="100%" items="{ path: 'Siembra>/'}" noDataText="Sin datos" headerText="Campos">
+                                <columns>
+                                    <Column id="idCampoColumna">
+                                        <Text text="{i18n>idCampoColumnTitle}" />
+                                    </Column>
+                                    <Column id="idFechaSiembraColumna">
+                                        <Text text="{i18n>idFechaSembradaColumnTitle}" />
+                                    </Column>
+                                    <Column id="idHaOrigColumna">
+                                        <Text text="{i18n>haOrigColumnTitle}" />
+                                    </Column>
+                                    <Column id="idHaNuevasColumna">
+                                        <Text text="{i18n>haNuevaColumnTitle}" />
+                                    </Column>
+                                    <Column id="idSurcoColumna">
+                                        <Text text="{i18n>idSurcoColumnTitle}" />
+                                    </Column>
+                                    <Column id="idCoordOrigColumna">
+                                        <Text text="{i18n>coordOrigColumnTitle}" />
+                                    </Column>
+                                    <Column id="idCoordNuevaColumna">
+                                        <Text text="{i18n>coordNuevaColumnTitle}" />
+                                    </Column>                                                                       
+                                    
+                                    <Column id="idPurgaSembradaColumna">
+                                        <Text text="{i18n>idPurgaSembradaColumnTitle}" />
+                                    </Column>
+                                    <Column id="idHaPurgaColumna">
+                                        <Text text="{i18n>haPurgaColumnTitle}" />
+                                    </Column>
+                                    <Column id="idDensidadColumna">
+                                        <Text text="{i18n>idDensidadColumnTitle}" />
+                                    </Column>
+                                    <Column id="idCoordPurgaColumna">
+                                        <Text text="{i18n>coordPurgaColumnTitle}" />
+                                    </Column>
+
+                                    <Column id="idFechaCosechaColumna">
+                                        <Text text="{i18n>idFechaCosechaColumnTitle}" />
+                                    </Column>
+                                    <Column id="idDensidadCosechaColumna">
+                                        <Text text="{i18n>idDensidadCosechaColumnTitle}" />
+                                    </Column>
+                                    <Column id="idRindeLoeColumna">
+                                        <Text text="{i18n>idRindeLoteColumnTitle}" />
+                                    </Column>
+                                    <Column id="idSuperficieColumna">
+                                        <Text text="{i18n>SuperficieColumnTitle}" />
+                                    </Column>
+                                    <Column id="idHumedadColumna">
+                                        <Text text="{i18n>HumedadColumnTitle}" />
+                                    </Column>
+                                    
+                                </columns>
+                                <items>
+                                    <ColumnListItem>
+                                        <cells>
+                                            <Text text="{Siembra>Campo}" />
+                                            <Text text="{Siembra>FechaSiembra}" />
+                                            <Text text="{Siembra>HaOriginales}" />
+                                            <Text text="{Siembra>HaNuevas}" />
+                                            <Text text="{Siembra>Surco}" />
+                                            <Button press="onMostrarCOriginal" icon="sap-icon://map-2"></Button>
+                                            <Button press="onMostrarCNueva" icon="sap-icon://map-2"></Button>
+
+                                            <Text text="{Siembra>PurgaSembrada}" />
+                                            <Text text="{Siembra>HaPurga}" />
+                                            <Text text="{Siembra>DensidadPurga}" />
+                                            <Button press="onMostrarCPurga" icon="sap-icon://map"></Button>
+
+                                            <Text text="{Siembra>FechaCosecha}" />
+                                            <Text text="{Siembra>Densidad}" />
+                                            <Text text="{Siembra>RindeLote}" />
+                                            <Text text="{Siembra>SuperficieCosechada}" />
+                                            <Text text="{Siembra>HumedadSemilla}" />
+                                            
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+							</uxap:blocks>
+						</uxap:ObjectPageSubSection>
+					</uxap:subSections>
+				</uxap:ObjectPageSection>
+                <uxap:ObjectPageSection title="{i18n>titPulverizaciones}">
+					<uxap:subSections>
+						<uxap:ObjectPageSubSection>
+							<uxap:blocks>
+								<Table id="tablaPulv" width="auto" items="{ path : 'modelPulverizaciones>/', sorter: { path: 'NroPulv' }}" noDataText="{i18n>tableNoDataTextPulv}"
+                                    updateFinished=".onUpdateFinished" alternateRowColors="true">
+                                    <headerToolbar>
+                                        <OverflowToolbar>
+                                            <content>
+                                                <ToolbarSpacer />
+                                                <Button id="_buttonNuevaPulv" icon="sap-icon://add" text="{i18n>txtBotonAddPulv}" press="onNavegarLabores"/>
+                                            </content>
+                                        </OverflowToolbar>
+                                    </headerToolbar>
+                                    <columns>
+                                        <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left">
+                                            <Text text="{i18n>clmNroPulv}"/>
+                                        </Column>
+                                        <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left">
+                                            <Text text="{i18n>clmFechaPulv}"/>
+                                        </Column>
+                                        <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left">
+                                            <Text text="{i18n>clmSuperficiePulv}"/>
+                                        </Column>
+                                        <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left" width="25rem">
+                                            <Text text="{i18n>clmObservacionesPulv}"/>
+                                        </Column>
+                                        <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left">
+                                            <Text text="{i18n>clmProductosPulv}"/>
+                                        </Column>
+                                        <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left" width="7rem">
+                                            <Text text=""/>
+                                        </Column>
+                                    </columns>
+                                    <items>
+                                        <ColumnListItem>
+                                            <cells>
+                                                <ObjectIdentifier title="{modelPulverizaciones>NroPulv}"/>
+                                                <ObjectAttribute text="{ path:'modelPulverizaciones>Fecha', type: 'sap.ui.model.type.Date', formatOptions: { UTC:true, pattern: 'dd/MM/yyyy', source : {  pattern : 'dd/MM/yyyy' } } }"/>
+                                                <ObjectNumber number="{modelPulverizaciones>Superficie}" unit="Ha"/>
+                                                <ObjectAttribute text="{modelPulverizaciones>Observaciones}"/>
+                                                <Button icon="sap-icon://show" press="onVerProdsPulv" type="Ghost" tooltip="{i18n>tltpBtnProductos}" text="{i18n>txtBtnProductos}"/>
+                                                <FlexBox alignItems="Start" justifyContent="Center">
+                                                    <Button press="onEditarPulv" type="Ghost" icon="sap-icon://edit" tooltip="{i18n>tltpBtnEditPulv}"/>
+                                                </FlexBox>
+                                            </cells>
+                                        </ColumnListItem>
+                                    </items>
+                                </Table>
+							</uxap:blocks>
+						</uxap:ObjectPageSubSection>
+					</uxap:subSections>
+				</uxap:ObjectPageSection>
+                <uxap:ObjectPageSection title="{i18n>titFertilizacion}">
+					<uxap:subSections>
+						<uxap:ObjectPageSubSection>
+							<uxap:blocks>
+                                <Table id="tablaFert" width="auto" items="{ path : 'modelFertilizaciones>/', sorter: { path: 'NroFert' }}" noDataText="{i18n>tableNoDataTextFert}"
+                                    updateFinished=".onUpdateFinished" alternateRowColors="true">
+                                    <headerToolbar>
+                                        <OverflowToolbar>
+                                            <content>
+                                                <ToolbarSpacer />
+                                                <Button id="_buttonNuevaFert" icon="sap-icon://add" text="{i18n>txtBotonAddFert}" press="onNavegarLabores"/>
+                                            </content>
+                                        </OverflowToolbar>
+                                    </headerToolbar>
+                                    <columns>
+                                        <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left">
+                                            <Text text="{i18n>clmNroFert}"/>
+                                        </Column>
+                                        <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left">
+                                            <Text text="{i18n>clmFechaFert}"/>
+                                        </Column>
+                                        <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left">
+                                            <Text text="{i18n>clmSuperficieFert}"/>
+                                        </Column>
+                                        <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left">
+                                            <Text text="{i18n>clmTipoPulv}"/>
+                                        </Column>
+                                        <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left" width="25rem">
+                                            <Text text="{i18n>clmObservacionesFert}"/>
+                                        </Column>
+                                        <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left">
+                                            <Text text="{i18n>clmProductosFert}"/>
+                                        </Column>
+                                        <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Left" width="7rem">
+                                            <Text text=""/>
+                                        </Column>
+                                    </columns>
+                                    <items>
+                                        <ColumnListItem>
+                                            <cells>
+                                                <ObjectIdentifier title="{modelFertilizaciones>NroFert}"/>
+                                                <ObjectAttribute text="{ path:'modelFertilizaciones>Fecha', type: 'sap.ui.model.type.Date', formatOptions: { UTC:true, pattern: 'dd/MM/yyyy', source : {  pattern : 'dd/MM/yyyy' } } }"/>
+                                                <ObjectNumber number="{modelFertilizaciones>Superficie}" unit="Ha"/>
+                                                <ObjectAttribute text="{modelFertilizaciones>DescTipo}"/>
+                                                <ObjectAttribute text="{modelFertilizaciones>Observaciones}"/>
+                                                <Button icon="sap-icon://show" press="onVerProdsFert" type="Ghost" tooltip="{i18n>tltpBtnProductos}" text="{i18n>txtBtnProductos}"/>
+                                                <FlexBox alignItems="Start" justifyContent="Center">
+                                                    <Button press="onEditarFert" type="Ghost" icon="sap-icon://edit" tooltip="{i18n>tltpBtnEditFert}"/>
+                                                </FlexBox>
+                                            </cells>
+                                        </ColumnListItem>
+                                    </items>
+                                </Table>
+							</uxap:blocks>
+						</uxap:ObjectPageSubSection>
+					</uxap:subSections>
+				</uxap:ObjectPageSection>
+                <uxap:ObjectPageSection title="{i18n>titFenologia}">
+					<uxap:subSections>
+						<uxap:ObjectPageSubSection>
+							<uxap:blocks>
+                                <VBox>
+                                    <VBox justifyContent="End" alignItems="End">
+                                        <Button icon="sap-icon://edit" text="{i18n>txtBtnEditFen}" press="onEditarFenolog" visible="{= ${modelAddFenolog>/editarFenolog} === false}"></Button>
+                                    </VBox>
+                                    <!-- vista para TRIGO -->
+                                    <VBox class="sapUiSmallMargin" width="100%" visible="{modelAddFenolog>/cargarFenTR}">
+                                        <HBox alignItems="Center" justifyContent="Center">
+                                            <tnt:InfoLabel text="{i18n>txtTrigo}" displayOnly="true" colorScheme="1" class="sapUiSmallMarginTop sapUiSmallMarginEnd"/>
+                                            <VBox class="sapUiMediumMarginEnd">
+                                                <Label text="{i18n>lblEmergencia}:"/>
+                                                <DatePicker id="_fechaEmergenciaTrigo" displayFormat="dd/MM/yyyy" enabled="{modelAddFenolog>/editarFenolog}"/>
+                                            </VBox>
+                                            <VBox class="sapUiMediumMarginEnd">
+                                                <Label text="{i18n>lblAntesis}:"/>
+                                                <DatePicker id="_fechaAntesisTrigo" displayFormat="dd/MM/yyyy" enabled="{modelAddFenolog>/editarFenolog}"/>
+                                            </VBox>
+                                            <VBox>
+                                                <Label text="{i18n>lblMadurez}:"/>
+                                                <DatePicker id="_fechaMadurezTrigo" displayFormat="dd/MM/yyyy" enabled="{modelAddFenolog>/editarFenolog}"/>
+                                            </VBox>
+                                        </HBox>
+                                    </VBox>
+                                    <!-- vista para SOJA -->
+                                    <VBox class="sapUiSmallMargin" width="100%" visible="{modelAddFenolog>/cargarFenSO}">
+                                        <HBox alignItems="Center" justifyContent="Center">
+                                            <tnt:InfoLabel text="{i18n>txtSoja}" displayOnly="true" colorScheme="7" class="sapUiSmallMarginTop sapUiSmallMarginEnd"/>
+                                            <VBox class="sapUiMediumMarginEnd">
+                                                <Label text="{i18n>lblEmergencia}:"/>
+                                                <DatePicker id="_fechaEmergenciaSoja" displayFormat="dd/MM/yyyy" enabled="{modelAddFenolog>/editarFenolog}"/>
+                                            </VBox>
+                                            <VBox class="sapUiMediumMarginEnd">
+                                                <Label text="{i18n>lblR5}:"/>
+                                                <DatePicker id="_fechaR5Soja" displayFormat="dd/MM/yyyy" enabled="{modelAddFenolog>/editarFenolog}"/>
+                                            </VBox>
+                                            <VBox>
+                                                <Label text="{i18n>lblR8}:"/>
+                                                <DatePicker id="_fechaR8Soja" displayFormat="dd/MM/yyyy" enabled="{modelAddFenolog>/editarFenolog}"/>
+                                            </VBox>
+                                        </HBox>
+                                    </VBox>
+                                    <HBox justifyContent="End" visible="{modelAddFenolog>/editarFenolog}">
+                                        <Button type="Ghost" text="{i18n>txtBtnCancel}" class="sapUiTinyMarginEnd" press="onCancelarFenolog"/>
+                                        <Button type="Emphasized" text="{i18n>txtBtnSave}" press="onGuardarFenolog"/>
+                                    </HBox>
+                                </VBox>
+							</uxap:blocks>
+						</uxap:ObjectPageSubSection>
+					</uxap:subSections>
+				</uxap:ObjectPageSection>
+                <uxap:ObjectPageSection title="Lluvias">
+					<uxap:subSections>
+						<uxap:ObjectPageSubSection>
+							<uxap:blocks>
+                                <VBox>
+                                    <Panel backgroundDesign="Transparent" visible="{= ${modelLluvia>/mostrarLluvias} === false}" width="auto" class="sapUiResponsiveMargin">
+                                        <headerToolbar>
+                                            <OverflowToolbar>
+                                                <ToolbarSpacer />
+                                                <Button id="_buttonNuevaLluv2" icon="sap-icon://add" text="Nueva Lluvia" press="onNavegarLabores"/>
+                                            </OverflowToolbar>
+                                        </headerToolbar>
+                                        <content>
+                                            <MessageStrip
+                                                text="No se cargaron datos de lluvias para este lote."
+                                                showIcon="true"
+                                                type="Warning"
+                                                class="sapUiMediumMarginBeginEnd sapUiMediumMarginTop"/>
+                                        </content>
+                                    </Panel>
+                                    <VBox visible="{modelLluvia>/mostrarLluvias}">
+                                        <MessageStrip
+                                            text="Cargue los milimetros de lluvia cargados por día. Solo se guardarán aquellos que tengan una cantidad mayor a 0, los demás seran eliminados."
+                                            visible="{modelLluvia>/isEdit}"
+                                            showIcon="true"
+                                            class="sapUiTinyMargin"/>
+                                        <Table id="tableLluv" width="100%" items="{ path : 'modelLluvia>/Lluvias' }" sticky="ColumnHeaders"
+                                            busyIndicatorDelay="0" growing="false" alternateRowColors="true"
+                                            growingThreshold="10" growingTriggerText="ver más...">
+                                            <headerToolbar>
+                                                <OverflowToolbar>
+                                                    <content>
+                                                        <ToolbarSpacer />
+                                                        <Button visible="{= ${modelLluvia>/isEdit} === false}" class="sapUiTinyMarginEnd" id="_buttonEditarLluv" icon="sap-icon://edit" text="Editar Lluvia" press="onEditarLluv"/>
+                                                        <Button visible="{modelLluvia>/isEdit}" class="sapUiTinyMarginEnd" id="_buttonGuardEditLluv" type="Accept" icon="sap-icon://save" text="Guardar" press="onGuardarEditLluv"/>
+                                                        <Button visible="{modelLluvia>/isEdit}" id="_buttonCancelEditLluv" type="Reject" icon="sap-icon://decline" text="Cancelar" press="onCancelarEditLluv"/>
+                                                        <Button visible="{= ${modelLluvia>/isEdit} === false}" id="_buttonNuevaLluv" icon="sap-icon://add" text="Nueva Lluvia" press="onAgregarLluv"/>
+                                                    </content>
+                                                </OverflowToolbar>
+                                            </headerToolbar>
+                                            <columns>
+                                                <Column width="3rem">
+                                                    <Text text=""/>
+                                                </Column>
+                                                <Column hAlign="{= ${modelLluvia>/isEdit} === false ? 'Left' : 'Center' }" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
+                                                    <Text text="Enero"/>
+                                                    <footer>
+                                                        <ObjectNumber number="{ parts: [ {path: 'modelLluvia>/Totales/Enero'}, 'ARS' ], formatter: '.formatter.formatearMonto' }"
+                                                        unit="mm" state="Warning"/>
+                                                    </footer>
+                                                </Column>
+                                                <Column hAlign="{= ${modelLluvia>/isEdit} === false ? 'Left' : 'Center' }" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
+                                                    <Text text="Febrero"/>
+                                                    <footer>
+                                                    <ObjectNumber number="{ parts: [ {path: 'modelLluvia>/Totales/Febrero'}, 'ARS' ], formatter: '.formatter.formatearMonto' }"
+                                                        unit="mm" state="Warning"/> 
+                                                    </footer>
+                                                </Column>
+                                                <Column hAlign="{= ${modelLluvia>/isEdit} === false ? 'Left' : 'Center' }" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
+                                                    <Text text="Marzo"/>
+                                                    <footer>
+                                                    <ObjectNumber number="{ parts: [ {path: 'modelLluvia>/Totales/Marzo'}, 'ARS' ], formatter: '.formatter.formatearMonto' }"
+                                                        unit="mm" state="Warning"/>
+                                                    </footer>
+                                                </Column>
+                                                <Column hAlign="{= ${modelLluvia>/isEdit} === false ? 'Left' : 'Center' }" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
+                                                    <Text text="Abril"/>
+                                                    <footer>
+                                                    <ObjectNumber number="{ parts: [ {path: 'modelLluvia>/Totales/Abril'}, 'ARS' ], formatter: '.formatter.formatearMonto' }"
+                                                        unit="mm" state="Warning"/> 
+                                                    </footer>
+                                                </Column>
+                                                <Column hAlign="{= ${modelLluvia>/isEdit} === false ? 'Left' : 'Center' }" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
+                                                    <Text text="Mayo"/>
+                                                    <footer>
+                                                    <ObjectNumber number="{ parts: [ {path: 'modelLluvia>/Totales/Mayo'}, 'ARS' ], formatter: '.formatter.formatearMonto' }"
+                                                        unit="mm" state="Warning"/> 
+                                                    </footer>
+                                                </Column>
+                                                <Column hAlign="{= ${modelLluvia>/isEdit} === false ? 'Left' : 'Center' }" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
+                                                    <Text text="Junio"/>
+                                                    <footer>
+                                                    <ObjectNumber number="{ parts: [ {path: 'modelLluvia>/Totales/Junio'}, 'ARS' ], formatter: '.formatter.formatearMonto' }"
+                                                        unit="mm" state="Warning"/> 
+                                                    </footer>
+                                                </Column>
+                                                <Column hAlign="{= ${modelLluvia>/isEdit} === false ? 'Left' : 'Center' }" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
+                                                    <Text text="Julio"/>
+                                                    <footer>
+                                                    <ObjectNumber number="{ parts: [ {path: 'modelLluvia>/Totales/Julio'}, 'ARS' ], formatter: '.formatter.formatearMonto' }"
+                                                        unit="mm" state="Warning"/>
+                                                    </footer>
+                                                </Column>
+                                                <Column hAlign="{= ${modelLluvia>/isEdit} === false ? 'Left' : 'Center' }" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
+                                                    <Text text="Agosto"/>
+                                                    <footer>
+                                                    <ObjectNumber number="{ parts: [ {path: 'modelLluvia>/Totales/Agosto'}, 'ARS' ], formatter: '.formatter.formatearMonto' }"
+                                                        unit="mm" state="Warning"/>
+                                                    </footer>
+                                                </Column>
+                                                <Column hAlign="{= ${modelLluvia>/isEdit} === false ? 'Left' : 'Center' }" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
+                                                    <Text text="Septiembre"/>
+                                                    <footer>
+                                                    <ObjectNumber number="{ parts: [ {path: 'modelLluvia>/Totales/Septiembre'}, 'ARS' ], formatter: '.formatter.formatearMonto' }"
+                                                        unit="mm" state="Warning"/> 
+                                                    </footer>
+                                                </Column>
+                                                <Column hAlign="{= ${modelLluvia>/isEdit} === false ? 'Left' : 'Center' }" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
+                                                    <Text text="Octubre"/>
+                                                    <footer>
+                                                    <ObjectNumber number="{ parts: [ {path: 'modelLluvia>/Totales/Octubre'}, 'ARS' ], formatter: '.formatter.formatearMonto' }"
+                                                        unit="mm" state="Warning"/>
+                                                    </footer>
+                                                </Column>
+                                                <Column hAlign="{= ${modelLluvia>/isEdit} === false ? 'Left' : 'Center' }" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
+                                                    <Text text="Noviembre"/>
+                                                    <footer>
+                                                    <ObjectNumber number="{ parts: [ {path: 'modelLluvia>/Totales/Noviembre'}, 'ARS' ], formatter: '.formatter.formatearMonto' }"
+                                                        unit="mm" state="Warning"/>
+                                                    </footer>
+                                                </Column>
+                                                <Column hAlign="{= ${modelLluvia>/isEdit} === false ? 'Left' : 'Center' }" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
+                                                    <Text text="Diciembre"/>
+                                                    <footer>
+                                                    <ObjectNumber number="{ parts: [ {path: 'modelLluvia>/Totales/Diciembre'}, 'ARS' ], formatter: '.formatter.formatearMonto' }"
+                                                        unit="mm" state="Warning"/> 
+                                                    </footer>
+                                                </Column>
+                                            </columns>
+                                            <items>
+                                                <ColumnListItem>
+                                                    <cells>
+                                                        <ObjectAttribute text="{modelLluvia>Id}"/>
+                                                        <HBox visible="{= ${modelLluvia>MostrarEnero} === true ? true : false }">
+                                                            <Input visible="{modelLluvia>/isEdit}" fieldWidth="100%" value="{modelLluvia>EneroNuevo}" valueLiveUpdate="true" type="Number" liveChange="onCalcularTotales"/>
+                                                            <ObjectNumber visible="{= ${modelLluvia>/isEdit} === false}" number="{ parts: [ {path: 'modelLluvia>Enero'}, 'ARS' ], formatter: '.formatter.formatearMonto' }" unit="mm"/>
+                                                        </HBox>
+                                                        <HBox visible="{= ${modelLluvia>MostrarFebrero} === true ? true : false }">
+                                                            <Input visible="{modelLluvia>/isEdit}" fieldWidth="100%" value="{modelLluvia>FebreroNuevo}" valueLiveUpdate="true" type="Number" liveChange="onCalcularTotales"/>
+                                                            <ObjectNumber visible="{= ${modelLluvia>/isEdit} === false}" number="{ parts: [ {path: 'modelLluvia>Febrero'}, 'ARS' ], formatter: '.formatter.formatearMonto' }" unit="mm"/>
+                                                        </HBox>
+                                                        <HBox visible="{= ${modelLluvia>MostrarMarzo} === true ? true : false }">
+                                                            <Input visible="{modelLluvia>/isEdit}" fieldWidth="100%" value="{modelLluvia>MarzoNuevo}" valueLiveUpdate="true" type="Number" liveChange="onCalcularTotales"/>
+                                                            <ObjectNumber visible="{= ${modelLluvia>/isEdit} === false}" number="{ parts: [ {path: 'modelLluvia>Marzo'}, 'ARS' ], formatter: '.formatter.formatearMonto' }" unit="mm"/>
+                                                        </HBox>
+                                                        <HBox visible="{= ${modelLluvia>MostrarAbril} === true ? true : false }">
+                                                            <Input visible="{modelLluvia>/isEdit}" fieldWidth="100%" value="{modelLluvia>AbrilNuevo}" valueLiveUpdate="true" type="Number" liveChange="onCalcularTotales"/>
+                                                            <ObjectNumber visible="{= ${modelLluvia>/isEdit} === false}" number="{ parts: [ {path: 'modelLluvia>Abril'}, 'ARS' ], formatter: '.formatter.formatearMonto' }" unit="mm"/>
+                                                        </HBox>
+                                                        <HBox visible="{= ${modelLluvia>MostrarMayo} === true ? true : false }">
+                                                            <Input visible="{modelLluvia>/isEdit}" fieldWidth="100%" value="{modelLluvia>MayoNuevo}" valueLiveUpdate="true" type="Number" liveChange="onCalcularTotales"/>
+                                                            <ObjectNumber visible="{= ${modelLluvia>/isEdit} === false}" number="{ parts: [ {path: 'modelLluvia>Mayo'}, 'ARS' ], formatter: '.formatter.formatearMonto' }" unit="mm"/>
+                                                        </HBox>
+                                                        <HBox visible="{= ${modelLluvia>MostrarJunio} === true ? true : false }">
+                                                            <Input visible="{modelLluvia>/isEdit}" fieldWidth="100%" value="{modelLluvia>JunioNuevo}" valueLiveUpdate="true" type="Number" liveChange="onCalcularTotales"/>
+                                                            <ObjectNumber visible="{= ${modelLluvia>/isEdit} === false}" number="{ parts: [ {path: 'modelLluvia>Junio'}, 'ARS' ], formatter: '.formatter.formatearMonto' }" unit="mm"/>
+                                                        </HBox>
+                                                        <HBox visible="{= ${modelLluvia>MostrarJulio} === true ? true : false }">
+                                                            <Input visible="{modelLluvia>/isEdit}" fieldWidth="100%" value="{modelLluvia>JulioNuevo}" valueLiveUpdate="true" type="Number" liveChange="onCalcularTotales"/>
+                                                            <ObjectNumber visible="{= ${modelLluvia>/isEdit} === false}" number="{ parts: [ {path: 'modelLluvia>Julio'}, 'ARS' ], formatter: '.formatter.formatearMonto' }" unit="mm"/>
+                                                        </HBox>
+                                                        <HBox visible="{= ${modelLluvia>MostrarAgosto} === true ? true : false }">
+                                                            <Input visible="{modelLluvia>/isEdit}" fieldWidth="100%" value="{modelLluvia>AgostoNuevo}" valueLiveUpdate="true" type="Number" liveChange="onCalcularTotales"/>
+                                                            <ObjectNumber visible="{= ${modelLluvia>/isEdit} === false}" number="{ parts: [ {path: 'modelLluvia>Agosto'}, 'ARS' ], formatter: '.formatter.formatearMonto' }" unit="mm"/>
+                                                        </HBox>
+                                                        <HBox visible="{= ${modelLluvia>MostrarSeptiembre} === true ? true : false }">
+                                                            <Input visible="{modelLluvia>/isEdit}" fieldWidth="100%" value="{modelLluvia>SeptiembreNuevo}" valueLiveUpdate="true" type="Number" liveChange="onCalcularTotales"/>
+                                                            <ObjectNumber visible="{= ${modelLluvia>/isEdit} === false}" number="{ parts: [ {path: 'modelLluvia>Septiembre'}, 'ARS' ], formatter: '.formatter.formatearMonto' }" unit="mm"/>
+                                                        </HBox>
+                                                        <HBox visible="{= ${modelLluvia>MostrarOctubre} === true ? true : false }">
+                                                            <Input visible="{modelLluvia>/isEdit}" fieldWidth="100%" value="{modelLluvia>OctubreNuevo}" valueLiveUpdate="true" type="Number" liveChange="onCalcularTotales"/>
+                                                            <ObjectNumber visible="{= ${modelLluvia>/isEdit} === false}" number="{ parts: [ {path: 'modelLluvia>Octubre'}, 'ARS' ], formatter: '.formatter.formatearMonto' }" unit="mm"/>
+                                                        </HBox>
+                                                        <HBox visible="{= ${modelLluvia>MostrarNoviembre} === true ? true : false }">
+                                                            <Input visible="{modelLluvia>/isEdit}" fieldWidth="100%" value="{modelLluvia>NoviembreNuevo}" valueLiveUpdate="true" type="Number" liveChange="onCalcularTotales"/>
+                                                            <ObjectNumber visible="{= ${modelLluvia>/isEdit} === false}" number="{ parts: [ {path: 'modelLluvia>Noviembre'}, 'ARS' ], formatter: '.formatter.formatearMonto' }" unit="mm"/>
+                                                        </HBox>
+                                                        <HBox visible="{= ${modelLluvia>MostrarDiciembre} === true ? true : false }">
+                                                            <Input visible="{modelLluvia>/isEdit}" fieldWidth="100%" value="{modelLluvia>DiciembreNuevo}" valueLiveUpdate="true" type="Number" liveChange="onCalcularTotales"/>
+                                                            <ObjectNumber visible="{= ${modelLluvia>/isEdit} === false}" number="{ parts: [ {path: 'modelLluvia>Diciembre'}, 'ARS' ], formatter: '.formatter.formatearMonto' }" unit="mm"/>
+                                                        </HBox>
+                                                    </cells>
+                                                </ColumnListItem>
+                                            </items>
+                                        </Table>
+                                    </VBox>
+                                </VBox>
 							</uxap:blocks>
 						</uxap:ObjectPageSubSection>
 					</uxap:subSections>

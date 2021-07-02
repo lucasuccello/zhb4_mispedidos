@@ -1,0 +1,12 @@
+<c:FragmentDefinition xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:c="sap.ui.core" xmlns:html="http://www.w3.org/1999/xhtml">
+    <Dialog id="zonaDialog" title="Zona" verticalScrolling="false" contentWidth="100%" contentHeight="100%">
+        <Panel height="100%" width="100%" expanded="true">
+            <content>
+                <html:div id="map" style="height: 100%"></html:div>
+            </content>
+        </Panel>
+        <buttons>
+            <Button id="btnCerrarMapa" press="onCloseMap" text="Cerrar"></Button>
+        </buttons>
+    </Dialog>
+</c:FragmentDefinition>

@@ -1,0 +1,77 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<Dialog id="dialogProductosFert" title="Productos" contentWidth="100%" busyIndicatorDelay="0">
+		<l:Grid defaultSpan="L12 M12 S12" width="auto">
+			<l:content>
+                <VBox class="sapUiSmallMargin">
+                    <Table items="{modelProductosFert>/}" id="idTablaProductosFert" noDataText="No se encontraron productos">
+                        <columns>
+                            <Column hAlign="Begin" width="2rem" demandPopin="false" popinDisplay="Inline" minScreenWidth="Phone">
+                                <header>
+                                    <Label text=""/>
+                                </header>
+                            </Column>
+                            <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" width="12rem">
+                                <header>
+                                    <Label text="Marca"/>
+                                </header>
+                            </Column>
+                            <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
+                                <header>
+                                    <Label text="Estado"/>
+                                </header>
+                            </Column>
+                            <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" width="12rem">
+                                <header>
+                                    <Label text="Principio Activo"/>
+                                </header>
+                            </Column>
+                            <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" width="12rem">
+                                <header>
+                                    <Label text="Principio Activo 2"/>
+                                </header>
+                            </Column>
+                            <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
+                                <header>
+                                    <Label text="Grado"/>
+                                </header>
+                            </Column>
+                            <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
+                                <header>
+                                    <Label text="Comp. Química" wrapping="true"/>
+                                </header>
+                            </Column>
+                            <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
+                                <header>
+                                    <Label text="Dósis"/>
+                                </header>
+                            </Column>
+                            <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
+                                <header>
+                                    <Label text="Dósis Promedio" wrapping="true"/>
+                                </header>
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+                                    <core:Icon size="1.5rem" src="sap-icon://product" class="sapUiVisibleOnlyOnDesktop"/>
+                                    <ObjectIdentifier title="{modelProductosFert>MarcaComercial}"/>
+                                    <ObjectAttribute text="{modelProductosFert>DescEstado}"/>
+                                    <ObjectAttribute text="{modelProductosFert>PrincipioAct1}"/>
+                                    <ObjectAttribute text="{modelProductosFert>PrincipioAct2}"/>
+                                    <ObjectAttribute text="{modelProductosFert>Grado}"/>
+                                    <ObjectAttribute text="{modelProductosFert>Composicion}"/>
+                                    <ObjectNumber number="{modelProductosFert>Dosis}" unit="{modelProductosFert>Unidad}"/>
+                                    <ObjectNumber number="{modelProductosFert>DosisProm}" unit="{modelProductosFert>Unidad}"/>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </VBox>
+			</l:content>
+		</l:Grid>
+		<buttons>
+			<Button text="Cancelar" press="onCancelarProductosFert" type="Default"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>

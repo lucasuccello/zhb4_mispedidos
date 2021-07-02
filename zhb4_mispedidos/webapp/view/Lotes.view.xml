@@ -102,67 +102,10 @@
                 </IconTabBar>         
 
                 <IconTabBar
-                    id="idIconTabBarLabores"
+                    id="idIconTabBarAnexos"
                     class="sapUiResponsiveContentPadding">
                     <items>
-                        <IconTabFilter
-                            icon="sap-icon://e-care"
-                            iconColor="Positive"
-                            design="Horizontal"
-                            text="Siembra"
-                            key="Siembra">
-                            <content>
-
-                            </content>
-                        </IconTabFilter>
-
-                        <IconTabSeparator icon="sap-icon://open-command-field" />
-
-                        <IconTabFilter
-                            icon="sap-icon://basket"
-                            iconColor="Critical"
-                            design="Horizontal"
-                            text="Cosecha"
-                            key="Cosecha">
-                            <content>
-
-                            </content>
-                        </IconTabFilter>
-
-                        <IconTabSeparator icon="sap-icon://open-command-field" />
-
-                        <IconTabFilter
-                            icon="sap-icon://pharmacy"
-                            iconColor="Negative"
-                            design="Horizontal"
-                            text="Pulverizacion"
-                            key="Pulverizacion">
-                            <content>
-
-                            </content>
-                        </IconTabFilter>
-
-                        <IconTabSeparator icon="sap-icon://open-command-field" />
-
-                        <IconTabFilter
-                            icon="sap-icon://measuring-point"
-                            iconColor="Default"
-                            design="Horizontal"
-                            text="Fertilizacion"
-                            key="Fertilizacion">
-                            <content>
-
-                            </content>
-                        </IconTabFilter>
-
-                        <IconTabSeparator icon="sap-icon://open-command-field" />
-
-                        <IconTabFilter
-                            icon="sap-icon://attachment"
-                            iconColor="Neutral"
-                            design="Horizontal"
-                            text="Anexos"
-                            key="Anexos">
+                        <IconTabFilter text="Anexos - Enmiendas">
                             <content>
                             	<Table noDataText="{i18n>sinAnexos}" id="__tblContratosAnexos" alternateRowColors="true" items="{Anexos>/Datos}" width="auto" fixedLayout="false">
 									<items>
@@ -203,33 +146,7 @@
                                 </VBox>
                             </content>
                         </IconTabFilter>
-                        
-                        <IconTabSeparator icon="sap-icon://open-command-field" />
-                        
-                        <IconTabFilter
-                            icon="sap-icon://weather-proofing"
-                            iconColor="Contrast"
-                            design="Horizontal"
-                            text="Lluvia"
-                            key="Lluvia">
-                            <content>
-
-                            </content>
-                        </IconTabFilter>
-
-                        <IconTabSeparator icon="sap-icon://open-command-field" />
-
-                        <IconTabFilter
-                            icon="sap-icon://cloud"
-                            iconColor="Critical"
-                            design="Horizontal"
-                            text="Fenologia"
-                            key="Fenologia">
-                            <content>
-
-                            </content>
-                        </IconTabFilter>
-                    </items>
+                       </items>
                 </IconTabBar>           
 			</sap.m.semantic:content>
 		</sap.m.semantic:FullscreenPage>

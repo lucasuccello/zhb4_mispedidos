@@ -1,0 +1,60 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+	<Dialog id="dialogProdPulv" title="Seleccione un producto" contentWidth="95%" busyIndicatorDelay="0">
+		<l:Grid defaultSpan="L12 M12 S12" width="auto" id="idGridProdPulv">
+			<l:content>
+                <VBox class="sapUiSmallMargin">
+                    <Table items="{modelProdsPulv>/}" id="idTablaProdPulv" noDataText="No se encontraron productos para el tipo seleccionado" mode="SingleSelectMaster"
+                        itemPress="handleVHProdPulv">
+                        <headerToolbar>
+                            <OverflowToolbar>
+                                <Input id="sfProdPulv" placeholder="Buscar producto por Marca o Princ. Act." liveChange="onFiltrarProdPulv" width="40%"/>
+                                <ToolbarSpacer/>
+                            </OverflowToolbar>
+                        </headerToolbar>
+                        <columns>
+                            <Column hAlign="Begin" width="2rem" demandPopin="false" popinDisplay="Inline" minScreenWidth="Phone">
+                                <header>
+                                    <Label text=""/>
+                                </header>
+                            </Column>
+                            <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
+                                <header>
+                                    <Label text="Marca"/>
+                                </header>
+                            </Column>
+                            <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
+                                <header>
+                                    <Label text="Principio Activo"/>
+                                </header>
+                            </Column>
+                            <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
+                                <header>
+                                    <Label text="Principio Activo 2"/>
+                                </header>
+                            </Column>
+                            <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
+                                <header>
+                                    <Label text="Concentración"/>
+                                </header>
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem type="Active">
+                                <cells>
+                                    <core:Icon size="1.5rem" src="sap-icon://product" class="sapUiVisibleOnlyOnDesktop"/>
+                                    <ObjectIdentifier title="{modelProdsPulv>MarcaComercial}"/>
+                                    <ObjectAttribute text="{modelProdsPulv>PrincipioAct1}"/>
+                                    <ObjectAttribute text="{modelProdsPulv>PrincipioAct2}"/>
+                                    <ObjectAttribute text="{modelProdsPulv>Concentracion}"/>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </VBox>
+			</l:content>
+		</l:Grid>
+		<buttons>
+			<Button text="Cancelar" press="onCancelarVHProdPulv" type="Default"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>
