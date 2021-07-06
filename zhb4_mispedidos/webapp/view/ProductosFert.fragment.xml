@@ -3,16 +3,16 @@
 		<l:Grid defaultSpan="L12 M12 S12" width="auto">
 			<l:content>
                 <VBox class="sapUiSmallMargin">
-                    <Table items="{modelProductosFert>/}" id="idTablaProductosFert" noDataText="No se encontraron productos">
+                    <Table items="{modelProductosFert>/}" id="idTablaProductosFert" noDataText="No se encontraron fertilizantes">
                         <columns>
                             <Column hAlign="Begin" width="2rem" demandPopin="false" popinDisplay="Inline" minScreenWidth="Phone">
                                 <header>
                                     <Label text=""/>
                                 </header>
                             </Column>
-                            <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" width="12rem">
+                            <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
                                 <header>
-                                    <Label text="Marca"/>
+                                    <Label text="Marca Comercial"/>
                                 </header>
                             </Column>
                             <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
@@ -20,24 +20,9 @@
                                     <Label text="Estado"/>
                                 </header>
                             </Column>
-                            <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" width="12rem">
-                                <header>
-                                    <Label text="Principio Activo"/>
-                                </header>
-                            </Column>
-                            <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet" width="12rem">
-                                <header>
-                                    <Label text="Principio Activo 2"/>
-                                </header>
-                            </Column>
                             <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
                                 <header>
                                     <Label text="Grado"/>
-                                </header>
-                            </Column>
-                            <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
-                                <header>
-                                    <Label text="Comp. Química" wrapping="true"/>
                                 </header>
                             </Column>
                             <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
@@ -57,10 +42,7 @@
                                     <core:Icon size="1.5rem" src="sap-icon://product" class="sapUiVisibleOnlyOnDesktop"/>
                                     <ObjectIdentifier title="{modelProductosFert>MarcaComercial}"/>
                                     <ObjectAttribute text="{modelProductosFert>DescEstado}"/>
-                                    <ObjectAttribute text="{modelProductosFert>PrincipioAct1}"/>
-                                    <ObjectAttribute text="{modelProductosFert>PrincipioAct2}"/>
                                     <ObjectAttribute text="{modelProductosFert>Grado}"/>
-                                    <ObjectAttribute text="{modelProductosFert>Composicion}"/>
                                     <ObjectNumber number="{modelProductosFert>Dosis}" unit="{modelProductosFert>Unidad}"/>
                                     <ObjectNumber number="{modelProductosFert>DosisProm}" unit="{modelProductosFert>Unidad}"/>
                                 </cells>

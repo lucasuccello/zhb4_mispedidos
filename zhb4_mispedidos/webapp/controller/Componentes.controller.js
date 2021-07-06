@@ -115,6 +115,7 @@ sap.ui.define([
             this._traerPulver(pedido, posicion);
             this._traerFert(pedido, posicion);
             this._traerLluvias(pedido, posicion);
+            this._cargarFertilizantes();
             this._cargarStewardship(pedido, posicion);
         },
 
@@ -650,24 +651,28 @@ sap.ui.define([
             }
             var oData = oEvent.getSource().getBindingContext("modelAddPulv").getObject();
             this._prodPulv = oData;
-            this._oVHProdPulv.open();
-            var oView = oController.getView();
-            oView.byId("dialogProdPulv").setBusy(true);
-            this._traerProductos(oData.variedad).then(function () {
-                var sProd = oData.producto;
-                if (sProd) {
-                    //selecciono el item en la tabla de productos
-                    var oItem = oController._obtenerItemASeleccionar(sProd);
-                    if (oItem) {
-                        oController.getView().byId("idTablaProdPulv").setSelectedItem(oItem);
+            if(!oData.variedad){
+                MessageToast.show("Debe seleccionar un tipo para poder elegir un producto");
+            } else {
+                this._oVHProdPulv.open();
+                var oView = oController.getView();
+                oView.byId("dialogProdPulv").setBusy(true);
+                this._traerProductos(oData.variedad).then(function () {
+                    var sProd = oData.producto;
+                    if (sProd) {
+                        //selecciono el item en la tabla de productos
+                        var oItem = oController._obtenerItemASeleccionar(sProd);
+                        if (oItem) {
+                            oController.getView().byId("idTablaProdPulv").setSelectedItem(oItem);
+                        } else {
+                            oController.getView().byId("idTablaProdPulv").removeSelections();
+                        }
                     } else {
                         oController.getView().byId("idTablaProdPulv").removeSelections();
                     }
-                } else {
-                    oController.getView().byId("idTablaProdPulv").removeSelections();
-                }
-                oView.byId("dialogProdPulv").setBusy(false);
-            });
+                    oView.byId("dialogProdPulv").setBusy(false);
+                });
+            }
         },
 
         handleVHProdPulv: function (oEvent) {
@@ -675,8 +680,6 @@ sap.ui.define([
             var dato = oController.getView().getModel("modelProdsPulv").getProperty(oEvent.getSource().getSelectedItem().getBindingContextPath()); //obtengo el dato que selecciono
             this._prodPulv.producto = dato.Producto;
             this._prodPulv.marca = dato.MarcaComercial;
-            this._prodPulv.princAct = dato.PrincipioAct1;
-            this._prodPulv.princAct2 = dato.PrincipioAct2;
             this._prodPulv.dosis = "";
             this._prodPulv.unidad = "";
             this.getModel("modelAddPulv").refresh();
@@ -746,7 +749,7 @@ sap.ui.define([
                 filtro = new Filter([
                     new Filter("MarcaComercial", FilterOperator.Contains, query),
                     new Filter("PrincipioAct1", FilterOperator.Contains, query),
-                    new Filter("PrincipioAct2", FilterOperator.Contains, query)
+                    new Filter("PrincipioAct2", FilterOperator.Contains, query),
                 ], false);
             }
             datos.filter(filtro, "Application");
@@ -759,8 +762,6 @@ sap.ui.define([
                 variedad: "",
                 producto: "",
                 marca: "",
-                princAct: "",
-                princAct2: "",
                 dosis: "",
                 unidad: "",
                 mostrarAgregar: false,
@@ -793,8 +794,6 @@ sap.ui.define([
             var oObject = oEvent.getSource().getBindingContext("modelAddPulv").getObject();
             oObject.producto = "";
             oObject.marca = "";
-            oObject.princAct = "";
-            oObject.princAct2 = "";
             oObject.dosis = "";
             oObject.unidad = "";
             this.getModel("modelAddPulv").refresh();
@@ -875,9 +874,8 @@ sap.ui.define([
             var oData = oEvent.getSource().getBindingContext("modelAddFert").getObject();
             this._prodFert = oData;
             this._oVHProdFert.open();
-            var oView = oController.getView();
-            oView.byId("dialogProdFert").setBusy(true);
-            this._traerProductosFert(oData.estado).then(function () {
+            var aDatos = oController.getModel("modelProdsFert").getData();
+            if(aDatos.length > 0){
                 var sProd = oData.producto;
                 if (sProd) {
                     //selecciono el item en la tabla de productos
@@ -890,17 +888,44 @@ sap.ui.define([
                 } else {
                     oController.getView().byId("idTablaProdFert").removeSelections();
                 }
+            }
+            // var oView = oController.getView();
+            // oView.byId("dialogProdFert").setBusy(true);
+            // this._traerProductosFert(oData.estado).then(function () {
+            //     var sProd = oData.producto;
+            //     if (sProd) {
+            //         //selecciono el item en la tabla de productos
+            //         var oItem = oController._obtenerItemASeleccionarFert(sProd);
+            //         if (oItem) {
+            //             oController.getView().byId("idTablaProdFert").setSelectedItem(oItem);
+            //         } else {
+            //             oController.getView().byId("idTablaProdFert").removeSelections();
+            //         }
+            //     } else {
+            //         oController.getView().byId("idTablaProdFert").removeSelections();
+            //     }
+            //     oView.byId("dialogProdFert").setBusy(false);
+            // });
+        },
+
+        _cargarFertilizantes: function(){
+            //cargo el fragment de fertilizantes
+            var oView = this.getView();
+            if (!this._oVHProdFert) {
+                this._oVHProdFert = sap.ui.xmlfragment(oView.getId(), "hb4.zhb4_mispedidos.view.vhProdFert", this);
+                this.getView().addDependent(this._oVHProdFert);
+            }
+            oView.byId("dialogProdFert").setBusy(true);
+            this._traerProductosFert().then(function () {
                 oView.byId("dialogProdFert").setBusy(false);
             });
         },
-
+        
         handleVHProdFert: function (oEvent) {
             //metodo para cargar el valor seleccionado en el value help de fertilizantes
             var dato = oController.getView().getModel("modelProdsFert").getProperty(oEvent.getSource().getSelectedItem().getBindingContextPath()); //obtengo el dato que selecciono
             this._prodFert.producto = dato.Producto;
             this._prodFert.marca = dato.MarcaComercial;
-            this._prodFert.princAct = dato.PrincipioAct1;
-            this._prodFert.princAct2 = dato.PrincipioAct2;
             this._prodFert.dosis = "";
             this._prodFert.unidad = "";
             this.getModel("modelAddFert").refresh();
@@ -973,8 +998,8 @@ sap.ui.define([
             if (query) {
                 filtro = new Filter([
                     new Filter("MarcaComercial", FilterOperator.Contains, query),
-                    new Filter("PrincipioAct1", FilterOperator.Contains, query),
-                    new Filter("PrincipioAct2", FilterOperator.Contains, query)
+                    // new Filter("PrincipioAct1", FilterOperator.Contains, query),
+                    // new Filter("PrincipioAct2", FilterOperator.Contains, query)
                 ], false);
             }
             datos.filter(filtro, "Application");
@@ -987,8 +1012,6 @@ sap.ui.define([
                 estado: "",
                 producto: "",
                 marca: "",
-                princAct: "",
-                princAct2: "",
                 dosis: "",
                 dosisProm: "",
                 unidad: "",
@@ -1019,15 +1042,13 @@ sap.ui.define([
         },
 
         onChangeEstado: function (oEvent) {
-            var oObject = oEvent.getSource().getBindingContext("modelAddFert").getObject();
-            oObject.producto = "";
-            oObject.marca = "";
-            oObject.princAct = "";
-            oObject.princAct2 = "";
-            oObject.dosis = "";
-            oObject.dosisProm = "";
-            oObject.unidad = "";
-            this.getModel("modelAddFert").refresh();
+            // var oObject = oEvent.getSource().getBindingContext("modelAddFert").getObject();
+            // oObject.producto = "";
+            // oObject.marca = "";
+            // oObject.dosis = "";
+            // oObject.dosisProm = "";
+            // oObject.unidad = "";
+            // this.getModel("modelAddFert").refresh();
             this.onValidarAgregarFert(oEvent);
         },
 
@@ -1221,8 +1242,6 @@ sap.ui.define([
                             oProd.variedad = oData.results[i].Tipo;
                             oProd.producto = oData.results[i].Producto;
                             oProd.marca = oData.results[i].MarcaComercial;
-                            oProd.princAct = oData.results[i].PrincipioAct1;
-                            oProd.princAct2 = oData.results[i].PrincipioAct2;
                             oProd.dosis = oData.results[i].Dosis;
                             oProd.unidad = oData.results[i].Unidad;
                             oProd.mostrarAgregar = false;
@@ -1300,12 +1319,15 @@ sap.ui.define([
 
             //modelo productos de fertilizacion
             var oModelProdsFert = new JSONModel();
+            oModelProdsFert.setSizeLimit(10000);
             this.setModel(oModelProdsFert, "modelProdsFert");
 
             //modelo productos de pulverizacion
             var oModelProdsPulv = new JSONModel();
+            oModelProdsPulv.setSizeLimit(10000);
             this.setModel(oModelProdsPulv, "modelProdsPulv");
 
+            //modelo de lluvia
             var oModelLluv = new JSONModel({
                 mostrarLluvias: false
             });
@@ -1438,8 +1460,6 @@ sap.ui.define([
                             oProd.estado = oData.results[i].Estado;
                             oProd.producto = oData.results[i].Producto;
                             oProd.marca = oData.results[i].MarcaComercial;
-                            oProd.princAct = oData.results[i].PrincipioAct1;
-                            oProd.princAct2 = oData.results[i].PrincipioAct2;
                             oProd.dosis = oData.results[i].Dosis;
                             oProd.dosisProm = oData.results[i].DosisProm;
                             oProd.unidad = oData.results[i].Unidad;
@@ -1462,19 +1482,24 @@ sap.ui.define([
 
         _traerProductosFert: function (sEstado) {
             return new Promise(function (resolve, reject) {
-                var aFilters = [];
-                aFilters.push(new sap.ui.model.Filter("Estado", sap.ui.model.FilterOperator.EQ, sEstado));
-                oController.getModel("labores").read("/ProductosFertSet", {
-                    filters: aFilters,
-                    success: function (oData) {
-                        oController.getModel("modelProdsFert").setData(oData.results);
-                        resolve();
-                    }.bind(oController),
-                    error: function (oError) {
-                        oController.getModel("modelProdsFert").setData([]);
-                        resolve();
-                    }
-                });
+                var aDatos = oController.getModel("modelProdsFert").getData();
+                if(aDatos.length > 0){
+                    resolve();
+                } else {
+                    // var aFilters = [];
+                    // aFilters.push(new sap.ui.model.Filter("Estado", sap.ui.model.FilterOperator.EQ, sEstado));
+                    oController.getModel("labores").read("/ProductosFertSet", {
+                        // filters: aFilters,
+                        success: function (oData) {
+                            oController.getModel("modelProdsFert").setData(oData.results);
+                            resolve();
+                        }.bind(oController),
+                        error: function (oError) {
+                            oController.getModel("modelProdsFert").setData([]);
+                            resolve();
+                        }
+                    });
+                }
             });
         },
 

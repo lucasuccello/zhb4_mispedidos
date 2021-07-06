@@ -30,7 +30,7 @@
                     </HBox>
                     <MessageStrip
                         visible="{= ${modelAddFert>/tipo} === 'Var'}"
-                        text="Si elige el tipo de fertilización variable puede mandar el mapa de aplicación a: ejemplo@ej.com"
+                        text="Si elige el tipo de fertilización variable puede mandar el mapa de aplicación a: consultasplataforma@generacionhb4.com.ar"
                         type="Warning"
                         showIcon="true"
                         class="sapUiMediumMarginBottom"/>
@@ -59,14 +59,14 @@
                                                 <Label text="Fertilizante:"/>
                                                 <Input busyIndicatorDelay="0" busy="{modelAddFert>busyProd}" id="_inpProdFert" value="{modelAddFert>marca}" editable="true" showValueHelp="true" valueHelpRequest="onVhProdFert" valueHelpOnly="true" liveChange="onValidarAgregarFert"/>
                                             </VBox>
-                                            <VBox class="sapUiSmallMarginEnd" visible="{= ${modelAddFert>princAct} !== ''}">
+                                            <!-- <VBox class="sapUiSmallMarginEnd" visible="{= ${modelAddFert>princAct} !== ''}">
                                                 <Label text="Princ. Activo:"/>
                                                 <Text text="{modelAddFert>princAct}" class="sapUiTinyMarginTop"/>
                                             </VBox>
                                             <VBox class="sapUiSmallMarginEnd" visible="{= ${modelAddFert>princAct2} !== ''}">
                                                 <Label text="Princ. Activo 2:"/>
                                                 <Text text="{modelAddFert>princAct2}" class="sapUiTinyMarginTop"/>
-                                            </VBox>
+                                            </VBox> -->
                                         </HBox>
                                         <HBox>
                                             <HBox alignItems="Center">

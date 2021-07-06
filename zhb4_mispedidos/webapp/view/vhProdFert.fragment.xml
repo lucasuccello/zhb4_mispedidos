@@ -1,13 +1,13 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
-	<Dialog id="dialogProdFert" title="Seleccione un fertilizante" contentWidth="75%" busyIndicatorDelay="0">
+	<Dialog id="dialogProdFert" title="Seleccione un fertilizante" contentWidth="70%" busyIndicatorDelay="0">
 		<l:Grid defaultSpan="L12 M12 S12" width="auto" id="idGridProdFert">
 			<l:content>
                 <VBox class="sapUiSmallMargin">
-                    <Table items="{modelProdsFert>/}" id="idTablaProdFert" noDataText="No se encontraron fertilizantes para el estado seleccionado" mode="SingleSelectMaster"
+                    <Table items="{modelProdsFert>/}" id="idTablaProdFert" noDataText="No se encontraron fertilizantes" mode="SingleSelectMaster"
                         itemPress="handleVHProdFert">
                         <headerToolbar>
                             <OverflowToolbar>
-                                <Input id="sfProdFert" placeholder="Buscar fertilizante por Marca o Princ. Act." liveChange="onFiltrarProdFert" width="40%"/>
+                                <Input id="sfProdFert" placeholder="Buscar fertilizante por Marca Comercial" liveChange="onFiltrarProdFert" width="50%"/>
                                 <ToolbarSpacer/>
                             </OverflowToolbar>
                         </headerToolbar>
@@ -19,27 +19,12 @@
                             </Column>
                             <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
                                 <header>
-                                    <Label text="Marca"/>
-                                </header>
-                            </Column>
-                            <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
-                                <header>
-                                    <Label text="Principio Activo"/>
-                                </header>
-                            </Column>
-                            <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
-                                <header>
-                                    <Label text="Principio Activo 2"/>
+                                    <Label text="Marca Comercial"/>
                                 </header>
                             </Column>
                             <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
                                 <header>
                                     <Label text="Grado"/>
-                                </header>
-                            </Column>
-                            <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
-                                <header>
-                                    <Label text="Comp. Química"/>
                                 </header>
                             </Column>
                         </columns>
@@ -48,10 +33,7 @@
                                 <cells>
                                     <core:Icon size="1.5rem" src="sap-icon://product" class="sapUiVisibleOnlyOnDesktop"/>
                                     <ObjectIdentifier title="{modelProdsFert>MarcaComercial}"/>
-                                    <ObjectAttribute text="{modelProdsFert>PrincipioAct1}"/>
-                                    <ObjectAttribute text="{modelProdsFert>PrincipioAct2}"/>
                                     <ObjectAttribute text="{modelProdsFert>Grado}"/>
-                                    <ObjectAttribute text="{modelProdsFert>CompQuimica}"/>
                                 </cells>
                             </ColumnListItem>
                         </items>

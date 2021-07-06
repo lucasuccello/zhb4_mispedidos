@@ -45,14 +45,14 @@
                                                 <Label text="Producto:"/>
                                                 <Input busyIndicatorDelay="0" id="_inpProdPulv" value="{modelAddPulv>marca}" editable="true" showValueHelp="true" valueHelpRequest="onVhProdPulv" valueHelpOnly="true" liveChange="onValidarAgregarPulv"/>
                                             </VBox>
-                                            <VBox class="sapUiSmallMarginEnd" visible="{= ${modelAddPulv>princAct} !== ''}">
+                                            <!-- <VBox class="sapUiSmallMarginEnd" visible="{= ${modelAddPulv>princAct} !== ''}">
                                                 <Label text="Princ. Activo:"/>
                                                 <Text text="{modelAddPulv>princAct}" class="sapUiTinyMarginTop"/>
                                             </VBox>
                                             <VBox class="sapUiSmallMarginEnd" visible="{= ${modelAddPulv>princAct2} !== ''}">
                                                 <Label text="Princ. Activo 2:"/>
                                                 <Text text="{modelAddPulv>princAct2}" class="sapUiTinyMarginTop"/>
-                                            </VBox>
+                                            </VBox> -->
                                         </HBox>
                                         <HBox>
                                             <HBox alignItems="Center">

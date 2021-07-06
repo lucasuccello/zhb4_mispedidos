@@ -7,7 +7,7 @@
                         itemPress="handleVHProdPulv">
                         <headerToolbar>
                             <OverflowToolbar>
-                                <Input id="sfProdPulv" placeholder="Buscar producto por Marca o Princ. Act." liveChange="onFiltrarProdPulv" width="40%"/>
+                                <Input id="sfProdPulv" placeholder="Buscar producto por Marca o Componente" liveChange="onFiltrarProdPulv" width="40%"/>
                                 <ToolbarSpacer/>
                             </OverflowToolbar>
                         </headerToolbar>
@@ -19,22 +19,17 @@
                             </Column>
                             <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
                                 <header>
-                                    <Label text="Marca"/>
+                                    <Label text="Marca Comercial"/>
                                 </header>
                             </Column>
                             <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
                                 <header>
-                                    <Label text="Principio Activo"/>
+                                    <Label text="Componente 1"/>
                                 </header>
                             </Column>
                             <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
                                 <header>
-                                    <Label text="Principio Activo 2"/>
-                                </header>
-                            </Column>
-                            <Column hAlign="Begin" demandPopin="true" popinDisplay="Inline" minScreenWidth="Tablet">
-                                <header>
-                                    <Label text="Concentración"/>
+                                    <Label text="Componente 2"/>
                                 </header>
                             </Column>
                         </columns>
@@ -45,7 +40,6 @@
                                     <ObjectIdentifier title="{modelProdsPulv>MarcaComercial}"/>
                                     <ObjectAttribute text="{modelProdsPulv>PrincipioAct1}"/>
                                     <ObjectAttribute text="{modelProdsPulv>PrincipioAct2}"/>
-                                    <ObjectAttribute text="{modelProdsPulv>Concentracion}"/>
                                 </cells>
                             </ColumnListItem>
                         </items>
