@@ -1,47 +1,64 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns:ff="sap.f" xmlns:card="sap.f.cards">
-	<Dialog title="Alta nuevo Lote">
+	<Dialog title="Alta nuevo Lote" contentWidth="70rem">
         <l:VerticalLayout id="containerLayout" width="100%">
             <l:content>
-                <ff:Card id="cardLoteN" class="sapUiTinyMarginBeginEnd">
+                <!--@nueva-->
+                <MessageStrip type="Warning" showIcon="true" text="{i18n>msgSubarrendar}" class="sapUiSmallMargin"></MessageStrip>
+
+                <!--@nueva-->
+                <!--<ff:Card id="cardLoteN" class="sapUiTinyMarginBeginEnd">-->
+                <ff:Card id="cardLoteN">
+                <!---->
                         <ff:header>
                             <card:Header title="Campo-Lote: {viewLoteMdl>/nombreCampo}" subtitle="Agregar un nuevo campo" iconDisplayShape="Circle" iconSrc="sap-icon://e-care"/>         
                         </ff:header>
                         <ff:content>
 
-                        <!--<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="3" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="1" columnsM="1" singleContainerFullSize="false">-->
+                        <!--@nueva-->
                         <f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="3" labelSpanM="3" labelSpanS="12" columnsM="4" columnsL="4" columnsXL="4" emptySpanM="3" emptySpanL="3">
+                        <!--<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" columnsM="4" columnsL="4" columnsXL="4" emptySpanXL="4" emptySpanM="4" emptySpanL="4">-->
+                        <!---->    
                             <f:content>
                                 <core:Title text="Datos generales"/>
                                 <!--NOMBRE CAMPO-->
                                 <Label text="Nombre del campo - lote"/>
                                 <Input id="iNombreN" value="{viewLoteMdl>/nombreCampo}" maxLength="40" valueState="Error" liveChange="onIngresoNombreCampo" placeholder="Nombre del campo y lote"/>      
                                 <!--CULTIVO-->
-                                <Label id="lblCultivoN" text="Cultivo" visible="false"/>
-                                <!--<ComboBox id="cboCultivoN" items="{landingMdl>/Cultivos}" selectedKey="{viewLoteMdl>/cultivoCode}" value="{viewLoteMdl>/cultivo}" change="onSeleccionarCultivo" visible="false">
-                                    <core:Item key="{landingMdl>ID}" text="{landingMdl>descripcion}"/>
-                                </ComboBox>  -->            
-                                <ComboBox id="cboCultivoN" items="{path: 'MatchCultivos>/'}" selectedKey="{viewLoteMdl>/cultivoCode}" value="{viewLoteMdl>/cultivo}" change="onSeleccionarCultivo" visible="false">
+                                <Label id="lblCultivoN" text="Cultivo" visible="false"/>  
+                                <Select id="cboCultivoN" items="{path: 'MatchCultivos>/'}" selectedKey="{viewLoteMdl>/cultivoCode}" forceSelection="false" change="onSeleccionarCultivo" visible="false">
                                     <core:Item key="{MatchCultivos>CultivoCode}" text="{MatchCultivos>Cultivo}"/>
-                                </ComboBox>                                                                                                  
+                                </Select>                                                                                                  
                                 <!--PROVINCIA-->                                 
                                 <Label id="lblProvN" text="Provincia" visible="false"/>
-                                <ComboBox id="cboProvinciaN" items="{landingMdl>/ProvinciasPorCultivo}" selectedKey="{viewLoteMdl>/provinciaCode}" value="{viewLoteMdl>/provincia}" change="onSeleccionarProvincia" visible="false">
+                                <Select id="cboProvinciaN" items="{landingMdl>/ProvinciasPorCultivo}" selectedKey="{viewLoteMdl>/provinciaCode}" forceSelection="false" change="onSeleccionarProvincia" visible="false">
                                     <core:Item key="{landingMdl>ID}" text="{landingMdl>descripcion}"/>
-                                </ComboBox>  
+                                </Select>  
                                 <!--LOCALIDAD-->
                                 <Label id="lblLocalidadN" text="Localidad" visible="false"/>
-                                <ComboBox id="cboLocalidadN" items="{path: 'landingMdl>/LocalidadesPorProvinciasYCultivo', sorter: { path: 'landingMdl>descripcion' } }" selectedKey="{viewLoteMdl>/localidadCode}" value="{viewLoteMdl>/localidad}" change="onSeleccionarLocalidad" visible="false">
+                                <Select id="cboLocalidadN" items="{path: 'landingMdl>/LocalidadesPorProvinciasYCultivo', sorter: { path: 'landingMdl>descripcion' } }" selectedKey="{viewLoteMdl>/localidadCode}" forceSelection="false" change="onSeleccionarLocalidad" visible="false">
                                     <core:Item key="{landingMdl>ID}" text="{landingMdl>descripcion}"/>
-                                </ComboBox> 
+                                </Select> 
                                 <!--VARIEDAD-->
                                 <Label id="lblVariedadN" text="Variedad" visible="false"/> 
-                                <ComboBox id="cboVariedadN" items="{landingMdl>/VariedadesRecomendadas}" selectedKey="{viewLoteMdl>/variedadCode}" value="{viewLoteMdl>/variedad}" change="onSeleccionarVariedad" visible="false">
+                                <Select id="cboVariedadN" items="{landingMdl>/VariedadesRecomendadas}" selectedKey="{viewLoteMdl>/variedadCode}" forceSelection="false" change="onSeleccionarVariedad" visible="false">
                                     <core:Item key="{landingMdl>ID}" text="{landingMdl>descripcion}"/>
-                                </ComboBox>   
+                                </Select>   
                                 <Link id="linkVariedad" text="Ver variedades" target="_blank" href="https://www.google.com.ar" visible="false"/>
+                                <!--MAPA LOTE-->
+                                <Label id="lblMapaN" text="Ubicar lote en mapa" design="Bold" visible="false"/>
+                                <Button id="btnMapaN" text="Ver mapa" type="Emphasized" press="onVerMapaCampo" icon="sap-icon://map" visible="false" width="8rem"/>
+                                <!---->                                   
                                 <!--HECTAREAS-->
-                                <Label id="lblHectareasN" text="Hectareas (ha)" visible="false"/> 
-                                <Input id="iHectareasN" value="{path: 'viewLoteMdl>/hectareas', type:'sap.ui.model.type.Float', formatOptions:{groupingEnabled: true, groupingSeparator: '.', decimalSeparator: ',', maxFractionDigits: 2 }}" visible="false" change="onChangeHectareas"/>
+                                <Label id="lblHectareasN" text="Hectáreas a sembrar de HB4 (ha)" visible="false"/>   <!--@nueva-->
+                                <!--@nueva--> 
+                                <!--<Input id="iHectareasN" value="{path: 'viewLoteMdl>/hectareas', type:'sap.ui.model.type.Float', formatOptions:{groupingEnabled: true, groupingSeparator: '.', decimalSeparator: ',', maxFractionDigits: 2 }}" visible="false" change="onChangeHectareas"/>-->
+                                <Input id="iHectareasN" type="Number" value="{path: 'viewLoteMdl>/hectareas', type:'sap.ui.model.type.Integer'}" visible="false" change="onChangeHectareas"/>
+                                <!---->        
+                                <!--@nueva--> 
+                                <!--HECTAREAS TOTALES-->
+                                <Label id="lblHectareasTotalesN" text="Hectareas totales del campo" visible="false"/>  
+                                <Input id="iHectareasTotalesN" type="Number" value="{path: 'viewLoteMdl>/hectareasTotales'}" visible="false" change="onChangeHectareas"/>                        
+                                <!---->                                                         
                                 <!--RINDE-->
                                 <Label id="lblRindeN" text="Rinde (kg/ha)"/>
                                 <!--<Input id="iRindeN" type="Number" value="{path: 'viewLoteMdl>/rindeEsperado', type:'sap.ui.model.type.Float', formatOptions:{groupingEnabled: true, groupingSeparator: '.', decimalSeparator: ',', maxFractionDigits: 2 } }"/> -->
@@ -56,7 +73,10 @@
                     <!--</l:Grid>            -->
 
                     <!--INSUMOS-->
-                    <ff:Card id="cardInsumoN" class="sapUiSmallMarginBeginEnd sapUiMediumMarginTop">
+                    <!--@nueva-->  
+                    <!--<ff:Card id="cardInsumoN" class="sapUiSmallMarginBeginEnd sapUiMediumMarginTop">-->
+                    <ff:Card id="cardInsumoN" class="sapUiMediumMarginTop" visible="{= ${viewLoteMdl>/variedadCode} !== '' }">
+                    <!---->
                         <ff:header>
                             <card:Header title="Insumos" subtitle="Puede modificar las cantidades de insumos" iconDisplayShape="Circle" iconSrc="sap-icon://product"/>         
                         </ff:header>
@@ -103,7 +123,8 @@
                                         </Column>    
                                     </columns>
                                 </Table>
-                                <VBox width="100%" alignItems="Center" class="sapUiSmallMarginTop">
+                                <!--@nueva-->
+                                <!--<VBox width="100%" alignItems="Center" class="sapUiSmallMarginTop">
                                     <VBox class="sapUiResponsiveMargin aporte">
                                         <HBox class="sapUiTinyMarginBottom" width="15rem">
                                             <Label design="Bold" text="Aporte" class="sapUiSmallMarginTop sapUiSmallMarginBegin"/>
@@ -113,11 +134,127 @@
                                             <ObjectNumber number="{viewLoteMdl>/aporte}" unit="kg/ha" emphasized="true" state="Warning" class="sapUiSmallMarginBegin sapUiSmallMarginBegin sapMObjectNumberLarge"/>                                     
                                         </HBox>
                                     </VBox> 
-                                </VBox>                      
+                                </VBox>  --> 
+                                <!---->      
+                                <!--@nueva-->          
+                                <l:Grid containerQuery="true" defaultSpan="XL6 L6 M6 S12" class="sapUiSmallMarginTop">               
+                                    <VBox id="vbInfoN">
+                                        <VBox>                            
+                                            <Table id="tableInsumosNInfo" headerText="Se incluyen los siguientes insumos:" items="{path: 'viewLoteMdl>/insumosInfo', sorter: [{path: 'viewLoteMdl>orden', ascending: 'true'}] }" alternateRowColors="true">
+                                                <columns>
+                                                    <Column>
+                                                        <header>
+                                                            <Label text="Insumo" design="Bold"/>
+                                                        </header>
+                                                    </Column>                                
+                                                    <Column demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline" hAlign="End">
+                                                        <header>
+                                                            <Label text="Unidades" design="Bold"/>
+                                                        </header>
+                                                    </Column>
+                                                    <Column demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline" hAlign="End">
+                                                        <header>
+                                                            <Label text="Cantidad" design="Bold"/>
+                                                        </header>
+                                                    </Column>                                                                                
+                                                </columns>
+                                                <items>
+                                                    <ColumnListItem>
+                                                        <cells>
+                                                            <Text text="{viewLoteMdl>descripcion}"/>
+                                                            <Text text="{viewLoteMdl>unidades}"/>
+                                                            <Text text="{viewLoteMdl>cantidad}"/>                                                                                
+                                                        </cells>
+                                                    </ColumnListItem>
+                                                </items>                                                          
+                                            </Table>   
+                                            <HBox class="sapUiSmallMarginTop">   
+                                                <GenericTag text="Kg/ha a descontar" design="StatusIconHidden" status="Information"  class="sapUiSmallMarginBegin sapUiSmallMarginBottom" visible="false">
+                                                    <ObjectNumber state="Information" emphasized="false" number="{path: 'viewLoteMdl>/insumosInfo/0/kgAdescontar', type:'sap.ui.model.type.Float', formatOptions:{groupingEnabled: true, groupingSeparator: '.', decimalSeparator: ',', maxFractionDigits: 2 }}" unit=""/>
+                                                </GenericTag>
+                                                <GenericTag text="Kg totales a descontar" design="StatusIconHidden" status="Information"  class="sapUiSmallMarginBegin sapUiSmallMarginBottom">
+                                                    <ObjectNumber state="Information" emphasized="false" number="{path: 'viewLoteMdl>/insumosInfo/0/totalAdescontar', formatOptions:{groupingEnabled: true, groupingSeparator: '.', decimalSeparator: ',', maxFractionDigits: 2 }}" unit=""/>
+                                                </GenericTag>
+                                            </HBox>  
+                                        </VBox>    
+                                        <layoutData>
+                                            <l:GridData span="XL7 L7 M7 S12" indent="XL1 L1 M1 S0"/>
+                                        </layoutData>                                     
+                                    </VBox>    
+                                    <VBox width="100%" alignItems="Center" class="sapUiSmallMarginTop">
+                                        <VBox class="sapUiResponsiveMargin aporte">
+                                            <HBox class="sapUiTinyMarginBottom" width="15rem">
+                                                <Label design="Bold" text="Aporte" class="sapUiSmallMarginTop sapUiSmallMarginBegin"/>
+                                            </HBox>
+                                            <HBox class="sapUiTinyMarginBottom" alignItems="Center">
+                                                <sap.ui.core:Icon xmlns:sap.ui.core="sap.ui.core" size="2rem" color="#2DA7D7" src="sap-icon://product" class="sapUiSmallMarginBegin"/>                                        
+                                                <ObjectNumber number="{viewLoteMdl>/aporte}" unit="kg/ha" emphasized="true" state="Warning" class="sapUiSmallMarginBegin sapUiSmallMarginBegin sapMObjectNumberLarge"/>                                     
+                                            </HBox>
+                                        </VBox> 
+                                        <layoutData>
+                                            <l:GridData span="XL4 L4 M4 S12" indent="XL0 L0 M0 S0"/>
+                                        </layoutData>                             
+                                    </VBox>                           
+                                </l:Grid>
+                                <!---->                                                      
                             </l:VerticalLayout>         
                         </ff:content>                        
                     </ff:Card>                      
 
+
+                    <!--@nueva-->
+                    <!--ENTREGA-->
+                    <ff:Card id="cardEntregaN" visible="{= ${viewLoteMdl>/variedadCode} !== '' }">
+                        <ff:header>
+                            <card:Header title="Entrega de insumos" subtitle="Indicar lugar de entrega" iconDisplayShape="Circle" iconBackgroundColor="Accent6" iconSrc="sap-icon://map-3"/>         
+                        </ff:header>
+                        <ff:content>                                         
+                            <!--<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" columnsM="1" columnsL="1" columnsXL="1">-->
+                            <f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" columnsM="3" columnsL="3" columnsXL="3" emptySpanXL="3" emptySpanM="3" emptySpanL="3">
+                                <f:content>                                              
+                                <Label text="Fecha de entrega de insumos" required="true"/>
+                                <DatePicker id="dpFechaEntregaN" change="onChangeFecha" value="{path: 'viewLoteMdl>/fechaEntrega', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd/MM/yyyy', UTC: true}  }"/>                                        
+                                <Label text="Nombre contacto"/> 
+                                <Input id="iContactoN" type="Text" value="{viewLoteMdl>/contactoNombre}" maxLength="30"/>
+                                <Label text="Telefono contacto"/> 
+                                <Input id="iTelContactoN" type="Tel" value="{viewLoteMdl>/contactoTel}" liveChange="onLiveChangeTel" maxLength="15"/>                                                                        
+                                <Label text="Lugar de entrega de insumos"/> 
+                                <Select id="cboLugarEntregaN" change="onSeleccionarLugar" selectedKey="01" forceSelection="false">
+                                    <core:Item key="01" text="Mismo lugar del lote"/>
+                                    <!--<core:Item key="03" text="Ingresar dirección"/>-->
+                                    <core:Item key="02" text="Indicar otro lugar en el mapa"/>
+                                </Select>  
+                                <VBox alignItems="Center">
+                                    <Button id="btnMapaEntregaN" text="Ver mapa" type="Emphasized" press="onVerMapaEntrega" visible="false" icon="sap-icon://map"/>                                                                                             
+                                </VBox>
+                                <Label id="lblCoordEntregaN" text="Coordenadas de entrega seleccionada (latitud@longitud)" visible="false"/>
+                                <Input id="iCoordEntregaN" type="Text" value="{viewLoteMdl>/direccionEntrega}" visible="false" editable="false"/>                                    
+                                <!--<Label id="lblDirN" text="Dirección" visible="false"/>
+                                <Input id="iDirN" type="Text" value="{viewLoteMdl>/direccionEntrega}" visible="false" placeholder="Direccion de entrega"/>                                     -->
+                                <!--@nueva-->
+                                <Label text="Lugar de entrega de semillas"/> 
+                                <Select id="cboLugarEntregaNSem" change="onSeleccionarLugarSemilla" selectedKey="01" forceSelection="false"> 
+                                    <core:Item key="01" text="Mismo lugar del lote"/>
+                                    <core:Item key="03" text="Mismo lugar de entrega de insumos"/>
+                                    <core:Item key="02" text="Indicar otro lugar en el mapa"/>
+                                </Select>  
+                                <VBox alignItems="Center">
+                                    <Button id="btnMapaEntregaNSem" text="Ver mapa" type="Emphasized" press="onVerMapaEntregaSemilla" visible="false" icon="sap-icon://map"/>                                                                                             
+                                </VBox>
+                                <Label id="lblCoordEntregaNSem" text="Coordenadas de entrega seleccionada (latitud@longitud)" visible="false"/>
+                                <Input id="iCoordEntregaNSem" type="Text" value="{viewLoteMdl>/direccionEntregaSem}" visible="false" editable="false"/>                                    
+                                <!---->
+                                
+                                <Label text="Observaciones para la entrega"/>
+                                <TextArea value="{viewLoteMdl>/observaciones}" rows="7" cols="70" maxLength="500" wrapping="Hard"/>                                    
+                                </f:content>
+                            </f:SimpleForm> 
+                        </ff:content>
+                    </ff:Card> 
+                    <!---->  	       
+
+                    <!--@nueva-->
+                    <!--
                     <l:BlockLayout id="BlockLayoutN" background="Default">
                         <l:BlockLayoutRow>            
                             <l:BlockLayoutCell width="1">
@@ -126,11 +263,9 @@
                                         <card:Header title="Ubicación de mi lote" subtitle="Coordenadas del nuevo campo (poligono)" iconDisplayShape="Circle" iconSrc="sap-icon://map-2"/>         
                                     </ff:header>
                                     <ff:content>
-
-                                    <!--<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="3" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="1" columnsM="1" singleContainerFullSize="false">-->
+                                    
                                     <f:SimpleForm editable="true" layout="ResponsiveGridLayout">
-                                        <f:content>                
-                                            <!--COORDENADAS LOTE-->      
+                                        <f:content>                   
                                             <VBox width="100%">
                                                 <VBox alignItems="Center" width="100%">
                                                     <Button id="btnMapaN" text="Ver mapa" type="Emphasized" press="onVerMapaCampo" icon="sap-icon://map"/>
@@ -144,13 +279,11 @@
                                 </ff:Card>                             
                             </l:BlockLayoutCell>    
                             <l:BlockLayoutCell width="1">                                         
-                                        <!--ENTREGA-->
                                 <ff:Card id="cardEntrega" class="fondoEntrega">
                                     <ff:header>
                                         <card:Header title="Entrega" subtitle="Indicar lugar de entrega" iconDisplayShape="Circle" iconSrc="sap-icon://map-3"/>         
                                     </ff:header>
-                                    <ff:content>         
-                                        <!--<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="3" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="1" columnsM="1" singleContainerFullSize="false">-->
+                                    <ff:content>                                                 
                                         <f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="12" labelSpanL="12" labelSpanM="12" labelSpanS="12" columnsM="1" columnsL="1" columnsXL="1">
                                             <f:content>                                              
                                             <Label text="Fecha de entrega" required="true"/>
@@ -161,8 +294,7 @@
                                             <Input id="iTelContactoN" type="Tel" value="{viewLoteMdl>/contactoTel}" liveChange="onLiveChangeTel" maxLength="15"/>                                    
                                             <Label text="Lugar de entrega"/> 
                                             <ComboBox id="cboLugarEntregaN" change="onSeleccionarLugar" selectedKey="01">
-                                                <core:Item key="01" text="Mismo lugar del lote"/>
-                                                <!--<core:Item key="03" text="Ingresar dirección"/>-->
+                                                <core:Item key="01" text="Mismo lugar del lote"/>                                                
                                                 <core:Item key="02" text="Indicar otro lugar en el mapa"/>
                                             </ComboBox>  
                                             <VBox alignItems="Center">
@@ -170,8 +302,6 @@
                                             </VBox>
                                             <Label id="lblCoordEntregaN" text="Coordenadas de entrega seleccionada (latitud@longitud)" visible="false"/>
                                             <Input id="iCoordEntregaN" type="Text" value="{viewLoteMdl>/direccionEntrega}" visible="false" editable="false"/>                                    
-                                            <!--<Label id="lblDirN" text="Dirección" visible="false"/>
-                                            <Input id="iDirN" type="Text" value="{viewLoteMdl>/direccionEntrega}" visible="false" placeholder="Direccion de entrega"/>                                     -->
                                             <Label text="Observaciones para la entrega"/>
                                             <TextArea value="{viewLoteMdl>/observaciones}" rows="7" cols="70" maxLength="500" wrapping="Hard"/>                                    
                                             </f:content>
@@ -180,7 +310,9 @@
                                 </ff:Card>   				
                             </l:BlockLayoutCell>                                                    
                         </l:BlockLayoutRow>
-                    </l:BlockLayout>    
+                    </l:BlockLayout>  
+                    -->
+                    <!---->  
             </l:content>
         </l:VerticalLayout>
         <buttons>

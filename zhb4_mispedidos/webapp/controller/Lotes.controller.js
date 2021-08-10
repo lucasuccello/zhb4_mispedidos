@@ -515,7 +515,8 @@ sap.ui.define([
                 this._precioFuturoTrigo = 1;
                 this._precioFuturoSoja = 1;     
                 this.glufoTrigo = "";
-                this.glufoSoja = "";           
+                this.glufoSoja = "";         
+                this.cultivo = "";    //@nueva  
                 var aData = [];
 
                 this.getView().getModel().read("/businessPartnerSet", {
@@ -593,7 +594,13 @@ sap.ui.define([
                 map2: null,       
                 drawingManager: null,     
                 coordEdit: [],
-                insumos: []                    
+                insumos: [],   
+                //@nueva
+                hectareasTotales: "",
+                direccionEntregaSem: "",     
+                coordEntregaSemilla: "",
+                insumosInfo: []
+                //                                 
                 };               
         
             this.getModel("viewLoteMdl").setData(oDataCrear);  //modelo temporal para lotes
@@ -768,6 +775,11 @@ sap.ui.define([
             this.byIdFragment("iRindeN").setVisible(false);
             this.byIdFragment("lblFechaSiembraN").setVisible(false);
             this.byIdFragment("dpFechaSiembraN").setVisible(false);
+            //@nueva
+            this.byIdFragment("btnMapaN").setVisible(false);
+            this.byIdFragment("iHectareasTotalesN").setVisible(false);
+            this.byIdFragment("lblHectareasTotalesN").setVisible(false);     
+            //       
         },
 
         getFechasDesde: function(sOperacion){
@@ -810,7 +822,11 @@ sap.ui.define([
             sap.ui.getCore().byId("cboProvinciaN").getBinding("items").filter(aFilters);
 
             sap.ui.getCore().byId("lblProvN").setVisible(true);
-            sap.ui.getCore().byId("cboProvinciaN").setVisible(true);                
+            sap.ui.getCore().byId("cboProvinciaN").setVisible(true);   
+            
+            //@nueva
+            var oModel = this.getModel("viewLoteMdl");
+            oModel.setProperty("/cultivo", oEvent.getParameter("selectedItem").getText());               
         },
 
         //Al seleccionar una provincia...cargo las localidades
@@ -827,7 +843,11 @@ sap.ui.define([
             sap.ui.getCore().byId("cboLocalidadN").getBinding("items").filter(aFilters);
 
             sap.ui.getCore().byId("lblLocalidadN").setVisible(true);
-            sap.ui.getCore().byId("cboLocalidadN").setVisible(true);                 
+            sap.ui.getCore().byId("cboLocalidadN").setVisible(true);           
+            
+            //@nueva
+            var oModel = this.getModel("viewLoteMdl");
+            oModel.setProperty("/provincia", oEvent.getParameter("selectedItem").getText());            
         },
 
         //Al seleccionar una localidad...cargo las variedades
@@ -855,7 +875,12 @@ sap.ui.define([
             this.getModel("landingMdl").read(sPath, {
                 success: this._okRegionCB.bind(this),
                 error: this._errorRegionCB.bind(this)
-            });                
+            });        
+            
+            //@nueva
+            var oModel = this.getModel("viewLoteMdl");
+            oModel.setProperty("/localidad", oEvent.getParameter("selectedItem").getText());                
+            //        
                                 
         },         
         
@@ -880,6 +905,16 @@ sap.ui.define([
             sap.ui.getCore().byId("iRindeN").setVisible(true); 
             sap.ui.getCore().byId("lblFechaSiembraN").setVisible(true);
             sap.ui.getCore().byId("dpFechaSiembraN").setVisible(true);     
+
+            //@nueva
+            this.byIdFragment("lblMapaN").setVisible(true);
+            this.byIdFragment("btnMapaN").setVisible(true);        
+            this.byIdFragment("iHectareasTotalesN").setVisible(true);
+            this.byIdFragment("lblHectareasTotalesN").setVisible(true);
+
+            var oModel = this.getModel("viewLoteMdl");
+            oModel.setProperty("/variedad", oEvent.getParameter("selectedItem").getText());                
+            //
 
             this.getInsumos();
         },
@@ -1018,6 +1053,10 @@ sap.ui.define([
                 }
                 );
             }
+
+            //@nueva
+            this.mostrarInfoInsumos();              
+            
         },
 
         _errorInsumosCB: function(oError){
@@ -1089,6 +1128,9 @@ sap.ui.define([
 
             oData.aporte = Math.ceil(fAporte).toFixed(2);   //redondeo hacia arriba
             this.getModel("viewLoteMdl").refresh();
+
+            //@nueva
+            this.mostrarInfoInsumos();               
         },
 
         // @nico nuevo metodo que calcula el aporte de un insumo
@@ -1213,6 +1255,172 @@ sap.ui.define([
             return fAporte;
 
         },
+
+        //@nueva
+        //mostrar en pantalla todos los insumos
+        mostrarInfoInsumos: function(){
+            var oData = this.getModel("viewLoteMdl").getData();
+            var fHa = parseFloat(oData.hectareas);
+            var fAporte = parseFloat(oData.aporte);
+            var aInfo = [];
+
+            oData.insumos.forEach( (oInsumo)=>{
+                let oDataInfo = {};
+
+                let oResult = this.getInfoInsumosCantidades(oInsumo, fHa);
+
+                oDataInfo.descripcion = oInsumo.descripcion;
+                oDataInfo.unidades = oResult.cantidad;
+                oDataInfo.cantidad = oResult.unidades;
+                oDataInfo.kgAdescontar = fAporte.toFixed(2);
+                oDataInfo.totalAdescontar = (fHa * fAporte).toFixed(2);
+                aInfo.push(oDataInfo);
+            });
+
+            oData.insumosInfo = aInfo;                
+            this.getModel("viewLoteMdl").refresh();
+        
+            //this.byIdFragment("vbInfo").setVisible(true);                
+        },
+
+        //@nueva
+        //cantidad de insumo (copia de calcularAporteInsumo, pero devuelve cantidad en vez de aporte)
+        getInfoInsumosCantidades: function(oInsumo, fHa){
+            var fCantidad = 0;
+            var fCantidadMaterialChico = 0;
+            //(oInsumo.material, oInsumo.tipoMaterial, oInsumo.conversor, oLote.rindeEsperado, oLote.hectareas, oInsumo.cantidad, oInsumo.mostrarEnPantalla, oInsumo.esGlufo, oInsumo.agregarGlufo)
+            var fConversor = parseFloat(oInsumo.conversor);
+            var fCantidadDensidadAux = parseFloat(oInsumo.cantidad);
+            var fResto = 0;
+            var fPrecio = parseFloat(oInsumo.precio);
+            var fAporte = 0;
+            var fHectareasPurga = parseFloat(this.getModel("landingMdl").getProperty("/Configuraciones/HECTAREAS_PURGA")) || 3; // hectareas de purga a restar para calculo de semillas
+            var fMinHectareasParaBigbag = parseFloat(this.getModel("landingMdl").getProperty("/Configuraciones/MIN_HECTAREAS_PARA_SOLO_BIGBAG")) || 150; // minimo hectareas para enviar bigbag de semillas
+            var fMargenRedondeoBigbag = parseFloat(this.getModel("landingMdl").getProperty("/Configuraciones/MARGEN_REDONDEO_BIGBAG")) || 0.4; // menor a este valor redondea bigbag para abajo, si no para arriba
+
+            // dejar calculadas las hectareas que se toman para semilla
+            var fHaSemillas = fHa; // - fHectareasPurga; ya no se restan las 3 de purga
+            var fConversorMaterialChico = oInsumo.materialChico ? parseFloat(oInsumo.materialChico.conversor) : 1;
+            var fPrecioMaterialChico = (oInsumo.materialChico && oInsumo.materialChico.precio) ? parseFloat(oInsumo.materialChico.precio) : 0;
+            var fUnidades = 0;
+
+            //if (!oInsumo.mostrarEnPantalla) {
+            //    return 0;
+            //}
+            switch (oInsumo.tipoMaterial) {
+                //Cosecha se ignora
+                case "C":
+                    break;
+                //Semilla, componente BBG (grande 700kg)
+                case "S":
+
+                    if (oInsumo.mostrarEnPantalla) {
+                        // es un material grande (tiene versión chica cargada)
+                        fCantidad = (fHaSemillas * fCantidadDensidadAux) / fConversor;
+                        fResto = fCantidad % 1;
+
+                        if (fHaSemillas >= fMinHectareasParaBigbag) {
+                            // pedidos con más de minHectareasParaBigbag se mandan solo bigbag redondeados segun margenRedondeoBigbag
+                            if (fResto >= fMargenRedondeoBigbag) {
+                                // redondear para arriba
+                                fCantidad = Math.ceil(fCantidad);
+                            } else {
+                                // redondear para abajo
+                                fCantidad = Math.floor(fCantidad);
+                            }
+                        }
+                        else {
+                            //  pedidos con menos de minHectareasParaBigbag se mandan bigbag redondeado para abajo y se completa con bolsas del material chico
+                            fCantidad = Math.floor(fCantidad);
+
+                            // calcular cantidad de bolsas chicas si está cargado el materialChico
+                            if (oInsumo.materialChico) {
+                                fCantidadMaterialChico = fResto * fConversor / fConversorMaterialChico;
+                                fCantidadMaterialChico = Math.ceil(fCantidadMaterialChico);
+                            }
+
+                        }
+
+                        fUnidades = fCantidad * fConversor;
+
+                    }
+
+                    break; // fin Semilla
+
+                //Purga, componente de valor fijo
+                case "P":
+                    fCantidad = fCantidadDensidadAux;
+                    //@nueva
+                    /*
+                    if (fCantidad === 0) {
+                        fCantidad = 5;
+                    }
+                    */
+                    //
+
+                    fUnidades = fCantidad * fConversor;
+
+                    break; // fin Purga
+
+                // Insumos
+                case "I":
+
+                    switch (oInsumo.tipoDeInsumo_ID) {
+                        case "M":
+                            // Microstar
+
+
+                            if (oInsumo.mostrarEnPantalla) {
+                                // es un material grande (tiene versión chica cargada)
+                                fCantidad = (fHa * fCantidadDensidadAux) / fConversor;
+                                fResto = fCantidad % 1;
+
+                                //  microstar siempre se redondea para abajo y se completa con material chico
+                                fCantidad = Math.floor(fCantidad);
+
+                                // calcular cantidad de bolsas chicas si está cargado el materialChico
+                                if (oInsumo.materialChico) {
+                                    fCantidadMaterialChico = fResto * fConversor / fConversorMaterialChico;
+                                }
+
+                            }
+
+                            fUnidades = fCantidad * fConversor;
+
+                            break; // fin Insumos Microstar
+
+                        case "G":
+                            // Glufo
+                            if (oInsumo.agregarGlufo) {
+                                fCantidad = fHa * oInsumo.cantidadGlufoOriginal;
+                                fCantidad = fCantidad / fConversor;
+                                fCantidad = Math.ceil(fCantidad);
+                            }
+
+                            fUnidades = fCantidad * fConversor;
+
+                            break; //fin Insumos Glufo
+                        default:
+                            // otro insumo
+                            fCantidad = fHa * fCantidadDensidadAux;
+                            fCantidad = fCantidad / fConversor;
+                            fCantidad = Math.ceil(fCantidad);
+
+                            fUnidades = fCantidad * fConversor;
+
+                            break;
+                    }
+
+                    break; // fin Insumos
+            }
+
+            var oReturn = {
+                cantidad: fCantidad,
+                unidades: fUnidades
+            };
+
+            return oReturn;
+        },                 
             
         onChangeHectareas: function(oEvent){
             //var fHectareas = oEvent.getSource().getValue();
@@ -1274,12 +1482,15 @@ sap.ui.define([
             else if((oEvent.getSource().getSelectedKey() === "02")){ //nueva coord de mapa
                 if(this._operacion === "crear") sap.ui.getCore().byId("btnMapaEntregaN").setVisible(true);               
             }
-
+            //@nueva
+            /*
             else if((oEvent.getSource().getSelectedKey() === "03")){ //ingresar direccion           
                 if(this._operacion === "crear") sap.ui.getCore().byId("btnMapaEntregaN").setVisible(false);
                 if(this._operacion === "crear") sap.ui.getCore().byId("lblCoordEntregaN").setVisible(false);
                 if(this._operacion === "crear") sap.ui.getCore().byId("iCoordEntregaN").setVisible(false);                
-            }                
+            }         
+            */
+            //
         },
 
         //Copiar las coordenadas del poligono al Lugar de entrega
@@ -1294,6 +1505,38 @@ sap.ui.define([
 
             oData.direccionEntrega = aCoord[0];
         },
+
+        //@nueva
+        //Copiar las coordenadas del poligono al Lugar de entrega de semilla
+        _copiarUbicacionEnEntregaSemillaLote: function () {
+            var oData = this.getModel("viewLoteMdl").getData();
+
+            if (oData.coordPoligono === "" || oData.coordPoligono === null) return;
+
+            if (this._operacion === "crear" && this.byIdFragment("cboLugarEntregaN").getSelectedKey() !== "01") return;
+
+            if (this._operacion === "editar" && this.byIdFragment("cboLugarEntregaE").getSelectedKey() !== "01") return;
+
+            var aCoord = oData.coordPoligono.split("/");
+
+            oData.direccionEntregaSem = aCoord[0];
+        },       
+        
+        //@nueva
+        //Copiar las coordenadas del poligono al Lugar de entrega de semilla
+        _copiarUbicacionEnEntregaSemillaInsumo: function () {
+            var oData = this.getModel("viewLoteMdl").getData();
+
+            if (oData.coordPoligono === "" || oData.coordPoligono === null) return;
+
+            if (this._operacion === "crear" && this.byIdFragment("cboLugarEntregaN").getSelectedKey() !== "03") return;
+
+            if (this._operacion === "editar" && this.byIdFragment("cboLugarEntregaE").getSelectedKey() !== "03") return;
+
+            var aCoord = oData.coordPoligono.split("/");
+
+            oData.direccionEntregaSem = oData.direccionEntrega;
+        },           
 
         //Validar formato de fecha
         onChangeFecha: function(oEvent){
@@ -1405,6 +1648,24 @@ sap.ui.define([
                 sap.ui.getCore().byId("cboLugarEntregaN").focus();                     
                 return;                    
             }     
+            //@nueva
+            else if (oData.coordEntregaSem === "" && oData.direccionEntregaSem === "") {
+                sap.m.MessageToast.show("Debe indicar Lugar de entrega para semillas", { duration: 4000 });
+                this.byIdFragment("cboLugarEntregaNSem").focus();
+                return;
+            }
+            else if (parseInt(oData.hectareasTotales) <= 0 || oData.hectareasTotales === NaN || oData.hectareasTotales === "") {
+                sap.m.MessageToast.show("Debe indicar hectáreas totales del campo", { duration: 4000 });
+                this.byIdFragment("iHectareasTotalesN").focus();
+                return;
+            }         
+            
+            else if (parseInt(oData.hectareasTotales) <= 0 || oData.hectareasTotales === NaN || oData.hectareasTotales === "") {
+                sap.m.MessageToast.show("Debe indicar hectáreas totales del campo", { duration: 4000 });
+                this.byIdFragment("iHectareasTotalesN").focus();
+                return;
+            }               
+            //                  
             
             
             this.getModel("viewLoteMdl").setProperty("/highlight", "Success");
@@ -1447,6 +1708,7 @@ sap.ui.define([
 
         onCerrarMapa: function(oEvent){
             this._copiarUbicacionEnEntrega();
+            this._copiarUbicacionEnEntregaSemillaLote();  //@nueva
             this._oDialogMapa1.close();
         },
 
@@ -1488,6 +1750,60 @@ sap.ui.define([
             this._oDialogMapa2.close();
         },
 
+        //@nueva
+        onCerrarMapa3: function (oEvent) {
+            if (this.marker3 !== undefined && this.marker3 !== null) {
+                //var sCoord = this._maker2.getPosition().lat() + "@" + this._maker2.getPosition().lng();
+                var sCoord = this.marker3.internalPosition.lat() + "@" + this.marker3.internalPosition.lng();
+
+                if (this._operacion === "crear") this.byIdFragment("lblCoordEntregaNSem").setVisible(true);
+                if (this._operacion === "crear") this.byIdFragment("iCoordEntregaNSem").setValue(sCoord);
+                if (this._operacion === "crear") this.byIdFragment("iCoordEntregaNSem").setVisible(true);
+
+                //@persistencia
+                var oDataEntrega = { lat: this.marker3.internalPosition.lat(), lng: this.marker3.internalPosition.lng() };
+                this.getModel("viewLoteMdl").setProperty("/coordEntregaSemilla", oDataEntrega);
+            }
+
+            this._oDialogMapa3.close();
+        },         
+        
+        //@nueva
+        onSeleccionarLugarSemilla: function (oEvent) {
+            if (oEvent.getSource().getSelectedKey() === "01") {  //misma coord que lote
+                if (this._operacion === "crear") this.byIdFragment("btnMapaEntregaNSem").setVisible(false);
+                if (this._operacion === "crear") this.byIdFragment("lblCoordEntregaNSem").setVisible(false);
+                if (this._operacion === "crear") this.byIdFragment("iCoordEntregaNSem").setVisible(false);
+
+                this._copiarUbicacionEnEntregaSemillaLote();
+            }
+            else if ((oEvent.getSource().getSelectedKey() === "02")) { //nueva coord de mapa
+                if (this._operacion === "crear") this.byIdFragment("btnMapaEntregaNSem").setVisible(true);
+            }
+            else if ((oEvent.getSource().getSelectedKey() === "03")) { //misma coordenadas que insumos
+                if (this._operacion === "crear") this.byIdFragment("btnMapaEntregaNSem").setVisible(false);                
+
+                this._copiarUbicacionEnEntregaSemillaInsumo();
+            }             
+        },        
+
+        //@nueva
+        onVerMapaEntregaSemilla: function(){
+            if (!this._oDialogMapa3) {
+                Fragment.load({
+                    name: "hb4.zhb4_mispedidos.view.EntregaSemilla",
+                    controller: this
+                }).then(function (oDialog) {
+                    this._oDialogMapa3 = oDialog;
+                    this.initMap3();
+                    this._oDialogMapa3.open();
+                }.bind(this));
+            } else {
+                this.editarMap3();    //@nuevamap
+                this._oDialogMapa3.open();
+            }
+        },                    
+
         //MAPAS---------------------------------------------------------------------------
         cargarMapas: function(){
             var me = this;
@@ -1524,7 +1840,7 @@ sap.ui.define([
 
             //creo un nuevo mapa sobre el div de la vista poligono.view.html
             this.map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 6, //zoom por default
+                zoom: 10, //zoom por default
                 center: { lat: -36.6192291, lng: -64.371276 },  //coordenadas por default
                 mapTypeId: 'hybrid',  //tipo de mapa hibrido (satelite + ciudades y rutas)
 
@@ -1648,12 +1964,16 @@ sap.ui.define([
                         aCoordEdit.push(oLatLng);//@map
                     }                        
 
+                    //@nueva
+                    /*
                     if(that._operacion === "crear"){
                         sap.ui.getCore().byId("iCoordLoteN").setVisible(true);
                     }
                     else{
                         sap.ui.getCore().byId("iCoordLoteE").setVisible(true);
                     }
+                    */
+                    //
                     
                     that.getModel("viewLoteMdl").setProperty("/coordPoligono", sCoord);
                     that.getModel("viewLoteMdl").setProperty("/coordEdit", aCoordEdit);
@@ -1694,153 +2014,6 @@ sap.ui.define([
         },   //fin initMap
 
 
-
-        initMapYYYY: function(){
-            var oData = this.getModel("viewLoteMdl").getData();
-            var that = this;
-
-
-            if(oData.map !== null && oData.map !== undefined){
-                //let mapita = new google.maps.Map(document.getElementById("map"));
-                //mapita =  oData.map;
-                //return;
-
-                this.map = oData.map;
-                return;
-            }
-
-            //creo un nuevo mapa sobre el div de la vista poligono.view.html
-            this.map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 6, //zoom por default
-                center: { lat: -36.6192291, lng: -64.371276 },  //coordenadas por default
-                mapTypeId: 'hybrid',  //tipo de mapa hibrido (satelite + ciudades y rutas)
-
-                mapTypeControl: false, //deshabilitar la selección de tipo de mapa
-                mapTypeControlOptions: {
-                    style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-                    position: google.maps.ControlPosition.BOTTOM_CENTER,
-                },
-                zoomControl: true, //mostrar control de zoom
-                zoomControlOptions: {   //ubicacion del control de zoom en pantalla
-                    position: google.maps.ControlPosition.RIGHT_CENTER,
-                },          
-                streetViewControl: false,  //deshabilitar street view
-                fullscreenControl: false,  //deshabilitar pantalla completa             
-            }); // fin map
-
-            //creo una instancia del geocodificador
-            this.geocoder = new google.maps.Geocoder();
-
-            //agrego el evento click al boton Buscar que aparece en el mapa
-            document.getElementById("submit").addEventListener("click", () => {
-                this.geocodeAddress(this.geocoder, this.map);
-            });
-
-            //posiciono el mapa inicialmente en la localidad y provincia seleccionada para el lote
-            var sDireccion = oData.localidad + ", " + oData.provincia;
-            this.setAddressInitial(this.geocoder, this.map, sDireccion);
-
-            //AUTOCOMPLETE PLACES, autocompletar direcciones en la busqueda
-            /*var oInput = document.getElementById("address");
-            var oOptions = {
-                types: [],
-                componentRestrictions: {country: 'ar'}
-            };           
-            
-            var autocomplete = new google.maps.places.Autocomplete(oInput, oOptions);   */             
-
-            //document.getElementById("dibujar").addEventListener("click", () => {
-            //    sap.ui.getCore().drawingManager.setOptions({drawingControl: true});
-            //    sap.m.MessageToast.show("Se ha habilitado la herramienta de dibujo de poligono");
-            //})                
-
-            //creo la herramienta de dibujo
-            this.drawingManager = new google.maps.drawing.DrawingManager({
-                drawingMode: google.maps.drawing.OverlayType.POLYGON, //modo de dibujo para poligonos
-                drawingControl: true,  //mostrar control de dibujo
-                drawingControlOptions: {  //opciones del control de dibujo
-                    position: google.maps.ControlPosition.LEFT_CENTER,  //posicion en el mapa de la herramienta de dibujo
-                    drawingModes: [ //tipos de diujos sobre el mapa que estarán habilitados
-                    //google.maps.drawing.OverlayType.MARKER,
-                    //google.maps.drawing.OverlayType.CIRCLE,
-                    google.maps.drawing.OverlayType.POLYGON,
-                    //google.maps.drawing.OverlayType.POLYLINE,
-                    //google.maps.drawing.OverlayType.RECTANGLE
-                    ],
-                },
-                markerOptions: {
-                    icon:
-                    "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
-                },
-                circleOptions: {
-                    fillColor: "#F90808",
-                    fillOpacity: 1,
-                    strokeWeight: 5,
-                    clickable: false,
-                    editable: true,
-                    zIndex: 1,
-                },
-                //estilo del poligono
-                polygonOptions: {
-                    fillColor: "#F90808",
-                    fillOpacity: 0.2,
-                    strokeColor: "#F90808",
-                    draggable: true,
-                    //strokeWeight: 5,
-                    //clickable: true,
-                    //editable: true,
-                    zIndex: 1,
-                },          
-            });
-            
-            //agrego la herramienta de dibujo al mapa creado
-            this.drawingManager.setMap(this.map);
-
-            //guardo globalmente la instancia para poder acceder a ella 
-            sap.ui.getCore().drawingManager = this.drawingManager;
-
-            //google.maps.event.addListener(this.drawingManager, 'circlecomplete', function(circle) {
-            //    var radius = circle.getRadius();
-            //});
-
-            
-            oData.map = this.map;
-            //oData.drawingManager = this.drawingManager;
-            
-            //agrego el evento overlaycomplete a la herramienta de dibujo para que cuando se complete el dibujo del poligo obtener los dato del mismo
-            google.maps.event.addListener(this.drawingManager, 'overlaycomplete', function(event) {
-                if (event.type == 'polygon') { //si el dibjo en el mapa es un poligo
-
-                    var oPoligonoAnterior = sap.ui.getCore().overlaypolygon;  //obtengo el poligono anteriormente dibujado
-                    //var oPoligonoAnterior = this.overlaypolygon;
-
-                    if(oPoligonoAnterior !== undefined) oPoligonoAnterior.setMap(null);  //borro el poligono anterior para que solo haya un solo poligono dibujado en pantalla
-                    
-                    //sap.ui.getCore().drawingManager.setOptions({drawingControl: false});   //oculto herramienta de dibujo
-                    sap.ui.getCore().overlaypolygon = event.overlay;     //guardo el poligono a nivel global                
-                    //this.overlaypolygon = event.overlay;
-
-                    var aCoordenadas = event.overlay.getPath(); //obtengo todas las coordenadas del poligono
-                    var sCoord = "";
-
-                    //guardo las coordenadas del poligono y las muestro en pantalla
-                    for (let i = 0; i < aCoordenadas.length; i++) {
-                        sCoord = sCoord + aCoordenadas.getAt(i).lat() + "@" + aCoordenadas.getAt(i).lng() + "/";
-                    }                        
-
-                    if(that._operacion === "crear"){
-                        sap.ui.getCore().byId("iCoordLoteN").setVisible(true);
-                    }
-                    else{
-                        sap.ui.getCore().byId("iCoordLoteE").setVisible(true);
-                    }
-                    
-                    that.getModel("viewLoteMdl").setProperty("/coordPoligono", sCoord);
-                    that.getModel("viewLoteMdl").refresh();
-                }
-            }); 
-        },   //fin initMap
-
         //inicializo el mapa para la ubicacion del punto de entrega
         initMap2: function(){
             var oData = this.getModel("viewLoteMdl").getData();
@@ -1880,10 +2053,14 @@ sap.ui.define([
             //    sap.m.MessageToast.show("Se ha habilitado la herramienta de dibujo de poligono");
             //})     
             
+            //@nuevamap
+            /*
             //posiciono el mapa inicialmente en la localidad y provincia seleccionada para el lote
             var sDireccion = oData.localidad + ", " + oData.provincia;
             document.getElementById("address2").value = sDireccion;
             this.geocodeAddress2(this.geocoder2, this.map2, sDireccion)
+            */
+            //
 
             //AUTOCOMPLETE PLACES
             /*var oInput = document.getElementById("address2");
@@ -1894,60 +2071,74 @@ sap.ui.define([
             
             var autocomplete = new google.maps.places.Autocomplete(oInput, oOptions);*/
             
-            return;
-
-
-            this.drawingManager2 = new google.maps.drawing.DrawingManager({
-                drawingMode: google.maps.drawing.OverlayType.MARKER,
-                drawingControl: true,
-                drawingControlOptions: {
-                    position: google.maps.ControlPosition.LEFT_CENTER,
-                    drawingModes: [
-                    google.maps.drawing.OverlayType.MARKER,
-                    //google.maps.drawing.OverlayType.CIRCLE,
-                    //google.maps.drawing.OverlayType.POLYGON,
-                    //google.maps.drawing.OverlayType.POLYLINE,
-                    //google.maps.drawing.OverlayType.RECTANGLE
-                    ],
-                },
-                markerOptions: {
-                    icon:
-                    "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
-                }       
-            });
-            
-            this.drawingManager2.setMap(this.map2);
-
-            sap.ui.getCore().drawingManager = this.drawingManager2;
-
-            //google.maps.event.addListener(this.drawingManager2, 'circlecomplete', function(circle) {
-            //    var radius = circle.getRadius();
-            //});
-            
-            google.maps.event.addListener(this.drawingManager2, 'overlaycomplete', function(event) {
-                if (event.type == 'marker') {
-                    //event.overlay.setMap(null);   borrar poligono
-                    var oMarcadorAnterior = sap.ui.getCore().overlaymarcador;  //obtengo el marcador anterior
-                    
-                    if(oMarcadorAnterior !== undefined) oMarcadorAnterior.setMap(null);  //borro el marcador anterior
-                    
-                    //sap.ui.getCore().drawingManager.setOptions({drawingControl: false});   //oculto herramienta de dibujo
-                    sap.ui.getCore().overlaymarcador = event.overlay;     //guardo el marcador a nivel global                
-
-                    var sCoord = event.overlay.position.lat() + "@" + event.overlay.position.lng();
-
-                    if(that._operacion === "crear") sap.ui.getCore().byId("lblCoordEntregaN").setVisible(true);
-                    if(that._operacion === "crear") sap.ui.getCore().byId("iCoordEntregaN").setValue(sCoord);
-                    if(that._operacion === "crear") sap.ui.getCore().byId("iCoordEntregaN").setVisible(true);
-                }
-            });
-
-            //google.maps.event.addListener(this.drawingManager2, 'dragend', function(event) {
-            //    if (event.type == 'circle') {
-            //        var radius = event.overlay.getRadius();
-            //    }
-            //});       
         },   //fin initMap2
+
+        //@nueva
+        //inicializo el mapa para la ubicacion del punto de entrega de semilla
+        initMap3: function () {
+            var oData = this.getModel("viewLoteMdl").getData();
+            var that = this;
+
+            var oCoordDefault = this.getCoordDefaultEntregas();
+
+            if(oCoordDefault === "" || oCoordDefault === null || oCoordDefault === undefined){
+                oCoordDefault = { lat: -36.6192291, lng: -64.371276 };
+            }                
+
+            this.map3 = new google.maps.Map(document.getElementById("map3"), {
+                zoom: 10,
+                center: oCoordDefault,
+                mapTypeId: 'hybrid',
+
+                mapTypeControl: false,
+                mapTypeControlOptions: {
+                    style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                    position: google.maps.ControlPosition.BOTTOM_CENTER,
+                },
+                zoomControl: true,
+                zoomControlOptions: {
+                    position: google.maps.ControlPosition.RIGHT_CENTER,
+                },
+                streetViewControl: false,
+                fullscreenControl: false,
+            }); // fin map
+
+            this.geocoder3 = new google.maps.Geocoder();
+
+            document.getElementById("submit3").addEventListener("click", () => {
+                this.geocodeAddress2(this.geocoder3, this.map3);
+            });
+
+            //@nuevamap
+            /*
+            //posiciono el mapa inicialmente en la localidad y provincia seleccionada para el lote
+            if (this._operacion !== "editar") {  //@persistencia
+                var sDireccion = oData.localidad + ", " + oData.provincia;
+                document.getElementById("address3").value = sDireccion;
+                this.geocodeAddress3(this.geocoder3, this.map3, sDireccion)
+            }  //@persistencia
+            */
+            //
+
+            //AUTOCOMPLETE PLACES
+            var oInput = document.getElementById("address3");
+            var oOptions = {
+                types: [],
+                componentRestrictions: {country: 'ar'}
+            };           
+            
+            this.autocomplete3 = new google.maps.places.Autocomplete(oInput, oOptions);      
+
+            //marcador por defecto sobre el mapa stw
+            var myLatLng = oCoordDefault;
+
+            this.marker3 = new google.maps.Marker({
+                position: myLatLng,
+                draggable: true                
+            });
+
+            this.marker3.setMap(this.map3);
+        },   //fin initMap3        
 
         //buscador de direcciones para el mapa del poligono
         geocodeAddress: function(geocoder, resultsMap) {
@@ -2014,6 +2205,43 @@ sap.ui.define([
                 }
             });
         },
+
+        //@nueva
+        //buscador de direcciones para el mapa de punto de entrega de semilla
+        geocodeAddress3: function (geocoder, resultsMap) {
+            const address3 = document.getElementById("address3").value;
+
+            geocoder.geocode({ address: address3, componentRestrictions: { country: "AR" } }, (results, status) => {
+                if (status === "OK") {
+                    resultsMap.setCenter(results[0].geometry.location);
+
+                    if (typeof (this.marker3) !== "undefined") this.marker3.setMap(null);
+
+                    this.marker3 = new google.maps.Marker({
+                        map: resultsMap,
+                        position: results[0].geometry.location,
+                        draggable: true
+                    });
+                } else {
+                    alert(
+                        "Geocode was not successful for the following reason: " + status
+                    );
+                }
+            });
+        },       
+        
+        //@nueva
+        getCoordDefaultEntregas: function(sPath){
+            //para las entregas por default el punto de entrega es el lote dibujado en el mapa
+            var oData = this.getModel("viewLoteMdl").getData();
+
+            var oCoordenadas = {
+                lat: oData.coordEdit[0].lat,
+                lng: oData.coordEdit[0].lng
+            }                
+
+            return oCoordenadas;
+        },         
         
 // FIRMA NUEVO LOTE -----------------------------------------------------------------------------------------------
 		firmarEnmiendaNuevoLote: function (oEvent) {

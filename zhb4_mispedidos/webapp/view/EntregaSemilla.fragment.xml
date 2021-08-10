@@ -1,16 +1,14 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"> <!-- This part is redundant -->
 
     <Dialog title="Mapa" contentHeight="100%" contentWidth="100%">
-        <mvc:HTMLView viewName="hb4.zhb4_mispedidos.view.PuntoEntrega"/>          
+        <mvc:HTMLView viewName="hb4.zhb4_mispedidos.view.PuntoEntregaSemilla"/>          
         <customHeader>
             <Bar>
-                <!--@nueva-->
                 <contentLeft>
-                    <core:Icon src="sap-icon://sys-help-2" size="1.2em" id="iconAyudaEntregas" decorative="false" press="onAyudaEntregas" color="#e0c611"/>
-                </contentLeft>  
-                <!---->             
+                    <core:Icon src="sap-icon://sys-help-2" size="1.2em" id="iconAyudaEntregasSemillas" decorative="false" press="onAyudaEntregas" color="#e0c611"/>
+                </contentLeft>              
                 <contentRight>
-                    <Button text="Finalizar" press="onCerrarMapa2" type="Emphasized"/>
+                    <Button text="Finalizar" press="onCerrarMapa3" type="Emphasized"/>
                 </contentRight>
             </Bar>
         </customHeader>
