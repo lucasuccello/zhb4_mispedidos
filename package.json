@@ -16,5 +16,10 @@
     "dependencies": [
       "@sap/ui5-builder-webide-extension"
     ]
+  },
+  "scripts": {
+    "start": "fiori run --open index.html",
+    "arrancar": "fiori run --open index.html",
+    "start-local": "fiori run --config ./ui5-local.yaml --open index.html"
   }
 }

@@ -14,6 +14,12 @@
         {
             "authenticationType": "none",
             "csrfProtection": false,
+            "source": "^/sap/opu/odata/sap/ZOS_HB4_ONBOARDING_SRV/",
+            "destination": "HB4_BACKEND_SAP"
+        },
+        {
+            "authenticationType": "none",
+            "csrfProtection": false,
             "source": "^/sap/opu/odata/sap/ZOS_HB4_LABORES_SRV/",
             "destination": "HB4_BACKEND_SAP"
         },

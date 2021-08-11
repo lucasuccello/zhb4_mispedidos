@@ -48,6 +48,14 @@
                     "localUri": "localService/hb4-landing/metadata.xml"
                 }
             },
+            "OnBoardingService": {
+                "uri": "sap/opu/odata/sap/ZOS_HB4_ONBOARDING_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/ZOS_HB4_ONBOARDING_SRV/metadata.xml"
+                }
+            },
             "laboresService": {
                 "uri": "sap/opu/odata/sap/ZOS_HB4_LABORES_SRV/",
                 "type": "OData",
@@ -118,6 +126,10 @@
                     "defaultCountMode": "Inline",
                     "refreshAfterChange": false
                 }
+            },
+            "Onboarding": {
+                "dataSource": "OnBoardingService",
+                "preload": true
             },
             "landingMDL": {
                 "dataSource": "landingService",
