@@ -1490,6 +1490,14 @@ sap.ui.define([
                 if(this._operacion === "crear") sap.ui.getCore().byId("iCoordEntregaN").setVisible(false);                
             }         
             */
+            //@#
+            else if ((oEvent.getSource().getSelectedKey() === "03")) { //misma coordenadas que semillas
+                if (this._operacion === "crear") this.byIdFragment("btnMapaEntregaN").setVisible(false);                
+
+                //this._copiarUbicacionEnEntregaSemillaInsumo();  //@#
+                var oData = this.getModel("viewLoteMdl").getData();
+                oData.direccionEntrega = oData.direccionEntregaSem;
+            }             
             //
         },
 
@@ -1519,7 +1527,8 @@ sap.ui.define([
 
             var aCoord = oData.coordPoligono.split("/");
 
-            oData.direccionEntregaSem = aCoord[0];
+            oData.direccionEntregaSem = aCoord[0];  //@#
+            oData.direccionEntrega = oData.direccionEntregaSem;  //@#
         },       
         
         //@nueva
@@ -1732,7 +1741,7 @@ sap.ui.define([
                     this._oDialogMapa2.open();
                 }.bind(this));
             } else {
-                //this._configDialog(oButton);
+                this.editarMap2();  //@nuevamap
                 this._oDialogMapa2.open();
             }
         },
@@ -1780,11 +1789,13 @@ sap.ui.define([
             else if ((oEvent.getSource().getSelectedKey() === "02")) { //nueva coord de mapa
                 if (this._operacion === "crear") this.byIdFragment("btnMapaEntregaNSem").setVisible(true);
             }
+            //@#
+            /*
             else if ((oEvent.getSource().getSelectedKey() === "03")) { //misma coordenadas que insumos
                 if (this._operacion === "crear") this.byIdFragment("btnMapaEntregaNSem").setVisible(false);                
 
                 this._copiarUbicacionEnEntregaSemillaInsumo();
-            }             
+            } */            
         },        
 
         //@nueva
@@ -1840,7 +1851,7 @@ sap.ui.define([
 
             //creo un nuevo mapa sobre el div de la vista poligono.view.html
             this.map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 10, //zoom por default
+                zoom: 12, //zoom por default
                 center: { lat: -36.6192291, lng: -64.371276 },  //coordenadas por default
                 mapTypeId: 'hybrid',  //tipo de mapa hibrido (satelite + ciudades y rutas)
 
@@ -2019,14 +2030,21 @@ sap.ui.define([
             var oData = this.getModel("viewLoteMdl").getData();
             var that = this;
 
-            if(oData.map2 !== null && oData.map2 !== undefined){
+            //@nuevamap
+            /*if(oData.map2 !== null && oData.map2 !== undefined){
                 this.map2 = oData.map2;
                 return;
-            }
+            }*/
+            var oCoordDefault = this.getCoordDefaultEntregas();
+
+            if(oCoordDefault === "" || oCoordDefault === null || oCoordDefault === undefined){
+                oCoordDefault = { lat: -36.6192291, lng: -64.371276 };
+            }         
+            //             
 
             this.map2 = new google.maps.Map(document.getElementById("map2"), {
                 zoom: 6,
-                center: { lat: -36.6192291, lng: -64.371276 },
+                center: oCoordDefault,   //{ lat: -36.6192291, lng: -64.371276 },  //@nuevamap
                 mapTypeId: 'hybrid',
 
                 mapTypeControl: false,
@@ -2062,16 +2080,63 @@ sap.ui.define([
             */
             //
 
+            //@nuevamap
             //AUTOCOMPLETE PLACES
-            /*var oInput = document.getElementById("address2");
+            var oInput = document.getElementById("address2");
             var oOptions = {
                 types: [],
                 componentRestrictions: {country: 'ar'}
             };           
             
-            var autocomplete = new google.maps.places.Autocomplete(oInput, oOptions);*/
-            
+            var autocomplete = new google.maps.places.Autocomplete(oInput, oOptions);
+            //
+
+            //@nuevamap
+            //marcador por defecto sobre el mapa stw
+            this._maker2 = new google.maps.Marker({
+                position: oCoordDefault,
+                draggable: true                
+            });
+
+            this._maker2.setMap(this.map2);
+            //            
+
         },   //fin initMap2
+
+        //@nuevamap
+        editarMap2: function(){
+            var oData = this.getModel("viewLoteMdl").getData();
+
+            this._maker2.setMap(null);
+
+            if(oData.coordEntrega !== null && oData.coordEntrega !== ""){
+                this._maker2 = new google.maps.Marker({
+                    map: this.map2,
+                    position: oData.coordEntrega,
+                    draggable: true
+                });            
+                
+                this.map2.setZoom(12);
+                this.map2.setCenter(oData.coordEntrega);
+
+            }
+            else{
+                var oCoordDefault = this.getCoordDefaultEntregas();
+
+                if(oCoordDefault === "" || oCoordDefault === null || oCoordDefault === undefined){
+                    oCoordDefault = { lat: -36.6192291, lng: -64.371276 };
+                }            
+                
+                this._maker2 = new google.maps.Marker({
+                    map: this.map2,
+                    position: oCoordDefault,
+                    draggable: true
+                });                 
+                
+                this.map2.setZoom(12);
+                this.map2.setCenter(oCoordDefault);                    
+            }
+        },        
 
         //@nueva
         //inicializo el mapa para la ubicacion del punto de entrega de semilla
