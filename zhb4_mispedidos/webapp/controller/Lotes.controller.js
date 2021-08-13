@@ -186,6 +186,13 @@ sap.ui.define([
         },
 
         onAgregarLote: function (oEvent) {
+            //@nueva
+            //limpio el mapa
+            if(this.overlay !== null && this.overlay !== undefined){
+                this.overlay.setMap(null);
+            }
+            //
+
             // The source is the list item that got pressed
             this._showObjectNuevoLote(oEvent.getSource());
         },
@@ -529,7 +536,7 @@ sap.ui.define([
                 this.setModel(new JSONModel(oCopiar), "copiarMdl");
 
                 this._operacion = null;
-                this.map = null;
+                //this.map = null;   //@nueva
                 this.map2 = null;
                 this.valorGlugo = 0;
                 this._precioFuturoTrigo = 1;
@@ -1745,6 +1752,8 @@ sap.ui.define([
                 this._oDialogMapa1.open();
 
                 //@ayuda
+                this.editarMap();
+
                 if(this._operacion === "crear" && this.mostrarVideo1 === true){
                     this.mostrarVideo1 = false;
                     this.onAyudaPoligono();
@@ -2098,6 +2107,14 @@ sap.ui.define([
 
         },   //fin initMap
 
+        //@nueva
+        editarMap: function(){
+            var oData = this.getModel("viewLoteMdl").getData();
+
+            //posiciono el mapa inicialmente en la localidad y provincia seleccionada para el lote
+            var sDireccion = oData.localidad + ", " + oData.provincia;
+            this.setAddressInitial(this.geocoder, this.map, sDireccion);            
+        },
 
         //inicializo el mapa para la ubicacion del punto de entrega
         initMap2: function () {
