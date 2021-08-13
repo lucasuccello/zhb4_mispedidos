@@ -4,6 +4,9 @@
         <mvc:HTMLView viewName="hb4.zhb4_mispedidos.view.Poligono"/>          
         <customHeader>
             <Bar>
+                <contentLeft>
+                    <core:Icon src="sap-icon://sys-help-2" size="1.2em" id="iconAyudaPoligono" decorative="false" press="onAyudaPoligono" color="#e0c611"/>
+                </contentLeft>               
                 <contentRight>
                     <Button text="Borrar poligono" press="onBorrarPoligono" type="Emphasized"/>
                     <Button text="Finalizar" press="onCerrarMapa" type="Emphasized"/>

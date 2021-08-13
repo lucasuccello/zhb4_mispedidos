@@ -1,0 +1,19 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns:html="http://www.w3.org/1999/xhtml">
+	<ResponsivePopover
+		id="popAyudaEntregas"
+		title="Ayuda"
+		placement="Auto" 
+        showCloseButton="true" 
+        contentWidth="50rem" 
+        modal="true">
+		<endButton>
+			<Button text="Entendido" type="Emphasized" press="onCerrarAyudaEntregas" />
+		</endButton>
+		<content>
+			<!--<FormattedText htmlText="Esto es una ayuda"/>-->
+            <html:video id="videoAyuda2" width="100%" height="auto" controls="controls" autoplay="autoplay">
+                <html:source id="sourceAyuda2" src="./media/ayuda2.mp4" type="video/mp4"/>
+            </html:video>             
+        </content>
+	</ResponsivePopover>
+</core:FragmentDefinition> 

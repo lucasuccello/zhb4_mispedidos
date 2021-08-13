@@ -537,6 +537,10 @@ sap.ui.define([
                 this.glufoTrigo = "";
                 this.glufoSoja = "";         
                 this.cultivo = "";    //@nueva  
+                this.overlay = undefined;  //@nueva
+                this.mostrarVideo1 = true;  //@nueva
+                this.mostrarVideo2 = true;  //@nueva
+                this.mostrarVideo3 = true;  //@nueva
                 var aData = [];
 
                 this.getView().getModel().read("/businessPartnerSet", {
@@ -1727,11 +1731,24 @@ sap.ui.define([
                     //this._configDialog(oButton);
                     this.initMap();
                     this._oDialogMapa1.open();
+
+                    //@ayuda
+                    //abrir video de ayuda
+                    if(this._operacion === "crear" && this.mostrarVideo1 === true){
+                        this.mostrarVideo1 = false;
+                        this.onAyudaPoligono();
+                    }                        
                 }.bind(this));
             } else {
                 //this._configDialog(oButton);
                 //this.initMap();
                 this._oDialogMapa1.open();
+
+                //@ayuda
+                if(this._operacion === "crear" && this.mostrarVideo1 === true){
+                    this.mostrarVideo1 = false;
+                    this.onAyudaPoligono();
+                }                    
             }
         },
 
@@ -1742,7 +1759,10 @@ sap.ui.define([
         },
 
         onBorrarPoligono: function (oEvent) {
-            var oPoligonoAnterior = sap.ui.getCore().overlaypolygon;  //obtengo el poligono anteriormente dibujado
+            //@nueva
+            //var oPoligonoAnterior = sap.ui.getCore().overlaypolygon;  //obtengo el poligono anteriormente dibujado
+            var oPoligonoAnterior = this.overlay;
+            //
 
             if (oPoligonoAnterior !== undefined) oPoligonoAnterior.setMap(null);
         },
@@ -1759,10 +1779,23 @@ sap.ui.define([
                     //this._configDialog(oButton);
                     this.initMap2();
                     this._oDialogMapa2.open();
+
+                    //@ayuda
+                    if(this._operacion === "crear" && this.mostrarVideo2 === true){
+                        this.mostrarVideo2 = false;
+                        this.ayudaEntregas("insumos");
+                    }     
+
                 }.bind(this));
             } else {
                 this.editarMap2();  //@nuevamap
                 this._oDialogMapa2.open();
+
+                //@ayuda
+                if(this._operacion === "crear" && this.mostrarVideo2 === true){
+                    this.mostrarVideo2 = false;
+                    this.ayudaEntregas("insumos");
+                }                     
             }
         },
 
@@ -1774,6 +1807,9 @@ sap.ui.define([
                 if (this._operacion === "crear") sap.ui.getCore().byId("lblCoordEntregaN").setVisible(true);
                 if (this._operacion === "crear") sap.ui.getCore().byId("iCoordEntregaN").setValue(sCoord);
                 if (this._operacion === "crear") sap.ui.getCore().byId("iCoordEntregaN").setVisible(true);
+
+                var oDataEntrega = { lat: this._maker2.internalPosition.lat(), lng: this._maker2.internalPosition.lng() };
+                this.getModel("viewLoteMdl").setProperty("/coordEntrega", oDataEntrega);                
             }
 
             this._oDialogMapa2.close();
@@ -1828,10 +1864,22 @@ sap.ui.define([
                     this._oDialogMapa3 = oDialog;
                     this.initMap3();
                     this._oDialogMapa3.open();
+
+                    //@ayuda
+                    if(this._operacion === "crear" && this.mostrarVideo3 === true){
+                        this.mostrarVideo3 = false;
+                        this.ayudaEntregas("semilla");
+                    }                      
                 }.bind(this));
             } else {
                 this.editarMap3();    //@nuevamap
                 this._oDialogMapa3.open();
+
+                //@ayuda
+                if(this._operacion === "crear" && this.mostrarVideo3 === true){
+                    this.mostrarVideo3 = false;
+                    this.ayudaEntregas("semilla");
+                }                  
             }
         },                    
 
@@ -1973,13 +2021,19 @@ sap.ui.define([
 
                     let aCoordEdit = [];  //@map
 
-                    var oPoligonoAnterior = sap.ui.getCore().overlaypolygon;  //obtengo el poligono anteriormente dibujado
+                    //@nueva
+                    //var oPoligonoAnterior = sap.ui.getCore().overlaypolygon;  //obtengo el poligono anteriormente dibujado
+                    var oPoligonoAnterior = that.overlay;   //obtengo el poligono anteriormente dibujado
+                    //
                     //var oPoligonoAnterior = this.overlaypolygon;
 
                     if (oPoligonoAnterior !== undefined) oPoligonoAnterior.setMap(null);  //borro el poligono anterior para que solo haya un solo poligono dibujado en pantalla
 
                     //sap.ui.getCore().drawingManager.setOptions({drawingControl: false});   //oculto herramienta de dibujo
-                    sap.ui.getCore().overlaypolygon = event.overlay;     //guardo el poligono a nivel global                
+                    //@nueva
+                    //sap.ui.getCore().overlaypolygon = event.overlay;     //guardo el poligono a nivel global                
+                    that.overlay = event.overlay;
+                    //
                     //this.overlaypolygon = event.overlay;
 
                     var aCoordenadas = event.overlay.getPath(); //obtengo todas las coordenadas del poligono
@@ -2063,7 +2117,7 @@ sap.ui.define([
             //             
 
             this.map2 = new google.maps.Map(document.getElementById("map2"), {
-                zoom: 6,
+                zoom: 12,
                 center: oCoordDefault,   //{ lat: -36.6192291, lng: -64.371276 },  //@nuevamap
                 mapTypeId: 'hybrid',
 
@@ -2171,7 +2225,7 @@ sap.ui.define([
             }                
 
             this.map3 = new google.maps.Map(document.getElementById("map3"), {
-                zoom: 10,
+                zoom: 13,
                 center: oCoordDefault,
                 mapTypeId: 'hybrid',
 
@@ -2191,7 +2245,7 @@ sap.ui.define([
             this.geocoder3 = new google.maps.Geocoder();
 
             document.getElementById("submit3").addEventListener("click", () => {
-                this.geocodeAddress2(this.geocoder3, this.map3);
+                this.geocodeAddress3(this.geocoder3, this.map3);
             });
 
             //@nuevamap
@@ -2224,6 +2278,40 @@ sap.ui.define([
 
             this.marker3.setMap(this.map3);
         },   //fin initMap3        
+
+        //@nuevamap
+        editarMap3: function(){
+            var oData = this.getModel("viewLoteMdl").getData();
+
+            this.marker3.setMap(null);
+
+            if(oData.coordEntregaSemilla !== null && oData.coordEntregaSemilla !== ""){
+                this.marker3 = new google.maps.Marker({
+                    map: this.map3,
+                    position: oData.coordEntregaSemilla,
+                    draggable: true
+                });              
+                
+                this.map3.setZoom(14);
+                this.map3.setCenter(oData.coordEntregaSemilla);                    
+            }
+            else{
+                var oCoordDefault = this.getCoordDefaultEntregas();
+
+                if(oCoordDefault === "" || oCoordDefault === null || oCoordDefault === undefined){
+                    oCoordDefault = { lat: -36.6192291, lng: -64.371276 };
+                }            
+                
+                this.marker3 = new google.maps.Marker({
+                    map: this.map3,
+                    position: oCoordDefault,
+                    draggable: true
+                });             
+                
+                this.map3.setZoom(14);
+                this.map3.setCenter(oCoordDefault);                        
+            }
+        },                
 
         //buscador de direcciones para el mapa del poligono
         geocodeAddress: function (geocoder, resultsMap) {
@@ -2277,12 +2365,12 @@ sap.ui.define([
                 if (status === "OK") {
                     resultsMap.setCenter(results[0].geometry.location);
 
-                    if (typeof (this._maker) !== "undefined") this._maker.setMap(null);
+                    /*if (typeof (this._maker) !== "undefined") this._maker.setMap(null);
 
                     this._maker = new google.maps.Marker({
                         map: resultsMap,
                         position: results[0].geometry.location,
-                    });
+                    });*/
                 } else {
                     alert(
                         "Geocode was not successful for the following reason: " + status
@@ -2319,14 +2407,121 @@ sap.ui.define([
         getCoordDefaultEntregas: function(sPath){
             //para las entregas por default el punto de entrega es el lote dibujado en el mapa
             var oData = this.getModel("viewLoteMdl").getData();
+            var oCoordenadasReturn = {};
 
-            var oCoordenadas = {
-                lat: oData.coordEdit[0].lat,
-                lng: oData.coordEdit[0].lng
-            }                
+            if(oData.coordEdit.length > 0){
+                var oCoordenadas = {
+                    lat: oData.coordEdit[0].lat,
+                    lng: oData.coordEdit[0].lng
+                }                
 
-            return oCoordenadas;
+                oCoordenadasReturn = oCoordenadas;
+            }
+            else{
+                oCoordenadasReturn = "";
+            }
+
+            return oCoordenadasReturn;
         },         
+
+        //@ayuda
+        onAyudaPoligono: function(oEvent){
+            var oControl = this.byIdFragment("iconAyudaPoligono");
+            var sPath = jQuery.sap.getModulePath("hb4.zhb4_mispedidos") + "/media/ayuda1.mp4";
+            var video = null;
+            var source = null;
+
+            if (!this._oDialogAyudaPoligono) {
+                Fragment.load({
+                    name: "hb4.zhb4_mispedidos.view.AyudaPoligono",
+                    controller: this
+                }).then(function (oDialog) {
+                    this._oDialogAyudaPoligono = oDialog;
+                    this.getView().addDependent(this._oDialogAyudaPoligono);
+                    this._oDialogAyudaPoligono.openBy(oControl);
+
+                    //video de ayuda
+                    video = document.getElementById('videoAyuda1');
+                    source = document.getElementById('sourceAyuda1');
+                    source.setAttribute('src', sPath);
+                    video.load();
+                    video.play();                        
+                }.bind(this));
+            } else {
+                this._oDialogAyudaPoligono.openBy(oControl);
+
+                //video de ayuda
+                video = document.getElementById('videoAyuda1');
+                source = document.getElementById('sourceAyuda1');
+                source.setAttribute('src', sPath);
+                video.load();
+                video.play();                    
+            }                
+        },
+
+        //@ayuda
+        onCerrarAyudaPoligono: function(oEvent){
+            var oControl = this.byIdFragment("popAyudaPoligono");
+            oControl.close();
+        },
+        
+        //@ayuda
+        onAyudaEntregas: function(oEvent){
+            this.ayudaEntregas("insumos");
+        },
+        
+        //@ayuda
+        onAyudaEntregasSemillas: function(oEvent){
+            this.ayudaEntregas("semilla");
+        },
+
+        //@ayuda
+        ayudaEntregas: function(sTipoEntrega){
+            var oControl = null;
+            var sPath = jQuery.sap.getModulePath("hb4.zhb4_mispedidos") + "/media/ayuda2.mp4";
+            var video = null;
+            var source = null;        
+            
+            if(sTipoEntrega === "insumos"){
+                oControl = this.byIdFragment("iconAyudaEntregas");
+            }
+            if(sTipoEntrega === "semilla"){
+                oControl = this.byIdFragment("iconAyudaEntregasSemillas");
+            } 
+
+            if (!this._oDialogAyudaEntregas) {
+                Fragment.load({
+                    name: "hb4.zhb4_mispedidos.view.AyudaEntregas",
+                    controller: this
+                }).then(function (oDialog) {
+                    this._oDialogAyudaEntregas = oDialog;
+                    this.getView().addDependent(this._oDialogAyudaEntregas);
+                    this._oDialogAyudaEntregas.openBy(oControl);
+
+                    //video de ayuda
+                    video = document.getElementById('videoAyuda2');
+                    source = document.getElementById('sourceAyuda2');
+                    source.setAttribute('src', sPath);
+                    video.load();
+                    video.play();                         
+                }.bind(this));
+            } else {
+                this._oDialogAyudaEntregas.openBy(oControl);
+
+                //video de ayuda
+                video = document.getElementById('videoAyuda2');
+                source = document.getElementById('sourceAyuda2');
+                source.setAttribute('src', sPath);
+                video.load();
+                video.play();                     
+            }                
+        },
+
+        //@ayuda
+        onCerrarAyudaEntregas: function(oEvent){
+            var oControl = this.byIdFragment("popAyudaEntregas");
+            oControl.close();              
+        },                    
         
 // FIRMA NUEVO LOTE -----------------------------------------------------------------------------------------------
 		firmarEnmiendaNuevoLote: function (oEvent) {

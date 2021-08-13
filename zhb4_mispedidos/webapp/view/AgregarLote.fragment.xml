@@ -3,7 +3,7 @@
         <l:VerticalLayout id="containerLayout" width="100%">
             <l:content>
                 <!--@nueva-->
-                <MessageStrip type="Warning" showIcon="true" text="{i18n>msgSubarrendar}" class="sapUiSmallMargin"></MessageStrip>
+                <MessageStrip type="Warning" showIcon="true" text="En caso que la Razón Social no sea propietaría del campo, el mismo debe estar habilitado para subarrendar." class="sapUiSmallMargin"></MessageStrip>
 
                 <!--@nueva-->
                 <!--<ff:Card id="cardLoteN" class="sapUiTinyMarginBeginEnd">-->
@@ -19,7 +19,7 @@
                         <!--<f:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" columnsM="4" columnsL="4" columnsXL="4" emptySpanXL="4" emptySpanM="4" emptySpanL="4">-->
                         <!---->    
                             <f:content>
-                                <core:Title text="Datos generales"/>
+                                <!--<core:Title text="Datos generales"/>-->
                                 <!--NOMBRE CAMPO-->
                                 <Label text="Nombre del campo - lote"/>
                                 <Input id="iNombreN" value="{viewLoteMdl>/nombreCampo}" maxLength="40" valueState="Error" liveChange="onIngresoNombreCampo" placeholder="Nombre del campo y lote"/>      
@@ -35,7 +35,7 @@
                                 </Select>  
                                 <!--LOCALIDAD-->
                                 <Label id="lblLocalidadN" text="Localidad" visible="false"/>
-                                <Select id="cboLocalidadN" items="{path: 'landingMdl>/LocalidadesPorProvinciasYCultivo', sorter: { path: 'landingMdl>descripcion' } }" selectedKey="{viewLoteMdl>/localidadCode}" forceSelection="false" change="onSeleccionarLocalidad" visible="false">
+                                <Select id="cboLocalidadN" items="{path: 'landingMdl>/LocalidadesPorProvinciasYCultivo', sorter: { path: 'descripcion' } }" selectedKey="{viewLoteMdl>/localidadCode}" forceSelection="false" change="onSeleccionarLocalidad" visible="false">
                                     <core:Item key="{landingMdl>ID}" text="{landingMdl>descripcion}"/>
                                 </Select> 
                                 <!--VARIEDAD-->
@@ -62,7 +62,7 @@
                                 <!--RINDE-->
                                 <Label id="lblRindeN" text="Rinde (kg/ha)"/>
                                 <!--<Input id="iRindeN" type="Number" value="{path: 'viewLoteMdl>/rindeEsperado', type:'sap.ui.model.type.Float', formatOptions:{groupingEnabled: true, groupingSeparator: '.', decimalSeparator: ',', maxFractionDigits: 2 } }"/> -->
-                                <Input id="iRindeN" value="{path: 'viewLoteMdl>/rindeEsperado', formatter: '.formatter.formatearRindeEsperado'}"/> 
+                                <Input id="iRindeN" value="{path: 'viewLoteMdl>/rindeEsperado'}"/> 
                                 <!--FECHA ESTIMADA-->
                                 <Label id="lblFechaSiembraN" text="Fecha de siembra estimada"/>
                                 <DatePicker id="dpFechaSiembraN" change="onChangeFecha" value="{path: 'viewLoteMdl>/fechaSiembra', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd/MM/yyyy', UTC: true}  }"/>             
@@ -82,7 +82,7 @@
                         </ff:header>
                         <ff:content>           
                             <l:VerticalLayout class="sapUiResponsiveMargin">
-                                <Table id="tableInsumosN" items="{path: 'viewLoteMdl>/insumos', sorter: [{path: 'viewLoteMdl>orden', ascending: 'true'}] }" alternateRowColors="true" noDataText="No hay insumos">
+                                <Table id="tableInsumosN" items="{path: 'viewLoteMdl>/insumos', sorter: [{path: 'orden', ascending: 'true'}] }" alternateRowColors="true" noDataText="No hay insumos">
                                     <items>
                                         <ColumnListItem visible="{viewLoteMdl>mostrarEnPantalla}">
                                             <cells>
@@ -140,7 +140,7 @@
                                 <l:Grid containerQuery="true" defaultSpan="XL6 L6 M6 S12" class="sapUiSmallMarginTop">               
                                     <VBox id="vbInfoN">
                                         <VBox>                            
-                                            <Table id="tableInsumosNInfo" headerText="Se incluyen los siguientes insumos:" items="{path: 'viewLoteMdl>/insumosInfo', sorter: [{path: 'viewLoteMdl>orden', ascending: 'true'}] }" alternateRowColors="true">
+                                            <Table id="tableInsumosNInfo" headerText="Se incluyen los siguientes insumos:" items="{path: 'viewLoteMdl>/insumosInfo', sorter: [{path: 'orden', ascending: 'true'}] }" alternateRowColors="true">
                                                 <columns>
                                                     <Column>
                                                         <header>
@@ -259,7 +259,7 @@
                                 <!--<Label id="lblDirN" text="Dirección" visible="false"/>
                                 <Input id="iDirN" type="Text" value="{viewLoteMdl>/direccionEntrega}" visible="false" placeholder="Direccion de entrega"/>                                     -->                                
                                 <Label text="Observaciones para la entrega"/>
-                                <TextArea value="{viewLoteMdl>/observaciones}" rows="7" cols="70" maxLength="500" wrapping="Hard"/>                                    
+                                <TextArea value="{viewLoteMdl>/observaciones}" rows="7" cols="70" maxLength="500" wrapping="Hard" placeholder="Acá puedes agregar información adicional para facilitar la entrega (lugar de acceso, numeración, etc)"/>                                    
                                 </f:content>
                             </f:SimpleForm> 
                         </ff:content>
