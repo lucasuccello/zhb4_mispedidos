@@ -40,7 +40,7 @@
                                 </Select> 
                                 <!--VARIEDAD-->
                                 <Label id="lblVariedadN" text="Variedad" visible="false"/> 
-                                <Select id="cboVariedadN" items="{landingMdl>/VariedadesRecomendadas}" selectedKey="{viewLoteMdl>/variedadCode}" forceSelection="false" change="onSeleccionarVariedad" visible="false">
+                                <Select id="cboVariedadN" items="{landingMdl>/VariedadesRecomendadas}" selectedKey="{viewLoteMdl>/variedadCode}" forceSelection="false" change="onSeleccionarVariedadAux" visible="false">
                                     <core:Item key="{landingMdl>ID}" text="{landingMdl>descripcion}"/>
                                 </Select>   
                                 <Link id="linkVariedad" text="Ver variedades" target="_blank" href="https://www.google.com.ar" visible="false"/>
@@ -75,7 +75,7 @@
                     <!--INSUMOS-->
                     <!--@nueva-->  
                     <!--<ff:Card id="cardInsumoN" class="sapUiSmallMarginBeginEnd sapUiMediumMarginTop">-->
-                    <ff:Card id="cardInsumoN" class="sapUiMediumMarginTop" visible="{= ${viewLoteMdl>/variedadCode} !== '' }">
+                    <ff:Card id="cardInsumoN" class="sapUiMediumMarginTop" visible="{= ${viewLoteMdl>/coordPoligono} !== '' }">
                     <!---->
                         <ff:header>
                             <card:Header title="Insumos" subtitle="Puede modificar las cantidades de insumos" iconDisplayShape="Circle" iconSrc="sap-icon://product"/>         
@@ -217,7 +217,7 @@
 
                     <!--@nueva-->
                     <!--ENTREGA-->
-                    <ff:Card id="cardEntregaN" visible="{= ${viewLoteMdl>/variedadCode} !== '' }">
+                    <ff:Card id="cardEntregaN" visible="{= ${viewLoteMdl>/coordPoligono} !== '' }">
                         <ff:header>
                             <card:Header title="Entrega de insumos" subtitle="Indicar lugar de entrega" iconDisplayShape="Circle" iconBackgroundColor="Accent6" iconSrc="sap-icon://map-3"/>         
                         </ff:header>

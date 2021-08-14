@@ -929,6 +929,24 @@ sap.ui.define([
             this.hideBusyDialog();
         },
 
+        //@mapa2
+        //habilito el boton del mapa para el poligono
+        onSeleccionarVariedadAux: function (oEvent) {
+            //@nueva
+            if(this._operacion === "crear"){
+            //
+            //@nueva   
+                this.byIdFragment("lblMapaN").setVisible(true);
+                this.byIdFragment("btnMapaN").setVisible(true);        
+            }
+
+            var oModel = this.getModel("viewLoteMdl");
+            oModel.setProperty("/variedad", oEvent.getParameter("selectedItem").getText());
+            
+            sap.m.MessageToast.show("Es obligatorio que indiques la ubicación del lote en el mapa", {duration: 5000});
+            //
+        },  
+
         onSeleccionarVariedad: function (oEvent) {
             sap.ui.getCore().byId("lblHectareasN").setVisible(true);
             sap.ui.getCore().byId("iHectareasN").setVisible(true);
@@ -943,8 +961,10 @@ sap.ui.define([
             this.byIdFragment("iHectareasTotalesN").setVisible(true);
             this.byIdFragment("lblHectareasTotalesN").setVisible(true);
 
-            var oModel = this.getModel("viewLoteMdl");
-            oModel.setProperty("/variedad", oEvent.getParameter("selectedItem").getText());                
+            //@mapa2
+            /*var oModel = this.getModel("viewLoteMdl");
+            oModel.setProperty("/variedad", oEvent.getParameter("selectedItem").getText()); */
+            //               
             //
 
             this.getInsumos();
@@ -2072,6 +2092,13 @@ sap.ui.define([
                     that.getModel("viewLoteMdl").setProperty("/coordPoligono", sCoord);
                     that.getModel("viewLoteMdl").setProperty("/coordEdit", aCoordEdit);
                     that.getModel("viewLoteMdl").refresh();
+
+                    //@mapa2
+                    //habilito los demas controles que le siguen al boton de mapa poligono
+                    if(sCoord !== ""){
+                        that.onSeleccionarVariedad();
+                    }
+                    //                       
                 }
             });
 
