@@ -98,6 +98,14 @@
                                         class="sapUiMediumMarginBottom"
                                         visible="false">
                                     </MessageStrip>
+                                    <MessageStrip
+                                        text="{objectView>/msgErrorInsumo}"
+                                        type="Warning"
+                                        showIcon="true"
+                                        showCloseButton="true"
+                                        class="sapUiMediumMarginTopBottom"
+                                        visible="{objectView>/errorInsumo}">
+                                    </MessageStrip>
 									<Table id="tableItemsAgregar" items="{ComponentesAgregados>/}" alternateRowColors="true" noDataText="{i18n>sinComponentes}"
 										fixedLayout="false" updateFinished="onUpdateFinish">
 										<columns>

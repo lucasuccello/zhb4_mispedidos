@@ -34,7 +34,8 @@ sap.ui.define([
             var iOriginalBusyDelay,
                 oViewModel = new JSONModel({
                     busy: true,
-                    delay: 0
+                    delay: 0,
+                    errorInsumo: false
                 });
 
             this.setModel(this.getOwnerComponent().getModel("landingMDL"), "landingMdl");
@@ -265,8 +266,18 @@ sap.ui.define([
                 cultivo = cultivo.substring(0, 2);
                 cultivo = cultivo.toUpperCase();
 
+            //Begin JOLU1 17.08.2021
+            var flagInsumoOk = false;
+            var materialesConError = [];
+            var materialDesc = "";
+            this.getModel("objectView").setProperty("/errorInsumo", false);
+            //End JOLU1 17.08.2021
+
             for (var i = 0; i < componentes.length; i++) {
 
+                //Begin JOLU1 17.08.2021
+                flagInsumoOk = false;
+                //End JOLU1 17.08.2021
                 if (componentes[i].getCells()[3].getValue() && componentes[i].getCells()[2].getValue()) {
                     errorFecha = "";
                     fechaInsumo = componentes[i].getCells()[2].getValue();
@@ -277,26 +288,51 @@ sap.ui.define([
                         for (let j = 0; j < oController.aPrecios.length; j++) { //recorro los precios
                             if (oController.aPrecios[j].ID === material) {
 
-                                if (cultivo === "SO"){
-                                    if (material === this.microstarSoja){
-                                        nuevoAporte = nuevoAporte + ((parseFloat(oController.aPrecios[j].precio) * cantidad) / hectareas);
-                                        break;
-                                    }else{
-                                        nuevoAporte = nuevoAporte + ((parseFloat(oController.aPrecios[j].precio) * oController.aPrecios[j].conversor * cantidad) / hectareas);
-                                        break;
-                                    }
-                                }
+                                //Begin JOLU1 17.08.2021
+                                if (!isNaN(parseFloat(oController.aPrecios[j].precio))){
+                                    flagInsumoOk = true;
 
-                                if (cultivo === "TR"){
-                                    if (material === this.microstarTrigo){
-                                        nuevoAporte = nuevoAporte + ((parseFloat(oController.aPrecios[j].precio) * cantidad) / hectareas);
-                                        break;
-                                    }else{
-                                        nuevoAporte = nuevoAporte + ((parseFloat(oController.aPrecios[j].precio) * oController.aPrecios[j].conversor * cantidad) / hectareas);
-                                        break;
+                                    if (cultivo === "SO"){
+                                        if (material === this.microstarSoja){
+                                            nuevoAporte = nuevoAporte + ((parseFloat(oController.aPrecios[j].precio) * cantidad) / hectareas);
+                                            break;
+                                        }else{
+                                            nuevoAporte = nuevoAporte + ((parseFloat(oController.aPrecios[j].precio) * oController.aPrecios[j].conversor * cantidad) / hectareas);
+                                            break;
+                                        }
+                                    }
+
+                                    if (cultivo === "TR"){
+                                        if (material === this.microstarTrigo){
+                                            nuevoAporte = nuevoAporte + ((parseFloat(oController.aPrecios[j].precio) * cantidad) / hectareas);
+                                            break;
+                                        }else{
+                                            nuevoAporte = nuevoAporte + ((parseFloat(oController.aPrecios[j].precio) * oController.aPrecios[j].conversor * cantidad) / hectareas);
+                                            break;
+                                        }
                                     }
                                 }
-                                
+                                //End JOLU1 17.08.2021
+
+                                // if (cultivo === "SO"){
+                                //     if (material === this.microstarSoja){
+                                //         nuevoAporte = nuevoAporte + ((parseFloat(oController.aPrecios[j].precio) * cantidad) / hectareas);
+                                //         break;
+                                //     }else{
+                                //         nuevoAporte = nuevoAporte + ((parseFloat(oController.aPrecios[j].precio) * oController.aPrecios[j].conversor * cantidad) / hectareas);
+                                //         break;
+                                //     }
+                                // }
+
+                                // if (cultivo === "TR"){
+                                //     if (material === this.microstarTrigo){
+                                //         nuevoAporte = nuevoAporte + ((parseFloat(oController.aPrecios[j].precio) * cantidad) / hectareas);
+                                //         break;
+                                //     }else{
+                                //         nuevoAporte = nuevoAporte + ((parseFloat(oController.aPrecios[j].precio) * oController.aPrecios[j].conversor * cantidad) / hectareas);
+                                //         break;
+                                //     }
+                                // }
                             }
                         }
                     } else {
@@ -304,8 +340,32 @@ sap.ui.define([
                         break;
                     }
 
+                    //Begin JOLU1 17.08.2021
+                    if(!flagInsumoOk){
+                        //agrego el insumo que fallo a una lista
+                        materialDesc = componentes[i].getCells()[1].getText(); //descripcion del material
+                        materialesConError.push(materialDesc);
+                    }
+                    //End JOLU1 17.08.2021
                 }
             }
+
+            //Begin JOLU1 17.08.2021
+            if(materialesConError.length > 0){
+                //muestro mensaje de que algunos materiales fallaron
+                var oResourceBundle = this.getResourceBundle();
+                var texto = "";
+                for(i = 0; i<materialesConError.length; i++){
+                    if(i===0){
+                        texto = "\n" + " - " + materialesConError[i];
+                    } else {
+                        texto = texto + "\n" + " - " + materialesConError[i];
+                    }
+                }
+                this.getModel("objectView").setProperty("/msgErrorInsumo", oResourceBundle.getText("textoErrorInsumos", [texto]));
+                this.getModel("objectView").setProperty("/errorInsumo", true);
+            }
+            //End JOLU1 17.08.2021
 
             if (errorFecha === "X") {
                 MessageToast.show("Las fechas de Entrega no pueden ser mayor a la Fecha de Cosecha");

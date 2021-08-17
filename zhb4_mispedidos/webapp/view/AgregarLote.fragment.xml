@@ -87,16 +87,16 @@
                                         <ColumnListItem visible="{viewLoteMdl>mostrarEnPantalla}">
                                             <cells>
                                                 <Text text="{viewLoteMdl>orden}"/>
-                                                <Text id="insumoDescN" text="{viewLoteMdl>descripcion}"/>
+                                                <Text text="{viewLoteMdl>descripcion}"/>
                                                 <VBox>
                                                     <Label text="{viewLoteMdl>descripcionDensidades}" labelFor="selOpciones"/>
-                                                    <Select id="selOpcionesN" width="20rem" change="onOpcionesInsumos" visible="{viewLoteMdl>mostrarOpciones}" items="{viewLoteMdl>opciones}">
+                                                    <Select width="20rem" change="onOpcionesInsumos" visible="{viewLoteMdl>mostrarOpciones}" items="{viewLoteMdl>opciones}">
                                                         <core:Item key="{viewLoteMdl>densidadRecomendada}" text="{viewLoteMdl>descripcion} ({viewLoteMdl>densidadRecomendadaTexto})" />
                                                     </Select>   
                                                     <Switch type="AcceptReject" state="{viewLoteMdl>agregarGlufo}" visible="{path: 'viewLoteMdl>descripcion', formatter: '.formatter.agregarGlufo'}" change="onLiveChangeCantidad"/> 
                                                 </VBox>                                      
                                                 <!--<Input id="insumoCantN" value="{path: 'viewLoteMdl>cantidad', type:'sap.ui.model.type.Float', formatOptions:{groupingEnabled: true, groupingSeparator: '.', decimalSeparator: ',', maxFractionDigits: 2} }" description="{viewLoteMdl>unidadMedidaPrecio}" textAlign="End" liveChange="onLiveChangeCantidad"/>-->
-                                                <StepInput id="insumoCantN" value="{path: 'viewLoteMdl>cantidad'}" description="{viewLoteMdl>unidadMedidaPrecio}" textAlign="End" change="onLiveChangeCantidad" editable="{viewLoteMdl>densidadEditable}" min="0" displayValuePrecision="1"/>                                    
+                                                <StepInput value="{path: 'viewLoteMdl>cantidad'}" description="{viewLoteMdl>unidadMedidaPrecio}" textAlign="End" change="onLiveChangeCantidad" editable="{viewLoteMdl>densidadEditable}" min="0" displayValuePrecision="1"/>                                    
                                             </cells>
                                         </ColumnListItem>
                                     </items>

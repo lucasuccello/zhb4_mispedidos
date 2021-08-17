@@ -171,7 +171,7 @@
                                             </Column>
                                         </columns>
                                     </Table>
-                                    <core:HTML id="framePDF" width="100%"/>
+                                    <core:HTML id="framePDF"/>
                                 </HBox>
                             </uxap:blocks>
 						</uxap:ObjectPageSubSection>

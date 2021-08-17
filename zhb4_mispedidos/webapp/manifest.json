@@ -225,7 +225,6 @@
                     "viewType": "XML",
                     "transition": "slide",
                     "clearControlAggregation": false,
-                    "viewId": "App",
                     "viewName": "App"
                 },
                 "TargetLotes": {

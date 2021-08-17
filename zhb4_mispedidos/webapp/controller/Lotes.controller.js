@@ -158,7 +158,7 @@ sap.ui.define([
                             if ((valorMin === "") || (valorMin === undefined))
                                 valorMin = 30;
                             this._MinimoHectareas = parseInt(valorMin);
-                            console.log("Hectareas minimas: " + this._MinimoHectareas);
+                            // console.log("Hectareas minimas: " + this._MinimoHectareas);
                         }.bind(this),
                         error: function (oError) {
                             this._MinimoHectareas = 30;
@@ -688,7 +688,7 @@ sap.ui.define([
                     }
                     else {
                         this._precioFuturoTrigo = oDataReturn.precio;
-                        console.log("Usando precio de trigo:" + this._precioFuturoTrigo);
+                        // console.log("Usando precio de trigo:" + this._precioFuturoTrigo);
                     }
                 }.bind(this),
                 error: function (oError) {
@@ -717,7 +717,7 @@ sap.ui.define([
                     }
                     else {
                         this._precioFuturoSoja = oDataReturn.precio;
-                        console.log("Usando precio de soja:" + this._precioFuturoSoja);
+                        // console.log("Usando precio de soja:" + this._precioFuturoSoja);
                     }
                 }.bind(this),
                 error: function (oError) {
@@ -741,13 +741,13 @@ sap.ui.define([
             this.getView().getModel("landingMdl").read(sPath, {
                 success: function (oData) {
                     this._precioFuturoSoja = parseFloat(oData.precio);
-                    console.log("Usando precio de soja:" + this._precioFuturoSoja);
+                    // console.log("Usando precio de soja:" + this._precioFuturoSoja);
 
                 }.bind(this),
                 error: function (oError) {
                     // poner precio por defecto del cultivo
                     this._precioFuturoSoja = parseFloat(precioDefault);
-                    console.log("Usando precio de soja:" + this._precioFuturoSoja);
+                    // console.log("Usando precio de soja:" + this._precioFuturoSoja);
                 }.bind(this)
             })
         },
@@ -760,12 +760,12 @@ sap.ui.define([
             this.getView().getModel("landingMdl").read(sPath, {
                 success: function (oData) {
                     this._precioFuturoTrigo = parseFloat(oData.precio);
-                    console.log("Usando precio de trigo:" + this._precioFuturoTrigo);
+                    // console.log("Usando precio de trigo:" + this._precioFuturoTrigo);
                 }.bind(this),
                 error: function (oError) {
                     // poner precio por defecto del cultivo
                     this._precioFuturoTrigo = parseFloat(precioDefault);
-                    console.log("Usando precio de trigo:" + this._precioFuturoTrigo);
+                    // console.log("Usando precio de trigo:" + this._precioFuturoTrigo);
                 }.bind(this)
             })
         },
@@ -1630,6 +1630,8 @@ sap.ui.define([
         //NUEVO
         onCancelarNuevoLote: function (oEvent) {
             this._DialogNuevoLote.close();
+            this._DialogNuevoLote.destroy();
+            this._DialogNuevoLote = null;
         },
 
         onGuardarNuevo: function (oEvent) {
