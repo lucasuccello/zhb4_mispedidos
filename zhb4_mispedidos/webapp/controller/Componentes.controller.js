@@ -1834,7 +1834,7 @@ sap.ui.define([
             if (aDatos.length > 0) {
                 for (var i = 0; i < aDatos.length; i++) {
                     oLluvia = {};
-                    oLluvia.Id = aDatos[i].Dia;
+                    oLluvia.Id = parseInt(aDatos[i].Dia);
                     j = aLluvias.map(function (e) {
                         return e.Id;
                     }).indexOf(aDatos[i].Dia);

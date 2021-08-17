@@ -186,7 +186,7 @@
                                     <Column id="idCampoColumna">
                                         <Text text="{i18n>idCampoColumnTitle}" />
                                     </Column>
-                                    <Column id="idFechaSiembraColumna">
+                                    <Column id="idFechaSiembraColumna" width="8rem">
                                         <Text text="{i18n>idFechaSembradaColumnTitle}" />
                                     </Column>
                                     <Column id="idHaOrigColumna">
@@ -218,7 +218,7 @@
                                         <Text text="{i18n>coordPurgaColumnTitle}" />
                                     </Column>
 
-                                    <Column id="idFechaCosechaColumna">
+                                    <Column id="idFechaCosechaColumna" width="8rem">
                                         <Text text="{i18n>idFechaCosechaColumnTitle}" />
                                     </Column>
                                     <Column id="idDensidadCosechaColumna">
@@ -239,7 +239,7 @@
                                     <ColumnListItem>
                                         <cells>
                                             <Text text="{Siembra>Campo}" />
-                                            <Text text="{Siembra>FechaSiembra}" />
+                                            <Text text="{ path:'Siembra>FechaSiembra', type: 'sap.ui.model.type.Date', formatOptions: { UTC:true, pattern: 'dd.MM.yyyy', source : {  pattern : 'dd/MM/yyyy' } } }" />
                                             <Text text="{Siembra>HaOriginales}" />
                                             <Text text="{Siembra>HaNuevas}" />
                                             <Text text="{Siembra>Surco}" />
@@ -251,7 +251,7 @@
                                             <Text text="{Siembra>DensidadPurga}" />
                                             <Button press="onMostrarCPurga" icon="sap-icon://map"></Button>
 
-                                            <Text text="{Siembra>FechaCosecha}" />
+                                            <Text text="{ path:'Siembra>FechaCosecha', type: 'sap.ui.model.type.Date', formatOptions: { UTC:true, pattern: 'dd.MM.yyyy', source : {  pattern : 'dd/MM/yyyy' } } }" />
                                             <Text text="{Siembra>Densidad}" />
                                             <Text text="{Siembra>RindeLote}" />
                                             <Text text="{Siembra>SuperficieCosechada}" />
@@ -454,7 +454,7 @@
                                             visible="{modelLluvia>/isEdit}"
                                             showIcon="true"
                                             class="sapUiTinyMargin"/>
-                                        <Table id="tableLluv" width="100%" items="{ path : 'modelLluvia>/Lluvias' }" sticky="ColumnHeaders"
+                                        <Table id="tableLluv" width="100%" items="{ path: 'modelLluvia>/Lluvias' , sorter: { path: 'Id', descending: false } }" sticky="ColumnHeaders"
                                             busyIndicatorDelay="0" growing="false" alternateRowColors="true"
                                             growingThreshold="10" growingTriggerText="ver más...">
                                             <headerToolbar>
