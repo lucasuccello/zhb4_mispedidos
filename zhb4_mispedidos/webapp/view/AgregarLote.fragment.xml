@@ -30,20 +30,20 @@
                                 </Select>                                                                                                  
                                 <!--PROVINCIA-->                                 
                                 <Label id="lblProvN" text="Provincia" visible="false"/>
-                                <Select id="cboProvinciaN" items="{landingMdl>/ProvinciasPorCultivo}" selectedKey="{viewLoteMdl>/provinciaCode}" forceSelection="false" change="onSeleccionarProvincia" visible="false">
+                                <Select id="cboProvinciaN" items="{path: 'landingMdl>/ProvinciasPorCultivo', events:{dataRequested: '.onProvinciaRequested', dataReceived: '.onProvinciaReceived'}}" selectedKey="{viewLoteMdl>/provinciaCode}" forceSelection="false" change="onSeleccionarProvincia" visible="false">
                                     <core:Item key="{landingMdl>ID}" text="{landingMdl>descripcion}"/>
                                 </Select>  
                                 <!--LOCALIDAD-->
                                 <Label id="lblLocalidadN" text="Localidad" visible="false"/>
-                                <Select id="cboLocalidadN" items="{path: 'landingMdl>/LocalidadesPorProvinciasYCultivo', sorter: { path: 'descripcion' } }" selectedKey="{viewLoteMdl>/localidadCode}" forceSelection="false" change="onSeleccionarLocalidad" visible="false">
+                                <Select id="cboLocalidadN" items="{path: 'landingMdl>/LocalidadesPorProvinciasYCultivo', sorter: { path: 'descripcion' }, events:{dataRequested: '.onLocalidadRequested', dataReceived: '.onLocalidadReceived'} }" selectedKey="{viewLoteMdl>/localidadCode}" forceSelection="false" change="onSeleccionarLocalidad" visible="false">
                                     <core:Item key="{landingMdl>ID}" text="{landingMdl>descripcion}"/>
                                 </Select> 
                                 <!--VARIEDAD-->
                                 <Label id="lblVariedadN" text="Variedad" visible="false"/> 
-                                <Select id="cboVariedadN" items="{landingMdl>/VariedadesRecomendadas}" selectedKey="{viewLoteMdl>/variedadCode}" forceSelection="false" change="onSeleccionarVariedadAux" visible="false">
+                                <Select id="cboVariedadN" items="{path: 'landingMdl>/VariedadesRecomendadas'}" selectedKey="{viewLoteMdl>/variedadCode}" forceSelection="false" change="onSeleccionarVariedadAux" visible="false">
                                     <core:Item key="{landingMdl>ID}" text="{landingMdl>descripcion}"/>
                                 </Select>   
-                                <Link id="linkVariedad" text="Ver variedades" target="_blank" href="https://www.google.com.ar" visible="false"/>
+                                <Link id="linkVariedad" text="Ver variedades" target="_blank" href="https://generacionhb4.com.ar/variedades/" visible="false"/>
                                 <!--MAPA LOTE-->
                                 <Label id="lblMapaN" text="Ubicar lote en mapa" design="Bold" visible="false"/>
                                 <Button id="btnMapaN" text="Ver mapa" type="Emphasized" press="onVerMapaCampo" icon="sap-icon://map" visible="false" width="8rem"/>

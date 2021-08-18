@@ -72,7 +72,7 @@ sap.ui.define([
                 }
             }, oView);
             this.getCultivos();
-            this.cargarMapas();
+            this.cargarMapas();   
         },
 
         onSetContrato: function () {
@@ -660,7 +660,7 @@ sap.ui.define([
                     this.microstarTrigo = oDataReturn.MicrostarTrigo;
                     this.microstarSoja = oDataReturn.MicrostarSoja;
                     this.glufoTrigo = oDataReturn.GlufoTrigo;
-                    this.glufoSoja = oDataReturn.GlufoSoja;
+                    this.glufoSoja = oDataReturn.GlufoSoja;                    
                 }.bind(this),
                 error: function (oError) {
 
@@ -2568,6 +2568,26 @@ sap.ui.define([
             var oControl = this.byIdFragment("popAyudaEntregas");
             oControl.close();              
         },                    
+
+        //ayuda
+        onProvinciaRequested: function(oEvent){
+            this.byIdFragment("cboProvinciaN").setBusy(true);
+        },
+
+        //ayuda
+        onProvinciaReceived: function(oEvent){
+            this.byIdFragment("cboProvinciaN").setBusy(false);
+        },
+                
+        //ayuda
+        onLocalidadRequested: function(oEvent){
+            this.byIdFragment("cboLocalidadN").setBusy(true);                 
+        },
+
+        //ayuda
+        onLocalidadReceived: function(oEvent){
+            this.byIdFragment("cboLocalidadN").setBusy(false);                    
+        },       
         
 // FIRMA NUEVO LOTE -----------------------------------------------------------------------------------------------
 		firmarEnmiendaNuevoLote: function (oEvent) {
