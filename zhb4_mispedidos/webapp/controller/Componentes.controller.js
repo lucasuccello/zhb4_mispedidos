@@ -191,24 +191,18 @@ sap.ui.define([
                 lv_path = oDatos.Anexo;
                 window.open(lv_path, "_system");
             } else if (oDatos.Extension === "TEXT") {
-                if (!this.dialogNota) {
-                    this.dialogNota = sap.ui.xmlfragment("zppsegocreporte.Z_PP_SegOC_Report.view.Nota", this);
-                    var i18nModel = new sap.ui.model.resource.ResourceModel({
-                        bundleUrl: "i18n/i18n.properties"
-                    });
-                    this.dialogNota.setModel(i18nModel, "i18n");
-                }
-                sap.ui.getCore().byId("_iNotaAdj").setValue(oDatos.Anexo);
-                this.dialogNota.open();
+				if (!this.dialogNota) {
+					this.dialogNota = sap.ui.xmlfragment("hb4.zhb4_mispedidos.view.Nota", this);
+				}
+				sap.ui.getCore().byId("_iNotaAdj").setValue(oDatos.Anexo);
+				this.dialogNota.open();
             } else {
-
                 var oRootPath = jQuery.sap.getModulePath("hb4.zhb4_mispedidos");
                 var sRead = oRootPath + "/sap/opu/odata/sap/ZOS_HB4_MODIFICACION_PEDIDO_SRV/enmiendaSet('" + oDatos.Anexo + "')/" + "$" + "value";
                 var oView = this.getView();
 
                 oView.byId("framePDF").setContent("<iframe title=\"Enmienda\" src=\"" + sRead +
                     "\" width=\"92%\" height=\"600\" seamless></iframe>");
-
             }
         },
 		/**

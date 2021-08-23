@@ -404,6 +404,16 @@ sap.ui.define([
                 lv_path = oDatos.Anexo;
                 this.getView().byId("framePDFContrato").setContent("<iframe title=\"Anexos\" src=\"" + lv_path +
                     "\" width=\"92%\" height=\"600\" seamless></iframe>");
+            } else if (oDatos.Extension === "TEXT") {
+				if (!this.dialogNota) {
+					this.dialogNota = sap.ui.xmlfragment("hb4.zhb4_mispedidos.view.Nota", this);
+					var i18nModel = new sap.ui.model.resource.ResourceModel({
+						bundleUrl: "i18n/i18n.properties"
+					});
+					this.dialogNota.setModel(i18nModel, "i18n");
+				}
+				sap.ui.getCore().byId("_iNotaAdj").setValue(oDatos.Anexo);
+				this.dialogNota.open();
             } else {
                 var oRootPath = jQuery.sap.getModulePath("hb4.zhb4_mispedidos");
                 var sRead = oRootPath + "/sap/opu/odata/sap/ZOS_HB4_MODIFICACION_PEDIDO_SRV/contratoPdfSet('" + oDatos.Anexo + "')/" + "$" + "value";
@@ -412,6 +422,11 @@ sap.ui.define([
             }
         },
 
+        onCancelarNota: function (oEvent) {
+			sap.ui.getCore().byId("_iNotaAdj").setValue("");
+			this.dialogNota.close();
+        },
+        
         onAnularLote: function (oEvent) {
             //vPedido = oEvent.getSource().getBindingContext().getProperty("pedido");
             //vPosicion = oEvent.getSource().getBindingContext().getProperty("posicion");
