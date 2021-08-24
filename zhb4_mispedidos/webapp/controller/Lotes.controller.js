@@ -52,6 +52,28 @@ sap.ui.define([
                 }
             }, oView);
 
+            //@fragment
+            this.mostrarVideo1 = true;  
+            this.mostrarVideo2 = true;  
+            this.mostrarVideo3 = true;  
+            this.abrirMapa = "";   
+
+            //borro el div de los mapas del DOM para evitar problemas al ingresar varias veces a la app y que no se carguen
+            var oMap = document.getElementById("map");
+            var oMap2 = document.getElementById("map2");
+            var oMap3 = document.getElementById("map3");
+
+            if(oMap !== null && oMap !== undefined){
+                $("#map").remove();
+            }
+            if(oMap2 !== null && oMap2 !== undefined){
+                $("#map2").remove();
+            }
+            if(oMap3 !== null && oMap3 !== undefined){
+                $("#map3").remove();
+            }                                
+            //
+
             this.getRouter().getRoute("Lotes").attachPatternMatched(this._onObjectMatched, this);
         },
 
@@ -552,7 +574,7 @@ sap.ui.define([
 
                 this._operacion = null;
                 //this.map = null;   //@nueva
-                this.map2 = null;
+                //this.map2 = null;  //@nueva
                 this.valorGlugo = 0;
                 this._precioFuturoTrigo = 1;
                 this._precioFuturoSoja = 1;     
@@ -560,9 +582,6 @@ sap.ui.define([
                 this.glufoSoja = "";         
                 this.cultivo = "";    //@nueva  
                 this.overlay = undefined;  //@nueva
-                this.mostrarVideo1 = true;  //@nueva
-                this.mostrarVideo2 = true;  //@nueva
-                this.mostrarVideo3 = true;  //@nueva
                 var aData = [];
 
                 this.getView().getModel().read("/businessPartnerSet", {
@@ -1764,6 +1783,14 @@ sap.ui.define([
         //MAPAS --------------------------------------------------------------------------------------------------------------
 
         onVerMapaCampo: function (oEvent) {
+            //@fragment
+            if(this._operacion === "crear" && this.mostrarVideo1 === true){
+                //this.mostrarVideo1 = false;
+                this.onAyudaPoligono(oEvent);   //@fragment
+                return;
+            }                  
+            //
+
             if (!this._oDialogMapa1) {
                 Fragment.load({
                     name: "hb4.zhb4_mispedidos.view.Poligono",
@@ -1778,10 +1805,10 @@ sap.ui.define([
 
                     //@ayuda
                     //abrir video de ayuda
-                    if(this._operacion === "crear" && this.mostrarVideo1 === true){
-                        this.mostrarVideo1 = false;
-                        this.onAyudaPoligono();
-                    }                        
+                    //if(this._operacion === "crear" && this.mostrarVideo1 === true){
+                    //    this.mostrarVideo1 = false;
+                        //this.onAyudaPoligono();  //@fragment
+                    //}                        
                 }.bind(this));
             } else {
                 //this._configDialog(oButton);
@@ -1791,10 +1818,10 @@ sap.ui.define([
                 //@ayuda
                 this.editarMap();
 
-                if(this._operacion === "crear" && this.mostrarVideo1 === true){
-                    this.mostrarVideo1 = false;
-                    this.onAyudaPoligono();
-                }                    
+                //if(this._operacion === "crear" && this.mostrarVideo1 === true){
+                //    this.mostrarVideo1 = false;
+                    //this.onAyudaPoligono();   //@fragment
+                //}                    
             }
         },
 
@@ -1814,6 +1841,14 @@ sap.ui.define([
         },
 
         onVerMapaEntrega: function (oEvent) {
+            //@fragment
+            if(this._operacion === "crear" && this.mostrarVideo3 === true){
+                //this.mostrarVideo1 = false;
+                this.onAyudaEntregas(oEvent);   //@fragment
+                return;
+            }                  
+            //
+
             if (!this._oDialogMapa2) {
                 Fragment.load({
                     name: "hb4.zhb4_mispedidos.view.Entrega",
@@ -1827,10 +1862,10 @@ sap.ui.define([
                     this._oDialogMapa2.open();
 
                     //@ayuda
-                    if(this._operacion === "crear" && this.mostrarVideo2 === true){
-                        this.mostrarVideo2 = false;
-                        this.ayudaEntregas("insumos");
-                    }     
+                    //if(this._operacion === "crear" && this.mostrarVideo2 === true){
+                    //    this.mostrarVideo2 = false;
+                        //this.ayudaEntregas("insumos");
+                    //}     
 
                 }.bind(this));
             } else {
@@ -1838,10 +1873,10 @@ sap.ui.define([
                 this._oDialogMapa2.open();
 
                 //@ayuda
-                if(this._operacion === "crear" && this.mostrarVideo2 === true){
-                    this.mostrarVideo2 = false;
-                    this.ayudaEntregas("insumos");
-                }                     
+                //if(this._operacion === "crear" && this.mostrarVideo2 === true){
+                //    this.mostrarVideo2 = false;
+                    //this.ayudaEntregas("insumos");
+                //}                     
             }
         },
 
@@ -1901,7 +1936,14 @@ sap.ui.define([
         },        
 
         //@nueva
-        onVerMapaEntregaSemilla: function(){
+        onVerMapaEntregaSemilla: function(oEvent){
+            //@fragment
+            if(this._operacion === "crear" && this.mostrarVideo2 === true){
+                this.onAyudaEntregasSemillas(oEvent);   //@fragment
+                return;
+            }                  
+            //
+
             if (!this._oDialogMapa3) {
                 Fragment.load({
                     name: "hb4.zhb4_mispedidos.view.EntregaSemilla",
@@ -1912,20 +1954,20 @@ sap.ui.define([
                     this._oDialogMapa3.open();
 
                     //@ayuda
-                    if(this._operacion === "crear" && this.mostrarVideo3 === true){
-                        this.mostrarVideo3 = false;
-                        this.ayudaEntregas("semilla");
-                    }                      
+                    //if(this._operacion === "crear" && this.mostrarVideo3 === true){
+                    //    this.mostrarVideo3 = false;
+                    //    this.ayudaEntregas("semilla");
+                    //}                      
                 }.bind(this));
             } else {
                 this.editarMap3();    //@nuevamap
                 this._oDialogMapa3.open();
 
                 //@ayuda
-                if(this._operacion === "crear" && this.mostrarVideo3 === true){
-                    this.mostrarVideo3 = false;
-                    this.ayudaEntregas("semilla");
-                }                  
+                //if(this._operacion === "crear" && this.mostrarVideo3 === true){
+                //    this.mostrarVideo3 = false;
+                //    this.ayudaEntregas("semilla");
+                //}                  
             }
         },                    
 
@@ -1937,10 +1979,19 @@ sap.ui.define([
 
             //var sUrl = "ht" + "tps://maps.googleapis.com/maps/api/js?key=AIzaSyA130U1tW8bKQxSPx_lPYiZQpW_X5KCyJQ&callback=iniciarMap&libraries=drawing&v=weekly";
 
-            var sUrl = "ht" + "tps://maps.googleapis.com/maps/api/js?key=AIzaSyAjQU1p7l6-AtR9FRwwAkhutE4fObWoy_c&libraries=drawing,places&v=weekly";
+            var sUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAjQU1p7l6-AtR9FRwwAkhutE4fObWoy_c&libraries=drawing,places&v=weekly";
 
             //var sUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyBIwzALxUPNbatRBj3Xi1Uhp0fFzwWNBkE&callback=initMap&libraries=drawing&v=weekly"
-            this.loadGoogleMaps(sUrl, this.initMap.bind(this));
+            
+            //this.loadGoogleMaps(sUrl, this.initMap.bind(this));  //@fragment
+
+            //@fragment
+            if(typeof google !== "object"){
+                this.loadGoogleMaps(sUrl, this.initMap.bind(this));                    
+            }
+            else if(typeof google === "object" && typeof google.maps !== "object"){
+                this.loadGoogleMaps(sUrl, this.initMap.bind(this)); 
+            }
 
         },
 
@@ -2487,7 +2538,8 @@ sap.ui.define([
 
         //@ayuda
         onAyudaPoligono: function(oEvent){
-            var oControl = this.byIdFragment("iconAyudaPoligono");
+            //var oControl = this.byIdFragment("iconAyudaPoligono");   //@fragment
+            var oControl = oEvent.getSource();   //@fragment
             var sPath = jQuery.sap.getModulePath("hb4.zhb4_mispedidos") + "/media/ayuda1.mp4";
             var video = null;
             var source = null;
@@ -2499,7 +2551,7 @@ sap.ui.define([
                 }).then(function (oDialog) {
                     this._oDialogAyudaPoligono = oDialog;
                     this.getView().addDependent(this._oDialogAyudaPoligono);
-                    this._oDialogAyudaPoligono.openBy(oControl);
+                    this._oDialogAyudaPoligono.open();
 
                     //video de ayuda
                     video = document.getElementById('videoAyuda1');
@@ -2509,7 +2561,7 @@ sap.ui.define([
                     video.play();                        
                 }.bind(this));
             } else {
-                this._oDialogAyudaPoligono.openBy(oControl);
+                this._oDialogAyudaPoligono.open();
 
                 //video de ayuda
                 video = document.getElementById('videoAyuda1');
@@ -2522,33 +2574,51 @@ sap.ui.define([
 
         //@ayuda
         onCerrarAyudaPoligono: function(oEvent){
-            var oControl = this.byIdFragment("popAyudaPoligono");
-            oControl.close();
+            //@fragment
+            /*var oControl = this.byIdFragment("popAyudaPoligono");
+            oControl.close();*/
+            
+            this._oDialogAyudaPoligono.close();
+
+            if(this._operacion === "crear" && this.mostrarVideo1 === true){
+                this.mostrarVideo1 = false;
+                this.onVerMapaCampo();
+            }                  
+            //                 
         },
         
         //@ayuda
         onAyudaEntregas: function(oEvent){
-            this.ayudaEntregas("insumos");
+            //this.ayudaEntregas("insumos");   //@fragment
+            this.abrirMapa = "insumos";   //@fragment
+            this.ayudaEntregas(oEvent);   //@fragment            
         },
         
         //@ayuda
         onAyudaEntregasSemillas: function(oEvent){
-            this.ayudaEntregas("semilla");
+            //this.ayudaEntregas("semilla");  //@fragment
+            this.abrirMapa = "semillas";   //@fragment  
+            this.ayudaEntregas(oEvent);   //@fragment            
         },
 
         //@ayuda
-        ayudaEntregas: function(sTipoEntrega){
-            var oControl = null;
+        //ayudaEntregas: function(sTipoEntrega){  //@fragment 
+        ayudaEntregas: function(oEvent){
+            //var oControl = null;  //@fragment  
+            var oControl = oEvent.getSource();  //@fragment  
             var sPath = jQuery.sap.getModulePath("hb4.zhb4_mispedidos") + "/media/ayuda2.mp4";
             var video = null;
             var source = null;        
             
+            //@fragment
+            /*
             if(sTipoEntrega === "insumos"){
                 oControl = this.byIdFragment("iconAyudaEntregas");
             }
             if(sTipoEntrega === "semilla"){
                 oControl = this.byIdFragment("iconAyudaEntregasSemillas");
             } 
+            */
 
             if (!this._oDialogAyudaEntregas) {
                 Fragment.load({
@@ -2557,7 +2627,7 @@ sap.ui.define([
                 }).then(function (oDialog) {
                     this._oDialogAyudaEntregas = oDialog;
                     this.getView().addDependent(this._oDialogAyudaEntregas);
-                    this._oDialogAyudaEntregas.openBy(oControl);
+                    this._oDialogAyudaEntregas.open();
 
                     //video de ayuda
                     video = document.getElementById('videoAyuda2');
@@ -2567,7 +2637,7 @@ sap.ui.define([
                     video.play();                         
                 }.bind(this));
             } else {
-                this._oDialogAyudaEntregas.openBy(oControl);
+                this._oDialogAyudaEntregas.open();
 
                 //video de ayuda
                 video = document.getElementById('videoAyuda2');
@@ -2580,8 +2650,22 @@ sap.ui.define([
 
         //@ayuda
         onCerrarAyudaEntregas: function(oEvent){
-            var oControl = this.byIdFragment("popAyudaEntregas");
-            oControl.close();              
+            //var oControl = this.byIdFragment("popAyudaEntregas");  //@fragment
+            //oControl.close();           //@fragment
+            
+            //@fragment
+            this._oDialogAyudaEntregas.close();
+
+            if(this._operacion === "crear" && this.mostrarVideo2 === true && this.abrirMapa === "semillas"){
+                this.mostrarVideo2 = false;
+                this.onVerMapaEntregaSemilla();
+            }          
+            
+            if(this._operacion === "crear" && this.mostrarVideo3 === true && this.abrirMapa === "insumos"){
+                this.mostrarVideo3 = false;
+                this.onVerMapaEntrega();
+            }                   
+            //                
         },                    
 
         //ayuda

@@ -6,7 +6,7 @@
             <Bar>
                 <!--@nueva-->
                 <contentLeft>
-                    <core:Icon src="sap-icon://sys-help-2" size="1.2em" id="iconAyudaEntregas" decorative="false" press="onAyudaEntregas" color="#e0c611"/>
+                    <core:Icon src="sap-icon://sys-help-2" size="1.2em" decorative="false" press="onAyudaEntregas" color="#e0c611"/>
                 </contentLeft>  
                 <!---->             
                 <contentRight>

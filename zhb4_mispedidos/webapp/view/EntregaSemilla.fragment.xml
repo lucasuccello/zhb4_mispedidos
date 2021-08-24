@@ -5,7 +5,7 @@
         <customHeader>
             <Bar>
                 <contentLeft>
-                    <core:Icon src="sap-icon://sys-help-2" size="1.2em" id="iconAyudaEntregasSemillas" decorative="false" press="onAyudaEntregasSemillas" color="#e0c611"/>
+                    <core:Icon src="sap-icon://sys-help-2" size="1.2em" decorative="false" press="onAyudaEntregasSemillas" color="#e0c611"/>
                 </contentLeft>              
                 <contentRight>
                     <Button text="Finalizar" press="onCerrarMapa3" type="Emphasized"/>
