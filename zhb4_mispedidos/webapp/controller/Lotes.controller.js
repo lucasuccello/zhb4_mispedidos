@@ -1359,7 +1359,10 @@ sap.ui.define([
                 oDataInfo.cantidad = oResult.unidades;
                 oDataInfo.kgAdescontar = fAporte.toFixed(2);
                 oDataInfo.totalAdescontar = (fHa * fAporte).toFixed(2);
-                aInfo.push(oDataInfo);
+
+                if(oDataInfo.cantidad > 0){
+                    aInfo.push(oDataInfo);
+                }
             });
 
             oData.insumosInfo = aInfo;                
