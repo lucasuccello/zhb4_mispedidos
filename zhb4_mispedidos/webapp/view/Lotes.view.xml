@@ -87,7 +87,7 @@
                                                     visible="{ parts: [ {path: 'tabFilters>estado'} ], formatter: '.formatter.visibleFechaCosecha' }"/>
                                                 <FlexBox alignItems="Start" justifyContent="Center" visible="{ parts: [ {path: 'tabFilters>estado'} ], formatter: '.formatter.visibleBotonera' }">
                                                     <Button type="Emphasized" icon="sap-icon://appointment" press="onModificarFecha" tooltip="Modificar Fecha de Entrega"/>
-                                                    <Button type="Reject" icon="sap-icon://delete" press="onAnularLote" tooltip="Solicitar eliminación de Lote"/>
+                                                    <Button type="Reject" icon="sap-icon://delete" press="onAnularLote" visible="{tabFilters>esBorrable}" tooltip="Solicitar eliminación de Lote"/>
                                                 </FlexBox>
                                                 <ObjectAttribute text="{tabFilters>pedido}" visible="false"/>
                                                 <ObjectAttribute text="{tabFilters>posicion}" visible="false"/>
