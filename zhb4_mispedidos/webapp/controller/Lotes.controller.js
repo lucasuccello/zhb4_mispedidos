@@ -1673,7 +1673,8 @@ sap.ui.define([
 
         onGuardarNuevo: function (oEvent) {
             var oData = this.getModel("viewLoteMdl").getData();   //this.getModel("lotesMdl").getData();
-
+            var bErrorSemilla = false;
+            
             //Validar datos
             if (oData.nombreCampo === "") {
                 sap.m.MessageToast.show("Debe indicar un Nombre de lote", { duration: 4000 });
@@ -1763,7 +1764,20 @@ sap.ui.define([
                 sap.m.MessageToast.show("Debe indicar hectáreas totales del campo", { duration: 4000 });
                 this.byIdFragment("iHectareasTotalesN").focus();
                 return;
-            }               
+            }            
+            
+            oData.insumos.forEach( (oInsumo)=>{
+                if(oInsumo.mostrarEnPantalla === true && oInsumo.tipoMaterial === "S"){
+                    if(parseFloat(oInsumo.cantidad) <= 0){
+                        bErrorSemilla = true;
+                    }
+                }
+            });       
+            
+            if(bErrorSemilla === true){
+                sap.m.MessageToast.show("Debe indicar densidad de semilla", {duration: 4000});
+                return;                    
+            }             
             //                  
             
             
