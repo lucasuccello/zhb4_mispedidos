@@ -2160,7 +2160,7 @@ sap.ui.define([
                     fillColor: "#F90808",
                     fillOpacity: 0.2,
                     strokeColor: "#F90808",
-                    draggable: true,
+                    draggable: false,
                     //strokeWeight: 5,
                     //clickable: true,
                     //editable: true,
@@ -2259,7 +2259,7 @@ sap.ui.define([
                     fillColor: "#F90808",
                     fillOpacity: 0.2,
                     strokeColor: "#F90808",
-                    draggable: true,
+                    draggable: false,
                     zIndex: 1
                 });
 
