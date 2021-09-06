@@ -706,6 +706,35 @@ sap.ui.define([
             var oPersonal = this.getModel("personalMdl");
             //var oPersonal = this.getModel("personalMdl").getData( );
 
+            var sPath2 = "/PreciosPrefijadosPorCuit(cuit='" + oPersonal.cuit + "',cultivo_ID='SO')/precio";
+
+            this.getModel("landingMdl").read(sPath2, {
+                success: function (oDataReturn, oResponse) {
+                    if (oDataReturn.precio === 0 || oDataReturn.precio === null) {
+                        this.getModel("landingMdl").read("/Cultivos('SO')", {
+                            success: function (oDataReturn, oResponse) {
+                                this.obtenerPrecioFuturoSoja(oDataReturn.simboloPrecioFuturo, oDataReturn.precioFuturoDefault);
+                            }.bind(this),
+                            error: function (oError) {
+                            }
+                        });
+                    }
+                    else {
+                        this._precioFuturoSoja = oDataReturn.precio;
+                        // console.log("Usando precio de soja:" + this._precioFuturoSoja);
+                    }
+                }.bind(this),
+                error: function (oError) {
+                    this.getModel("landingMdl").read("/Cultivos('SO')", {
+                        success: function (oDataReturn, oResponse) {
+                            this.obtenerPrecioFuturoSoja(oDataReturn.simboloPrecioFuturo, oDataReturn.precioFuturoDefault);
+                        }.bind(this),
+                        error: function (oError) {
+                        }
+                    });
+                }.bind(this)
+            });
+
             var sPath = "/PreciosPrefijadosPorCuit(cuit='" + oPersonal.getData().cuit + "',cultivo_ID='TR')/precio";
 
             //chequeo primero hay un precio por cuit de lo contrario obtengo el precio como siempre
@@ -736,34 +765,6 @@ sap.ui.define([
                 }.bind(this)
             });
 
-            var sPath = "/PreciosPrefijadosPorCuit(cuit='" + oPersonal.cuit + "',cultivo_ID='SO')/precio";
-
-            this.getModel("landingMdl").read(sPath, {
-                success: function (oDataReturn, oResponse) {
-                    if (oDataReturn.precio === 0 || oDataReturn.precio === null) {
-                        this.getModel("landingMdl").read("/Cultivos('SO')", {
-                            success: function (oDataReturn, oResponse) {
-                                this.obtenerPrecioFuturoSoja(oDataReturn.simboloPrecioFuturo, oDataReturn.precioFuturoDefault);
-                            }.bind(this),
-                            error: function (oError) {
-                            }
-                        });
-                    }
-                    else {
-                        this._precioFuturoSoja = oDataReturn.precio;
-                        // console.log("Usando precio de soja:" + this._precioFuturoSoja);
-                    }
-                }.bind(this),
-                error: function (oError) {
-                    this.getModel("landingMdl").read("/Cultivos('SO')", {
-                        success: function (oDataReturn, oResponse) {
-                            this.obtenerPrecioFuturoSoja(oDataReturn.simboloPrecioFuturo, oDataReturn.precioFuturoDefault);
-                        }.bind(this),
-                        error: function (oError) {
-                        }
-                    });
-                }.bind(this)
-            });
         },
 
         /* Obtiene el valor del precio futuro activo configurado en /Cultivos('SO')/simboloPrecioFuturo */
@@ -1088,6 +1089,8 @@ sap.ui.define([
                     esGlufo: false,
                     agregarGlufo: false,
                     cantidadGlufoOriginal: 0,
+                    agregarVitagrow: false,   //@vita
+                    cantidadVitagrowOriginal: 0,  //@vita                    
                     tipoDeInsumo_ID: oMaterial.tipoDeInsumo_ID, // @nico pasar estos campos
                     materialChico: oMaterial.materialChico, // @nico pasar estos campos
                     materialChico_ID: oMaterial.materialChico_ID, // @nico pasar estos campos
@@ -1095,6 +1098,13 @@ sap.ui.define([
 
                 //@cambio
                 if (aOpciones.length > 1) oDataInsumos.mostrarOpciones = true;
+
+                //@vita
+                if(oDataInsumos.tipoDeInsumo_ID === "V"){   //vitagrow
+                    oDataInsumos.mostrarOpciones = false;
+                    oDataInsumos.cantidadVitagrowOriginal = oDataInsumos.cantidad; 
+                    oDataInsumos.cantidad = 0;                          
+                }
 
                 //cambio
                 if (oMaterial.tipoDeMaterial_ID === "S" && oMaterial.mostrarEnPantalla === true) oDataInsumos.orden = 0;
@@ -1203,6 +1213,19 @@ sap.ui.define([
                     oInsumo.cantidad = 0;
                 }
 
+                //@vita
+                let fCantidadOriginalVita = parseFloat(oInsumo.cantidadVitagrowOriginal);
+
+                if (oInsumo.tipoDeInsumo_ID === "V" && oInsumo.agregarVitagrow === true) {  //vita + agreggar vita
+                    if (oInsumo.densidadEditable === false) { 
+                        oInsumo.cantidad = fCantidadOriginalVita;
+                    }
+                    if (oInsumo.densidadEditable === true && oInsumo.cantidad === 0) {
+                        oInsumo.cantidad = fCantidadOriginalVita;
+                    }
+                } else if (oInsumo.tipoDeInsumo_ID === "V" && oInsumo.agregarVitagrow === false) {  //vita + no vita
+                    oInsumo.cantidad = 0;
+                }  
 
             });
 
@@ -1319,6 +1342,20 @@ sap.ui.define([
                             }
 
                             break; //fin Insumos Glufo
+
+                        //@vita
+                        case "V":
+                            if (oInsumo.agregarVitagrow){
+                                fCantidad = fHa * oInsumo.cantidadVitagrowOriginal;
+                                fCantidad = fCantidad / fConversor;
+                                fCantidad = Math.ceil(fCantidad);                                    
+                            }
+                            else{
+                                fCantidad = 0;
+                            }
+
+                            break;             
+
                         default:
                             // otro insumo
                             fCantidad = fHa * fCantidadDensidadAux;
@@ -1488,6 +1525,22 @@ sap.ui.define([
                             fUnidades = fCantidad * fConversor;
 
                             break; //fin Insumos Glufo
+
+                        //@vita
+                        case "V":
+                            if (oInsumo.agregarVitagrow){
+                                fCantidad = fHa * oInsumo.cantidadVitagrowOriginal;
+                                fCantidad = fCantidad / fConversor;
+                                fCantidad = Math.ceil(fCantidad);                                    
+                            }
+                            else{
+                                fCantidad = 0;
+                            }
+
+                            fUnidades = fCantidad * fConversor;
+
+                            break;
+
                         default:
                             // otro insumo
                             fCantidad = fHa * fCantidadDensidadAux;
@@ -2864,12 +2917,17 @@ sap.ui.define([
                     telefonoEntrega: oLote.contactoTel,
                     variedadCode: oLote.variedadCode,
                     cultivoCode: oLote.cultivoCode,
-                    observaciones: oLote.observaciones
-
+                    observaciones: oLote.observaciones,
+                    //@nueva
+                    direccionEntregaSem: oLote.direccionEntregaSem,
+                    haTotales: oLote.hectareasTotales.toString()
+                    //
                 };
 
                 //si la direccion es una coordenada separada por @ lo reemplazo por coma
                 oDatos.direccionEntrega = oDatos.direccionEntrega.replace("@", ",");
+
+                oDatos.direccionEntregaSem = oDatos.direccionEntregaSem.replace("@", ",");  //@nueva
 
                 let fPrecioFuturo = 0;
                 if (oLote.cultivoCode === "SO") fPrecioFuturo = parseFloat(this._precioFuturoSoja) / 1000;

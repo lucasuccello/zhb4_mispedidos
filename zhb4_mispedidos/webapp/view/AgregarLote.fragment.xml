@@ -94,6 +94,7 @@
                                                         <core:Item key="{viewLoteMdl>densidadRecomendada}" text="{viewLoteMdl>descripcion} ({viewLoteMdl>densidadRecomendadaTexto})" />
                                                     </Select>   
                                                     <Switch type="AcceptReject" state="{viewLoteMdl>agregarGlufo}" visible="{path: 'viewLoteMdl>descripcion', formatter: '.formatter.agregarGlufo'}" change="onLiveChangeCantidad"/> 
+                                                    <Switch type="AcceptReject" state="{viewLoteMdl>agregarVitagrow}" visible="{= ${viewLoteMdl>tipoDeInsumo_ID} === 'V'}" change="onLiveChangeCantidad"/> 
                                                 </VBox>                                      
                                                 <!--<Input id="insumoCantN" value="{path: 'viewLoteMdl>cantidad', type:'sap.ui.model.type.Float', formatOptions:{groupingEnabled: true, groupingSeparator: '.', decimalSeparator: ',', maxFractionDigits: 2} }" description="{viewLoteMdl>unidadMedidaPrecio}" textAlign="End" liveChange="onLiveChangeCantidad"/>-->
                                                 <StepInput value="{path: 'viewLoteMdl>cantidad'}" description="{viewLoteMdl>unidadMedidaPrecio}" textAlign="End" change="onLiveChangeCantidad" editable="{viewLoteMdl>densidadEditable}" min="0" displayValuePrecision="1"/>                                    
