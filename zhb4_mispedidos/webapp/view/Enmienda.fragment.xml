@@ -10,7 +10,7 @@
         </VBox>
 		<buttons>
 			<Button text="Cancelar" press="onCancelarEnmienda" type="Default"/>
-			<Button press="onFirmarEnmienda" type="Emphasized" icon="sap-icon://signature"/>
+			<Button text="Confirmar" press="onFirmarEnmienda" type="Emphasized" icon="sap-icon://signature"/>
 		</buttons>
 	</Dialog>
 </core:FragmentDefinition>

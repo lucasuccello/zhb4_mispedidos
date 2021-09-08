@@ -2772,7 +2772,8 @@ sap.ui.define([
                         text: "Confirmar",
                         icon: "sap-icon//signature",
                         press: function () {
-                            oController.confirmarLoteNuevo();
+                            //oController.confirmarLoteNuevo();
+                            this.enviarFirma("");
                             this.oLoteDialog.close();
                         }.bind(this)
                     }),

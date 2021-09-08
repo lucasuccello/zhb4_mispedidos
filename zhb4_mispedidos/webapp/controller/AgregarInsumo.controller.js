@@ -512,6 +512,13 @@ sap.ui.define([
         },
 
         onFirmarEnmienda: function (oEvent) {
+            this.enviarFirma("");
+        }, 
+
+        onFirmarEnmiendaOld: function (oEvent) { //NO SE USAAAAAAAAAAAAA
+
+            
+            
             /* Requiere la libreria signaturePad.js cargada en onInit */
             //jQuery.sap.require("firma");
             /* Obtener la refrencia al objeto de la vista */
