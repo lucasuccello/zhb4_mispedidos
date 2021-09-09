@@ -971,6 +971,10 @@ sap.ui.define([
             if(this._operacion === "crear"){
             //
             //@nueva   
+                if(this.byIdFragment("btnMapaN").getVisible() === true){
+                    this.getInsumos();
+                }
+
                 this.byIdFragment("lblMapaN").setVisible(true);
                 this.byIdFragment("btnMapaN").setVisible(true);        
             }
@@ -978,7 +982,9 @@ sap.ui.define([
             var oModel = this.getModel("viewLoteMdl");
             oModel.setProperty("/variedad", oEvent.getParameter("selectedItem").getText());
             
-            sap.m.MessageToast.show("Es obligatorio que indiques la ubicación del lote en el mapa", {duration: 5000});
+            if(oModel.getProperty("/coordPoligono") === ""){
+                sap.m.MessageToast.show("Es obligatorio que indiques la ubicación del lote en el mapa", {duration: 5000});
+            }
             //
         },  
 
@@ -1754,6 +1760,12 @@ sap.ui.define([
                 sap.ui.getCore().byId("cboVariedadN").focus();
                 return;
             }
+            else if (oData.coordPoligono === "") {
+                sap.m.MessageToast.show("Debe indicar la Ubicación del lote (poligono)", { duration: 4000 });
+                if (this._operacion === "editar") sap.ui.getCore().byId("btnMapaE").focus();
+                if (this._operacion === "crear") sap.ui.getCore().byId("btnMapaN").focus();
+                return;
+            }            
             else if (parseInt(oData.rindeEsperado) <= 0 || oData.rindeEsperado === NaN || oData.rindeEsperado === "") {
                 sap.m.MessageToast.show("Debe indicar un Rinde", { duration: 4000 });
                 sap.ui.getCore().byId("iRindeN").focus();
@@ -1801,6 +1813,18 @@ sap.ui.define([
                 sap.ui.getCore().byId("cboLugarEntregaN").focus();                     
                 return;                    
             }     
+
+            else if (this.byIdFragment("cboLugarEntregaNSem").getSelectedKey() === "02" && oData.coordEntregaSemilla === ""){
+                sap.m.MessageToast.show("Debe indicar el lugar de entrega de semilla", { duration: 4000 });
+                this.byIdFragment("cboLugarEntregaNSem").focus();
+                return;
+            }   
+            else if (this.byIdFragment("cboLugarEntregaN").getSelectedKey() === "02" && oData.coordEntrega === "") {
+                sap.m.MessageToast.show("Debe indicar el lugar de entrega de insumos", { duration: 4000 });
+                this.byIdFragment("cboLugarEntregaN").focus();
+                return;
+            }   
+
             //@nueva
             else if (oData.coordEntregaSem === "" && oData.direccionEntregaSem === "") {
                 sap.m.MessageToast.show("Debe indicar Lugar de entrega para semillas", { duration: 4000 });
