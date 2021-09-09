@@ -2781,6 +2781,25 @@ sap.ui.define([
         onLocalidadReceived: function(oEvent){
             this.byIdFragment("cboLocalidadN").setBusy(false);                    
         },       
+
+        onValidarHaNumber: function(oEvent){
+            var oInput = oEvent.getSource();
+            var sVal = oEvent.getParameter("value");
+
+            if(sVal !== ""){  
+                oInput.setValue(parseInt(sVal));
+                this.onChangeHectareas();
+            }
+        },
+
+        onValidarHaNumberOtros: function(oEvent){
+            var oInput = oEvent.getSource();
+            var sVal = oEvent.getParameter("value");
+
+            if(sVal !== ""){
+                oInput.setValue(parseInt(sVal));
+            }
+        }         
         
 // FIRMA NUEVO LOTE -----------------------------------------------------------------------------------------------
 		firmarEnmiendaNuevoLote: function (oEvent) {

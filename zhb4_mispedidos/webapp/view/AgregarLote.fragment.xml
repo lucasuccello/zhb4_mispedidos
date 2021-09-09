@@ -52,12 +52,12 @@
                                 <Label id="lblHectareasN" text="Hectáreas a sembrar de HB4 (ha)" visible="false"/>   <!--@nueva-->
                                 <!--@nueva--> 
                                 <!--<Input id="iHectareasN" value="{path: 'viewLoteMdl>/hectareas', type:'sap.ui.model.type.Float', formatOptions:{groupingEnabled: true, groupingSeparator: '.', decimalSeparator: ',', maxFractionDigits: 2 }}" visible="false" change="onChangeHectareas"/>-->
-                                <Input id="iHectareasN" type="Number" value="{path: 'viewLoteMdl>/hectareas', type:'sap.ui.model.type.Integer'}" visible="false" change="onChangeHectareas"/>
+                                <Input id="iHectareasN" type="Number" value="{path: 'viewLoteMdl>/hectareas', type:'sap.ui.model.type.Integer'}" visible="false" liveChange="onValidarHaNumber" change="onChangeHectareas"/>
                                 <!---->        
                                 <!--@nueva--> 
                                 <!--HECTAREAS TOTALES-->
                                 <Label id="lblHectareasTotalesN" text="Hectareas totales del campo" visible="false"/>  
-                                <Input id="iHectareasTotalesN" type="Number" value="{path: 'viewLoteMdl>/hectareasTotales'}" visible="false" change="onChangeHectareas"/>                        
+                                <Input id="iHectareasTotalesN" type="Number" value="{path: 'viewLoteMdl>/hectareasTotales'}" visible="false" liveChange="onValidarHaOtros" change="onChangeHectareas"/>                        
                                 <!---->                                                         
                                 <!--RINDE-->
                                 <Label id="lblRindeN" text="Rinde (kg/ha)"/>
