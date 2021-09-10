@@ -144,6 +144,9 @@ sap.ui.define([
                     if (this.CartaOferta[index].PuedeAgregarLote === "X") {
                         this.getView().byId("_buttonNuevoLote").setVisible(true);
                     }
+                    if (this.CartaOferta[index].Cultivo === "TR" || this.CartaOferta[index].Cultivo === "Trigo") {
+                        this.getView().byId("_buttonNuevoLote").setVisible(false);
+                    }                    
                     break;
                 }
             }
