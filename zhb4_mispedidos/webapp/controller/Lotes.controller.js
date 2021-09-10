@@ -1062,7 +1062,8 @@ sap.ui.define([
 
 
                     if (oMaterial.material_ID === aRindes[i].material_ID) {
-                        if (bDensidadRecomendada === false) {
+                        //if (bDensidadRecomendada === false) {
+                        if (bDensidadRecomendada === false && aRindes[i].densidadRecomendada !== "0") {
                             fDensidad = aRindes[i].densidadRecomendada;
                             bDensidadRecomendada = true;
                         }
@@ -1406,6 +1407,20 @@ sap.ui.define([
                 if(oDataInfo.cantidad > 0){
                     aInfo.push(oDataInfo);
                 }
+
+                //material chico de microstar
+                if(oResult.materialChico === true && oInsumo.tipoDeInsumo_ID === "M"){
+                    let oDataInfoChico = {};
+                    oDataInfoChico.descripcion = oInsumo.materialChico.descripcion;
+                    oDataInfoChico.unidades = oResult.cantidadMaterialChico;
+                    oDataInfoChico.cantidad = oResult.unidadesMaterialChico;
+                    oDataInfoChico.kgAdescontar = fAporte.toFixed(2);
+                    oDataInfoChico.totalAdescontar = (fHa * fAporte).toFixed(2);
+
+                    if(oDataInfoChico.cantidad > 0){
+                        aInfo.push(oDataInfoChico);
+                    }                                                  
+                }                  
             });
 
             oData.insumosInfo = aInfo;                
@@ -1434,6 +1449,8 @@ sap.ui.define([
             var fConversorMaterialChico = oInsumo.materialChico ? parseFloat(oInsumo.materialChico.conversor) : 1;
             var fPrecioMaterialChico = (oInsumo.materialChico && oInsumo.materialChico.precio) ? parseFloat(oInsumo.materialChico.precio) : 0;
             var fUnidades = 0;
+            var fUnidadesMaterialChico = 0;
+            var bMaterialChico = false;            
 
             //if (!oInsumo.mostrarEnPantalla) {
             //    return 0;
@@ -1511,7 +1528,9 @@ sap.ui.define([
 
                                 // calcular cantidad de bolsas chicas si está cargado el materialChico
                                 if (oInsumo.materialChico) {
-                                    fCantidadMaterialChico = fResto * fConversor / fConversorMaterialChico;
+                                    fCantidadMaterialChico = ( fResto * fConversor ) / fConversorMaterialChico;
+                                    fUnidadesMaterialChico = fCantidadMaterialChico * fConversorMaterialChico;
+                                    bMaterialChico = true;
                                 }
 
                             }
@@ -1563,7 +1582,10 @@ sap.ui.define([
 
             var oReturn = {
                 cantidad: fCantidad,
-                unidades: fUnidades
+                unidades: fUnidades,
+                materialChico: bMaterialChico,
+                cantidadMaterialChico: Math.ceil(fCantidadMaterialChico),
+                unidadesMaterialChico: Math.ceil(fUnidadesMaterialChico)
             };
 
             return oReturn;
@@ -2799,7 +2821,7 @@ sap.ui.define([
             if(sVal !== ""){
                 oInput.setValue(parseInt(sVal));
             }
-        }         
+        },         
         
 // FIRMA NUEVO LOTE -----------------------------------------------------------------------------------------------
 		firmarEnmiendaNuevoLote: function (oEvent) {
