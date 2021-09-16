@@ -112,6 +112,9 @@ sap.ui.define([
                         if (oData.results[0].PuedeAgregarLote === "X") {
                             this.getView().byId("_buttonNuevoLote").setVisible(true);
                         }
+                        if (oData.results[0].Cultivo === "TR" || oData.results[0].Cultivo === "Trigo") {
+                            this.getView().byId("_buttonNuevoLote").setVisible(false);
+                        }                           
                     }
                 }.bind(this),
                 error: function (oError) { }
