@@ -1068,6 +1068,12 @@ sap.ui.define([
 
 
                     if (oMaterial.material_ID === aRindes[i].material_ID) {
+                        //---------------------------------------
+                        if (oMaterial.tipoDeInsumo_ID === "V" && parseFloat(aRindes[i].densidadRecomendada) > 0){
+                            fDensidad = aRindes[i].densidadRecomendada;
+                            bDensidadRecomendada = true;
+                        }
+                        //---------------------------------------                        
                         if (bDensidadRecomendada === false) {
                         //if (bDensidadRecomendada === false && aRindes[i].densidadRecomendada !== "0") {
                             fDensidad = aRindes[i].densidadRecomendada;
