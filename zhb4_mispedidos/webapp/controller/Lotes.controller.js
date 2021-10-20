@@ -1884,11 +1884,11 @@ sap.ui.define([
                 this.byIdFragment("cboLugarEntregaNSem").focus();
                 return;
             }
-            else if (parseInt(oData.hectareasTotales) <= 0 || oData.hectareasTotales === NaN || oData.hectareasTotales === "") {
+            /*else if (parseInt(oData.hectareasTotales) <= 0 || oData.hectareasTotales === NaN || oData.hectareasTotales === "") {
                 sap.m.MessageToast.show("Debe indicar hectáreas totales del campo", { duration: 4000 });
                 this.byIdFragment("iHectareasTotalesN").focus();
                 return;
-            }         
+            } */        
             
             else if (parseInt(oData.hectareasTotales) <= 0 || oData.hectareasTotales === NaN || oData.hectareasTotales === "") {
                 sap.m.MessageToast.show("Debe indicar hectáreas totales del campo", { duration: 4000 });
