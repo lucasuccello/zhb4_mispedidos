@@ -97,7 +97,7 @@
                                                     <Switch type="AcceptReject" state="{viewLoteMdl>agregarVitagrow}" visible="{= ${viewLoteMdl>tipoDeInsumo_ID} === 'V'}" change="onLiveChangeCantidad"/> 
                                                 </VBox>                                      
                                                 <!--<Input id="insumoCantN" value="{path: 'viewLoteMdl>cantidad', type:'sap.ui.model.type.Float', formatOptions:{groupingEnabled: true, groupingSeparator: '.', decimalSeparator: ',', maxFractionDigits: 2} }" description="{viewLoteMdl>unidadMedidaPrecio}" textAlign="End" liveChange="onLiveChangeCantidad"/>-->
-                                                <StepInput value="{path: 'viewLoteMdl>cantidad'}" description="{viewLoteMdl>unidadMedidaPrecio}" textAlign="End" change="onLiveChangeCantidad" editable="{viewLoteMdl>densidadEditable}" min="0" displayValuePrecision="1"/>                                    
+                                                <StepInput value="{path: 'viewLoteMdl>cantidad'}" description="{viewLoteMdl>unidadMedidaPrecio}" textAlign="End" change="onLiveChangeCantidad" editable="{viewLoteMdl>densidadEditable}" min="{viewLoteMdl>minDensidad}" max="{viewLoteMdl>maxDensidad}" displayValuePrecision="1"/>                                    
                                             </cells>
                                         </ColumnListItem>
                                     </items>

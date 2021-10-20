@@ -187,6 +187,11 @@ sap.ui.define([
                                 valorMin = 30;
                             this._MinimoHectareas = parseInt(valorMin);
                             // console.log("Hectareas minimas: " + this._MinimoHectareas);
+                            this._minSemilla = oDataReturn.results.filter(function (element){ return element.key === "DENSIDAD_MIN" }).map(function (element){ return element.valor } );
+                            this._maxSemilla = oDataReturn.results.filter(function (element) { return element.key === "DENSIDAD_MAX" }).map(function (element) { return element.valor } );
+                            this._minMicrostar = oDataReturn.results.filter(function (element) { return element.key === "MICROSTAR_MIN" }).map(function (element) { return element.valor } );
+                            this._maxMicrostar = oDataReturn.results.filter(function (element) { return element.key === "MICROSTAR_MAX" }).map(function (element) { return element.valor } );
+
                         }.bind(this),
                         error: function (oError) {
                             this._MinimoHectareas = 30;
@@ -1113,6 +1118,8 @@ sap.ui.define([
                     tipoDeInsumo_ID: oMaterial.tipoDeInsumo_ID, // @nico pasar estos campos
                     materialChico: oMaterial.materialChico, // @nico pasar estos campos
                     materialChico_ID: oMaterial.materialChico_ID, // @nico pasar estos campos
+                    minDensidad: 0,
+                    maxDensidad: 10000                 
                 };
 
                 //@cambio
@@ -1150,6 +1157,16 @@ sap.ui.define([
                     oData.precioMaterialLote = oMaterial.precio;  //@cambio
                     oData.conversor = oMaterial.conversor;   //@prd
                 }
+
+                //minimo y maximo de semilla
+                if (oMaterial.tipoDeMaterial_ID === "S" && oMaterial.mostrarEnPantalla === true){
+                    oDataInsumos.minDensidad = parseFloat(this._minSemilla);
+                    oDataInsumos.maxDensidad = parseFloat(this._maxSemilla);                        
+                }
+                if (oMaterial.tipoDeInsumo_ID === "M") {
+                    oDataInsumos.minDensidad = parseFloat(this._minMicrostar);
+                    oDataInsumos.maxDensidad = parseFloat(this._maxMicrostar); 
+                }                
             });
 
             this.getModel("viewLoteMdl").refresh();
@@ -1767,6 +1784,8 @@ sap.ui.define([
         onGuardarNuevo: function (oEvent) {
             var oData = this.getModel("viewLoteMdl").getData();   //this.getModel("lotesMdl").getData();
             var bErrorSemilla = false;
+            var bSemillaFueraDeRango = false;
+            var bMicrostarFueraDeRango = false;                
             
             //Validar datos
             if (oData.nombreCampo === "") {
@@ -1882,13 +1901,29 @@ sap.ui.define([
                     if(parseFloat(oInsumo.cantidad) <= 0){
                         bErrorSemilla = true;
                     }
+                    if(parseFloat(oInsumo.cantidad) < this._minSemilla || parseFloat(oInsumo.cantidad) > this._maxSemilla){
+                        bSemillaFueraDeRango = true;
+                    }                    
                 }
+                if(oInsumo.tipoDeInsumo_ID === "M"){
+                    if(parseFloat(oInsumo.cantidad) < this._minMicrostar || parseFloat(oInsumo.cantidad) > this._maxMicrostar){
+                        bMicrostarFueraDeRango = true;
+                    }      
+                }                   
             });       
             
             if(bErrorSemilla === true){
                 sap.m.MessageToast.show("Debe indicar densidad de semilla", {duration: 4000});
                 return;                    
-            }             
+            }          
+            if(bSemillaFueraDeRango === true){
+                sap.m.MessageToast.show("Debe indicar densidad de semilla dentro del rango permitido", {duration: 4000});
+                return;                    
+            }   
+            if(bMicrostarFueraDeRango === true){
+                sap.m.MessageToast.show("Debe indicar densidad de Microstar dentro del rango permitido", {duration: 4000});
+                return;                    
+            }                   
             //                  
             
             
