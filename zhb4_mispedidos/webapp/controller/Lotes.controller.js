@@ -1890,11 +1890,11 @@ sap.ui.define([
                 return;
             } */        
             
-            else if (parseInt(oData.hectareasTotales) <= 0 || oData.hectareasTotales === NaN || oData.hectareasTotales === "") {
+            /*else if (parseInt(oData.hectareasTotales) <= 0 || oData.hectareasTotales === NaN || oData.hectareasTotales === "") {
                 sap.m.MessageToast.show("Debe indicar hectáreas totales del campo", { duration: 4000 });
                 this.byIdFragment("iHectareasTotalesN").focus();
                 return;
-            }            
+            } */           
             
             oData.insumos.forEach( (oInsumo)=>{
                 if(oInsumo.mostrarEnPantalla === true && oInsumo.tipoMaterial === "S"){
