@@ -3037,6 +3037,8 @@ sap.ui.define([
                     //
                 };
 
+                if(oDatos.haTotales === "" || oDatos.haTotales === null) oDatos.haTotales = "0";
+
                 //si la direccion es una coordenada separada por @ lo reemplazo por coma
                 oDatos.direccionEntrega = oDatos.direccionEntrega.replace("@", ",");
 
