@@ -187,6 +187,7 @@ sap.ui.define([
                                 valorMin = 30;
                             this._MinimoHectareas = parseInt(valorMin);
                             // console.log("Hectareas minimas: " + this._MinimoHectareas);
+                            this._minRinde = oDataReturn.results.filter(function (element){ return element.key === "RINDE_MIN" }).map(function (element){ return element.valor } );
                             this._minSemilla = oDataReturn.results.filter(function (element){ return element.key === "DENSIDAD_MIN" }).map(function (element){ return element.valor } );
                             this._maxSemilla = oDataReturn.results.filter(function (element) { return element.key === "DENSIDAD_MAX" }).map(function (element) { return element.valor } );
                             this._minMicrostar = oDataReturn.results.filter(function (element) { return element.key === "MICROSTAR_MIN" }).map(function (element) { return element.valor } );
@@ -195,6 +196,7 @@ sap.ui.define([
                         }.bind(this),
                         error: function (oError) {
                             this._MinimoHectareas = 30;
+                            this._minRinde = 1000;
                         }.bind(this)
                     });
                 }.bind(this), 100);
@@ -1167,6 +1169,8 @@ sap.ui.define([
                     oDataInsumos.minDensidad = parseFloat(this._minMicrostar);
                     oDataInsumos.maxDensidad = parseFloat(this._maxMicrostar); 
                 }                
+                
+
             });
 
             this.getModel("viewLoteMdl").refresh();
@@ -1785,7 +1789,9 @@ sap.ui.define([
             var oData = this.getModel("viewLoteMdl").getData();   //this.getModel("lotesMdl").getData();
             var bErrorSemilla = false;
             var bSemillaFueraDeRango = false;
-            var bMicrostarFueraDeRango = false;                
+            var bMicrostarFueraDeRango = false;
+            
+            acaa
             
             //Validar datos
             if (oData.nombreCampo === "") {
@@ -1819,8 +1825,9 @@ sap.ui.define([
                 if (this._operacion === "crear") sap.ui.getCore().byId("btnMapaN").focus();
                 return;
             }            
-            else if (parseInt(oData.rindeEsperado) <= 0 || oData.rindeEsperado === NaN || oData.rindeEsperado === "") {
-                sap.m.MessageToast.show("Debe indicar un Rinde", { duration: 4000 });
+            //else if (parseInt(oData.rindeEsperado) <= 0 || oData.rindeEsperado === NaN || oData.rindeEsperado === "") {
+            else if (parseInt(oData.rindeEsperado) <= parseInt(this._minRinde) || oData.rindeEsperado === NaN || oData.rindeEsperado === "") {
+                sap.m.MessageToast.show("Debe indicar un Rinde, mayor a " + this._minRinde , { duration: 4000 });
                 sap.ui.getCore().byId("iRindeN").focus();
                 return;
             }
