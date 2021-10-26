@@ -1827,7 +1827,7 @@ sap.ui.define([
             }            
             //else if (parseInt(oData.rindeEsperado) <= 0 || oData.rindeEsperado === NaN || oData.rindeEsperado === "") {
             else if (parseInt(oData.rindeEsperado) < parseInt(this._minRinde) || oData.rindeEsperado === NaN || oData.rindeEsperado === "") {
-                sap.m.MessageToast.show("Debe indicar un Rinde, mayor o igual a " + this._minRinde , { duration: 4000 });
+                sap.m.MessageToast.show("Debe indicar un Rinde mayor o igual a " + this._minRinde , { duration: 4000 });
                 sap.ui.getCore().byId("iRindeN").focus();
                 return;
             }
