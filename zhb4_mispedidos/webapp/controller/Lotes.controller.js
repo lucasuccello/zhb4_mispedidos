@@ -1791,8 +1791,6 @@ sap.ui.define([
             var bSemillaFueraDeRango = false;
             var bMicrostarFueraDeRango = false;
             
-            acaa
-            
             //Validar datos
             if (oData.nombreCampo === "") {
                 sap.m.MessageToast.show("Debe indicar un Nombre de lote", { duration: 4000 });
