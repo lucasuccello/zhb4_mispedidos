@@ -65,6 +65,8 @@ sap.ui.define([
         _okPreciosCB: function (oDataReturn, oResponse) {
             this.getModel("preciosMdl").setData(oDataReturn.results);
             oController.aPrecios = oDataReturn.results;
+
+            this.validarMaterialesDeshabilitados();
         },
 
         _errorPreciosCB: function (oError) {
@@ -171,7 +173,9 @@ sap.ui.define([
                     var oModelComponentes = new JSONModel();
                     oModelComponentes.setData(oData.results);
                     oController.getView().byId("tableItemsAgregar").setModel(oModelComponentes, "ComponentesAgregados");
-                },
+
+                    this.validarMaterialesDeshabilitados();
+                }.bind(this),
                 error: function () {
                     sap.m.MessageToast("Error al cargar Componentes");
                 }
@@ -191,6 +195,54 @@ sap.ui.define([
             });
 
         },
+
+        /*------------------------------------------------------------------------------ */
+        validarMaterialesDeshabilitados: function(){
+            var oModel = oController.getView().byId("tableItemsAgregar").getModel("ComponentesAgregados");
+            var oModelPrecios = this.getModel("preciosMdl");
+            var aMateriales = [];
+            var aComponentes = [];
+            var aComponentesOk = [];
+            var aResult = [];
+            if(oModel === undefined || oModelPrecios === undefined){
+                return;
+            }
+
+
+            aComponentes = oModel.getData();
+            aMateriales = oModelPrecios.getData();
+
+            if(Array.isArray(aComponentes) === false || Array.isArray(aMateriales) === false){
+                return;
+            }
+
+            //valido que el material de los insumos este habilitado en el cloud
+            aComponentes.forEach( (oComponente)=>{
+                var bAgregarMaterial = true;
+
+                for(let i=0; i<aMateriales.length; i++){
+                    if(oComponente.material === aMateriales[i].ID){
+
+                        if(aMateriales[i].mostrarEnPantalla === false && aMateriales[i].tipoDeInsumo_ID === "G"){  //si el glufo esta desactivado
+                            bAgregarMaterial = false;
+                            break;
+                        }
+                        else if(aMateriales[i].mostrarEnPantalla === false && aMateriales[i].tipoDeInsumo_ID === "V"){  //si el vitagrow esta desactivado
+                            bAgregarMaterial = false;
+                            break;
+                        }
+                    }                    
+                }
+
+                if(bAgregarMaterial === true){
+                    aResult.push(oComponente);
+                }                
+            });
+
+            oModel.setData(aResult);
+            oModel.refresh();
+        },
+        /*------------------------------------------------------------------------------ */        
 
         _bindView: function (sObjectPath) {
             var oViewModel = this.getModel("objectView"),
