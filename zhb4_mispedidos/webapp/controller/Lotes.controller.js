@@ -3158,7 +3158,29 @@ sap.ui.define([
                             densidad: parseFloat(oInsumo.cantidad).toFixed(2) // @nico guardar densidad de insumo
                         };
 
-                        aComponentes.push(oDatos);
+
+                        //  INICIO GADI6 TKT 4000291043 - Error en anexo II faltan insumos
+                        //Si ya esta agregado, le agrego la cantidad
+                        //Solo para que no se repita el material
+                        var oMat = aComponentes.find((material) => {
+                            var flag;
+                            if ((material.material === oInsumo.material))
+                                flag = true;
+                            else
+                                flag = false;
+                            return flag;
+                        });
+                        if (oMat == null)
+                            aComponentes.push(oDatos);
+                        else
+                            oMat.cantidad = parseFloat(
+                                // @ts-ignore
+                                parseFloat(oMat.cantidad) +
+                                parseFloat(oDatos.cantidad)
+                            ).toFixed(2);
+                        //  FIN GADI6 TKT 4000291043 - Error en anexo II faltan insumos
+
+                        //aComponentes.push(oDatos);
                     }
                     if (oCantidades.fCantidadMaterialChico >= 0 && oInsumo.materialChico_ID) {
                         let oDatosChico = {
@@ -3175,7 +3197,31 @@ sap.ui.define([
                             densidad: parseFloat(oInsumo.cantidad).toFixed(2) // @nico guardar densidad de insumo
                         };
 
-                        aComponentes.push(oDatosChico);
+
+                        //  INICIO GADI6 TKT 4000291043 - Error en anexo II faltan insumos
+                        //Si ya esta agregado, le agrego la cantidad
+                        //Solo para que no se repita el material
+                        var oMat = aComponentes.find((material) => {
+
+                            var flag;
+                            if (material.material === oInsumo.materialChico_ID)
+                                flag = true;
+                            else
+                                flag = false;
+                            return flag;
+
+                        });
+                        if (oMat == null)
+                            aComponentes.push(oDatosChico);
+                        else
+                            oMat.cantidad = parseFloat(
+                                // @ts-ignore
+                                parseFloat(oMat.cantidad) +
+                                parseFloat(oDatosChico.cantidad)
+                            ).toFixed(2);
+                        //  FIN GADI6 TKT 4000291043 - Error en anexo II faltan insumos  
+
+                        //aComponentes.push(oDatosChico);
                     }
                 });
 
