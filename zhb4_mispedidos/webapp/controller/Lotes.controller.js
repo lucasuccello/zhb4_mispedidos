@@ -53,25 +53,25 @@ sap.ui.define([
             }, oView);
 
             //@fragment
-            this.mostrarVideo1 = true;  
-            this.mostrarVideo2 = true;  
-            this.mostrarVideo3 = true;  
-            this.abrirMapa = "";   
+            this.mostrarVideo1 = true;
+            this.mostrarVideo2 = true;
+            this.mostrarVideo3 = true;
+            this.abrirMapa = "";
 
             //borro el div de los mapas del DOM para evitar problemas al ingresar varias veces a la app y que no se carguen
             var oMap = document.getElementById("map");
             var oMap2 = document.getElementById("map2");
             var oMap3 = document.getElementById("map3");
 
-            if(oMap !== null && oMap !== undefined){
+            if (oMap !== null && oMap !== undefined) {
                 $("#map").remove();
             }
-            if(oMap2 !== null && oMap2 !== undefined){
+            if (oMap2 !== null && oMap2 !== undefined) {
                 $("#map2").remove();
             }
-            if(oMap3 !== null && oMap3 !== undefined){
+            if (oMap3 !== null && oMap3 !== undefined) {
                 $("#map3").remove();
-            }                                
+            }
             //
 
             this.getRouter().getRoute("Lotes").attachPatternMatched(this._onObjectMatched, this);
@@ -94,7 +94,7 @@ sap.ui.define([
                 }
             }, oView);
             this.getCultivos();
-            this.cargarMapas();   
+            this.cargarMapas();
         },
 
         onSetContrato: function () {
@@ -114,7 +114,7 @@ sap.ui.define([
                         }
                         if (oData.results[0].Cultivo === "TR" || oData.results[0].Cultivo === "Trigo") {
                             this.getView().byId("_buttonNuevoLote").setVisible(false);
-                        }                           
+                        }
                     }
                 }.bind(this),
                 error: function (oError) { }
@@ -149,7 +149,7 @@ sap.ui.define([
                     }
                     if (this.CartaOferta[index].Cultivo === "TR" || this.CartaOferta[index].Cultivo === "Trigo") {
                         this.getView().byId("_buttonNuevoLote").setVisible(false);
-                    }                    
+                    }
                     break;
                 }
             }
@@ -187,11 +187,11 @@ sap.ui.define([
                                 valorMin = 30;
                             this._MinimoHectareas = parseInt(valorMin);
                             // console.log("Hectareas minimas: " + this._MinimoHectareas);
-                            this._minRinde = oDataReturn.results.filter(function (element){ return element.key === "RINDE_MIN" }).map(function (element){ return element.valor } );
-                            this._minSemilla = oDataReturn.results.filter(function (element){ return element.key === "DENSIDAD_MIN" }).map(function (element){ return element.valor } );
-                            this._maxSemilla = oDataReturn.results.filter(function (element) { return element.key === "DENSIDAD_MAX" }).map(function (element) { return element.valor } );
-                            this._minMicrostar = oDataReturn.results.filter(function (element) { return element.key === "MICROSTAR_MIN" }).map(function (element) { return element.valor } );
-                            this._maxMicrostar = oDataReturn.results.filter(function (element) { return element.key === "MICROSTAR_MAX" }).map(function (element) { return element.valor } );
+                            this._minRinde = oDataReturn.results.filter(function (element) { return element.key === "RINDE_MIN" }).map(function (element) { return element.valor });
+                            this._minSemilla = oDataReturn.results.filter(function (element) { return element.key === "DENSIDAD_MIN" }).map(function (element) { return element.valor });
+                            this._maxSemilla = oDataReturn.results.filter(function (element) { return element.key === "DENSIDAD_MAX" }).map(function (element) { return element.valor });
+                            this._minMicrostar = oDataReturn.results.filter(function (element) { return element.key === "MICROSTAR_MIN" }).map(function (element) { return element.valor });
+                            this._maxMicrostar = oDataReturn.results.filter(function (element) { return element.key === "MICROSTAR_MAX" }).map(function (element) { return element.valor });
 
                         }.bind(this),
                         error: function (oError) {
@@ -223,7 +223,7 @@ sap.ui.define([
         onAgregarLote: function (oEvent) {
             //@nueva
             //limpio el mapa
-            if(this.overlay !== null && this.overlay !== undefined){
+            if (this.overlay !== null && this.overlay !== undefined) {
                 this.overlay.setMap(null);
             }
             //
@@ -440,15 +440,15 @@ sap.ui.define([
                 this.getView().byId("framePDFContrato").setContent("<iframe title=\"Anexos\" src=\"" + lv_path +
                     "\" width=\"92%\" height=\"600\" seamless></iframe>");
             } else if (oDatos.Extension === "TEXT") {
-				if (!this.dialogNota) {
-					this.dialogNota = sap.ui.xmlfragment("hb4.zhb4_mispedidos.view.Nota", this);
-					var i18nModel = new sap.ui.model.resource.ResourceModel({
-						bundleUrl: "i18n/i18n.properties"
-					});
-					this.dialogNota.setModel(i18nModel, "i18n");
-				}
-				sap.ui.getCore().byId("_iNotaAdj").setValue(oDatos.Anexo);
-				this.dialogNota.open();
+                if (!this.dialogNota) {
+                    this.dialogNota = sap.ui.xmlfragment("hb4.zhb4_mispedidos.view.Nota", this);
+                    var i18nModel = new sap.ui.model.resource.ResourceModel({
+                        bundleUrl: "i18n/i18n.properties"
+                    });
+                    this.dialogNota.setModel(i18nModel, "i18n");
+                }
+                sap.ui.getCore().byId("_iNotaAdj").setValue(oDatos.Anexo);
+                this.dialogNota.open();
             } else {
                 var oRootPath = jQuery.sap.getModulePath("hb4.zhb4_mispedidos");
                 var sRead = oRootPath + "/sap/opu/odata/sap/ZOS_HB4_MODIFICACION_PEDIDO_SRV/contratoPdfSet('" + oDatos.Anexo + "')/" + "$" + "value";
@@ -458,10 +458,10 @@ sap.ui.define([
         },
 
         onCancelarNota: function (oEvent) {
-			sap.ui.getCore().byId("_iNotaAdj").setValue("");
-			this.dialogNota.close();
+            sap.ui.getCore().byId("_iNotaAdj").setValue("");
+            this.dialogNota.close();
         },
-        
+
         onAnularLote: function (oEvent) {
             //vPedido = oEvent.getSource().getBindingContext().getProperty("pedido");
             //vPosicion = oEvent.getSource().getBindingContext().getProperty("posicion");
@@ -571,39 +571,39 @@ sap.ui.define([
         },
 
         // NUEVO LOTE -----------------------------------------------------------------------------------------------------------
-		_showObjectNuevoLote: function (oItem) {
+        _showObjectNuevoLote: function (oItem) {
 
-                this.setModel(this.getOwnerComponent().getModel("lotesMDL"), "lotesMdl");  //modelo de los lotes
-                this.setModel(this.getOwnerComponent().getModel("landingMDL"), "landingMdl"); //modelo de la landing
-                this.setModel(this.getOwnerComponent().getModel("dataMDL"), "dataMdl"); //modelo de la landing
-                this.setModel(this.getOwnerComponent().getModel("rindesMDL"), "rindesMdl");
-                this.setModel(this.getOwnerComponent().getModel("personalMDL"), "personalMdl");
-                this.setModel(new JSONModel, "viewLoteMdl");  //modelo temporal para lotes
+            this.setModel(this.getOwnerComponent().getModel("lotesMDL"), "lotesMdl");  //modelo de los lotes
+            this.setModel(this.getOwnerComponent().getModel("landingMDL"), "landingMdl"); //modelo de la landing
+            this.setModel(this.getOwnerComponent().getModel("dataMDL"), "dataMdl"); //modelo de la landing
+            this.setModel(this.getOwnerComponent().getModel("rindesMDL"), "rindesMdl");
+            this.setModel(this.getOwnerComponent().getModel("personalMDL"), "personalMdl");
+            this.setModel(new JSONModel, "viewLoteMdl");  //modelo temporal para lotes
 
-                this.getModel("landingMdl").setSizeLimit(9999);
+            this.getModel("landingMdl").setSizeLimit(9999);
 
-                var oCopiar = {copiar: false};
-                this.setModel(new JSONModel(oCopiar), "copiarMdl");
+            var oCopiar = { copiar: false };
+            this.setModel(new JSONModel(oCopiar), "copiarMdl");
 
-                this._operacion = null;
-                //this.map = null;   //@nueva
-                //this.map2 = null;  //@nueva
-                this.valorGlugo = 0;
-                this._precioFuturoTrigo = 1;
-                this._precioFuturoSoja = 1;     
-                this.glufoTrigo = "";
-                this.glufoSoja = "";         
-                this.cultivo = "";    //@nueva  
-                this.overlay = undefined;  //@nueva
-                var aData = [];
+            this._operacion = null;
+            //this.map = null;   //@nueva
+            //this.map2 = null;  //@nueva
+            this.valorGlugo = 0;
+            this._precioFuturoTrigo = 1;
+            this._precioFuturoSoja = 1;
+            this.glufoTrigo = "";
+            this.glufoSoja = "";
+            this.cultivo = "";    //@nueva  
+            this.overlay = undefined;  //@nueva
+            var aData = [];
 
-                this.getView().getModel().read("/businessPartnerSet", {
-                    success: function (resultado) {
-                        this.datosPersonalesLanding(resultado);
-                    }.bind(this),
-                    error: function (error) {
-                    }
-                });
+            this.getView().getModel().read("/businessPartnerSet", {
+                success: function (resultado) {
+                    this.datosPersonalesLanding(resultado);
+                }.bind(this),
+                error: function (error) {
+                }
+            });
         },
 
         datosPersonalesLanding: function (data) {
@@ -672,15 +672,15 @@ sap.ui.define([
                 map2: null,
                 drawingManager: null,
                 coordEdit: [],
-                insumos: [],   
+                insumos: [],
                 //@nueva
                 hectareasTotales: "",
-                direccionEntregaSem: "",     
+                direccionEntregaSem: "",
                 coordEntregaSemilla: "",
                 insumosInfo: []
                 //                                 
-                };               
-        
+            };
+
             this.getModel("viewLoteMdl").setData(oDataCrear);  //modelo temporal para lotes
 
             this._configurarCampos("crear");
@@ -707,7 +707,7 @@ sap.ui.define([
                     this.microstarTrigo = oDataReturn.MicrostarTrigo;
                     this.microstarSoja = oDataReturn.MicrostarSoja;
                     this.glufoTrigo = oDataReturn.GlufoTrigo;
-                    this.glufoSoja = oDataReturn.GlufoSoja;                    
+                    this.glufoSoja = oDataReturn.GlufoSoja;
                 }.bind(this),
                 error: function (oError) {
 
@@ -726,7 +726,7 @@ sap.ui.define([
                     if (oDataReturn.precio === 0 || oDataReturn.precio === null) {
                         this.getModel("landingMdl").read("/Cultivos('SO')", {
                             success: function (oDataReturn, oResponse) {
-                                
+
                                 this.obtenerPrecioFuturoSoja(oDataReturn.simboloPrecioFuturo, oDataReturn.precioFuturoDefault);
 
                             }.bind(this),
@@ -869,7 +869,7 @@ sap.ui.define([
             //@nueva
             this.byIdFragment("btnMapaN").setVisible(false);
             this.byIdFragment("iHectareasTotalesN").setVisible(false);
-            this.byIdFragment("lblHectareasTotalesN").setVisible(false);     
+            this.byIdFragment("lblHectareasTotalesN").setVisible(false);
             //       
         },
 
@@ -913,11 +913,11 @@ sap.ui.define([
             sap.ui.getCore().byId("cboProvinciaN").getBinding("items").filter(aFilters);
 
             sap.ui.getCore().byId("lblProvN").setVisible(true);
-            sap.ui.getCore().byId("cboProvinciaN").setVisible(true);   
-            
+            sap.ui.getCore().byId("cboProvinciaN").setVisible(true);
+
             //@nueva
             var oModel = this.getModel("viewLoteMdl");
-            oModel.setProperty("/cultivo", oEvent.getParameter("selectedItem").getText());               
+            oModel.setProperty("/cultivo", oEvent.getParameter("selectedItem").getText());
         },
 
         //Al seleccionar una provincia...cargo las localidades
@@ -934,11 +934,11 @@ sap.ui.define([
             sap.ui.getCore().byId("cboLocalidadN").getBinding("items").filter(aFilters);
 
             sap.ui.getCore().byId("lblLocalidadN").setVisible(true);
-            sap.ui.getCore().byId("cboLocalidadN").setVisible(true);           
-            
+            sap.ui.getCore().byId("cboLocalidadN").setVisible(true);
+
             //@nueva
             var oModel = this.getModel("viewLoteMdl");
-            oModel.setProperty("/provincia", oEvent.getParameter("selectedItem").getText());            
+            oModel.setProperty("/provincia", oEvent.getParameter("selectedItem").getText());
         },
 
         //Al seleccionar una localidad...cargo las variedades
@@ -966,16 +966,16 @@ sap.ui.define([
             this.getModel("landingMdl").read(sPath, {
                 success: this._okRegionCB.bind(this),
                 error: this._errorRegionCB.bind(this)
-            });        
-            
+            });
+
             //@nueva
             var oModel = this.getModel("viewLoteMdl");
-            oModel.setProperty("/localidad", oEvent.getParameter("selectedItem").getText());                
+            oModel.setProperty("/localidad", oEvent.getParameter("selectedItem").getText());
             //        
-                                
-        },         
-        
-        _okRegionCB: function(oDataReturn, oResponse){
+
+        },
+
+        _okRegionCB: function (oDataReturn, oResponse) {
             var oData = this.getModel("viewLoteMdl").getData();
 
             oData.potencialRinde = oDataReturn.potencialRinde;
@@ -993,25 +993,25 @@ sap.ui.define([
         //habilito el boton del mapa para el poligono
         onSeleccionarVariedadAux: function (oEvent) {
             //@nueva
-            if(this._operacion === "crear"){
-            //
-            //@nueva   
-                if(this.byIdFragment("btnMapaN").getVisible() === true){
+            if (this._operacion === "crear") {
+                //
+                //@nueva   
+                if (this.byIdFragment("btnMapaN").getVisible() === true) {
                     this.getInsumos();
                 }
 
                 this.byIdFragment("lblMapaN").setVisible(true);
-                this.byIdFragment("btnMapaN").setVisible(true);        
+                this.byIdFragment("btnMapaN").setVisible(true);
             }
 
             var oModel = this.getModel("viewLoteMdl");
             oModel.setProperty("/variedad", oEvent.getParameter("selectedItem").getText());
-            
-            if(oModel.getProperty("/coordPoligono") === ""){
-                sap.m.MessageToast.show("Es obligatorio que indiques la ubicación del lote en el mapa", {duration: 5000});
+
+            if (oModel.getProperty("/coordPoligono") === "") {
+                sap.m.MessageToast.show("Es obligatorio que indiques la ubicación del lote en el mapa", { duration: 5000 });
             }
             //
-        },  
+        },
 
         onSeleccionarVariedad: function (oEvent) {
             sap.ui.getCore().byId("lblHectareasN").setVisible(true);
@@ -1023,7 +1023,7 @@ sap.ui.define([
 
             //@nueva
             this.byIdFragment("lblMapaN").setVisible(true);
-            this.byIdFragment("btnMapaN").setVisible(true);        
+            this.byIdFragment("btnMapaN").setVisible(true);
             this.byIdFragment("iHectareasTotalesN").setVisible(true);
             this.byIdFragment("lblHectareasTotalesN").setVisible(true);
 
@@ -1088,13 +1088,13 @@ sap.ui.define([
 
                     if (oMaterial.material_ID === aRindes[i].material_ID) {
                         //---------------------------------------
-                        if (oMaterial.tipoDeInsumo_ID === "V" && parseFloat(aRindes[i].densidadRecomendada) > 0){
+                        if (oMaterial.tipoDeInsumo_ID === "V" && parseFloat(aRindes[i].densidadRecomendada) > 0) {
                             fDensidad = aRindes[i].densidadRecomendada;
                             bDensidadRecomendada = true;
                         }
                         //---------------------------------------                        
                         if (bDensidadRecomendada === false) {
-                        //if (bDensidadRecomendada === false && aRindes[i].densidadRecomendada !== "0") {
+                            //if (bDensidadRecomendada === false && aRindes[i].densidadRecomendada !== "0") {
                             fDensidad = aRindes[i].densidadRecomendada;
                             bDensidadRecomendada = true;
                         }
@@ -1133,17 +1133,17 @@ sap.ui.define([
                     materialChico: oMaterial.materialChico, // @nico pasar estos campos
                     materialChico_ID: oMaterial.materialChico_ID, // @nico pasar estos campos
                     minDensidad: 0,
-                    maxDensidad: 10000                 
+                    maxDensidad: 10000
                 };
 
                 //@cambio
                 if (aOpciones.length > 1) oDataInsumos.mostrarOpciones = true;
 
                 //@vita
-                if(oDataInsumos.tipoDeInsumo_ID === "V"){   //vitagrow
+                if (oDataInsumos.tipoDeInsumo_ID === "V") {   //vitagrow
                     oDataInsumos.mostrarOpciones = false;
-                    oDataInsumos.cantidadVitagrowOriginal = oDataInsumos.cantidad; 
-                    oDataInsumos.cantidad = 0;                          
+                    oDataInsumos.cantidadVitagrowOriginal = oDataInsumos.cantidad;
+                    oDataInsumos.cantidad = 0;
                 }
 
                 //cambio
@@ -1173,15 +1173,15 @@ sap.ui.define([
                 }
 
                 //minimo y maximo de semilla
-                if (oMaterial.tipoDeMaterial_ID === "S" && oMaterial.mostrarEnPantalla === true){
+                if (oMaterial.tipoDeMaterial_ID === "S" && oMaterial.mostrarEnPantalla === true) {
                     oDataInsumos.minDensidad = parseFloat(this._minSemilla);
-                    oDataInsumos.maxDensidad = parseFloat(this._maxSemilla);                        
+                    oDataInsumos.maxDensidad = parseFloat(this._maxSemilla);
                 }
                 if (oMaterial.tipoDeInsumo_ID === "M") {
                     oDataInsumos.minDensidad = parseFloat(this._minMicrostar);
-                    oDataInsumos.maxDensidad = parseFloat(this._maxMicrostar); 
-                }                
-                
+                    oDataInsumos.maxDensidad = parseFloat(this._maxMicrostar);
+                }
+
 
             });
 
@@ -1202,8 +1202,8 @@ sap.ui.define([
             }
 
             //@nueva
-            this.mostrarInfoInsumos();              
-            
+            this.mostrarInfoInsumos();
+
         },
 
         _errorInsumosCB: function (oError) {
@@ -1269,7 +1269,7 @@ sap.ui.define([
                 let fCantidadOriginalVita = parseFloat(oInsumo.cantidadVitagrowOriginal);
 
                 if (oInsumo.tipoDeInsumo_ID === "V" && oInsumo.agregarVitagrow === true) {  //vita + agreggar vita
-                    if (oInsumo.densidadEditable === false) { 
+                    if (oInsumo.densidadEditable === false) {
                         oInsumo.cantidad = fCantidadOriginalVita;
                     }
                     if (oInsumo.densidadEditable === true && oInsumo.cantidad === 0) {
@@ -1277,7 +1277,7 @@ sap.ui.define([
                     }
                 } else if (oInsumo.tipoDeInsumo_ID === "V" && oInsumo.agregarVitagrow === false) {  //vita + no vita
                     oInsumo.cantidad = 0;
-                }  
+                }
 
             });
 
@@ -1290,7 +1290,7 @@ sap.ui.define([
             this.getModel("viewLoteMdl").refresh();
 
             //@nueva
-            this.mostrarInfoInsumos();               
+            this.mostrarInfoInsumos();
         },
 
         // @nico nuevo metodo que calcula el aporte de un insumo
@@ -1308,13 +1308,15 @@ sap.ui.define([
             var fMargenRedondeoBigbag = parseFloat(this.getModel("landingMdl").getProperty("/Configuraciones/MARGEN_REDONDEO_BIGBAG")) || 0.4; // menor a este valor redondea bigbag para abajo, si no para arriba
 
             // dejar calculadas las hectareas que se toman para semilla
-            var fHaSemillas = fHa; // - fHectareasPurga; ya no se restan las 3 de purga
+            //var fHaSemillas = fHa; // - fHectareasPurga; ya no se restan las 3 de purga
+            var fHaSemillas = fHa - fHectareasPurga;
             var fConversorMaterialChico = oInsumo.materialChico ? parseFloat(oInsumo.materialChico.conversor) : 1;
             var fPrecioMaterialChico = (oInsumo.materialChico && oInsumo.materialChico.precio) ? parseFloat(oInsumo.materialChico.precio) : 0;
 
-            if (!oInsumo.mostrarEnPantalla) {
+            /*if (!oInsumo.mostrarEnPantalla) {
                 return 0;
-            }
+            }*/
+
             switch (oInsumo.tipoMaterial) {
                 //Cosecha se ignora
                 case "C":
@@ -1397,16 +1399,16 @@ sap.ui.define([
 
                         //@vita
                         case "V":
-                            if (oInsumo.agregarVitagrow){
+                            if (oInsumo.agregarVitagrow) {
                                 fCantidad = fHa * oInsumo.cantidadVitagrowOriginal;
                                 fCantidad = fCantidad / fConversor;
-                                fCantidad = Math.ceil(fCantidad);                                    
+                                fCantidad = Math.ceil(fCantidad);
                             }
-                            else{
+                            else {
                                 fCantidad = 0;
                             }
 
-                            break;             
+                            break;
 
                         default:
                             // otro insumo
@@ -1432,13 +1434,13 @@ sap.ui.define([
 
         //@nueva
         //mostrar en pantalla todos los insumos
-        mostrarInfoInsumos: function(){
+        mostrarInfoInsumos: function () {
             var oData = this.getModel("viewLoteMdl").getData();
             var fHa = parseFloat(oData.hectareas);
             var fAporte = parseFloat(oData.aporte);
             var aInfo = [];
 
-            oData.insumos.forEach( (oInsumo)=>{
+            oData.insumos.forEach((oInsumo) => {
                 let oDataInfo = {};
 
                 let oResult = this.getInfoInsumosCantidades(oInsumo, fHa);
@@ -1449,12 +1451,17 @@ sap.ui.define([
                 oDataInfo.kgAdescontar = fAporte.toFixed(2);
                 oDataInfo.totalAdescontar = (fHa * fAporte).toFixed(2);
 
-                if(oDataInfo.cantidad > 0){
+                if (oDataInfo.cantidad > 0) {
                     aInfo.push(oDataInfo);
                 }
 
+                //  INI GADI6 4000291043 - Error en anexo II faltan insumos
                 //material chico de microstar
-                if(oResult.materialChico === true && oInsumo.tipoDeInsumo_ID === "M"){
+                //if(oResult.materialChico === true && oInsumo.tipoDeInsumo_ID === "M"){
+
+                if (oResult.materialChico === true && oInsumo.materialChico_ID) {
+                    //  FIN GADI6 4000291043 - Error en anexo II faltan insumos
+
                     let oDataInfoChico = {};
                     oDataInfoChico.descripcion = oInsumo.materialChico.descripcion;
                     oDataInfoChico.unidades = oResult.cantidadMaterialChico;
@@ -1462,21 +1469,21 @@ sap.ui.define([
                     oDataInfoChico.kgAdescontar = fAporte.toFixed(2);
                     oDataInfoChico.totalAdescontar = (fHa * fAporte).toFixed(2);
 
-                    if(oDataInfoChico.cantidad > 0){
+                    if (oDataInfoChico.cantidad > 0) {
                         aInfo.push(oDataInfoChico);
-                    }                                                  
-                }                  
+                    }
+                }
             });
 
-            oData.insumosInfo = aInfo;                
+            oData.insumosInfo = aInfo;
             this.getModel("viewLoteMdl").refresh();
-        
+
             //this.byIdFragment("vbInfo").setVisible(true);                
         },
 
         //@nueva
         //cantidad de insumo (copia de calcularAporteInsumo, pero devuelve cantidad en vez de aporte)
-        getInfoInsumosCantidades: function(oInsumo, fHa){
+        getInfoInsumosCantidades: function (oInsumo, fHa) {
             var fCantidad = 0;
             var fCantidadMaterialChico = 0;
             //(oInsumo.material, oInsumo.tipoMaterial, oInsumo.conversor, oLote.rindeEsperado, oLote.hectareas, oInsumo.cantidad, oInsumo.mostrarEnPantalla, oInsumo.esGlufo, oInsumo.agregarGlufo)
@@ -1489,13 +1496,20 @@ sap.ui.define([
             var fMinHectareasParaBigbag = parseFloat(this.getModel("landingMdl").getProperty("/Configuraciones/MIN_HECTAREAS_PARA_SOLO_BIGBAG")) || 150; // minimo hectareas para enviar bigbag de semillas
             var fMargenRedondeoBigbag = parseFloat(this.getModel("landingMdl").getProperty("/Configuraciones/MARGEN_REDONDEO_BIGBAG")) || 0.4; // menor a este valor redondea bigbag para abajo, si no para arriba
 
+
+            //  INICIO GADI6 TKT 4000291043 - Error en anexo II faltan insumos
+
             // dejar calculadas las hectareas que se toman para semilla
-            var fHaSemillas = fHa; // - fHectareasPurga; ya no se restan las 3 de purga
+            //var fHaSemillas = fHa; // - fHectareasPurga; ya no se restan las 3 de purga
+            var fHaSemillas = fHa - fHectareasPurga;
+
+            //  FIN GADI6 TKT 4000291043 - Error en anexo II faltan insumos
+
             var fConversorMaterialChico = oInsumo.materialChico ? parseFloat(oInsumo.materialChico.conversor) : 1;
             var fPrecioMaterialChico = (oInsumo.materialChico && oInsumo.materialChico.precio) ? parseFloat(oInsumo.materialChico.precio) : 0;
             var fUnidades = 0;
             var fUnidadesMaterialChico = 0;
-            var bMaterialChico = false;            
+            var bMaterialChico = false;
 
             //if (!oInsumo.mostrarEnPantalla) {
             //    return 0;
@@ -1530,6 +1544,12 @@ sap.ui.define([
                             if (oInsumo.materialChico) {
                                 fCantidadMaterialChico = fResto * fConversor / fConversorMaterialChico;
                                 fCantidadMaterialChico = Math.ceil(fCantidadMaterialChico);
+
+                                //  INICIO GADI6 TKT 4000291043 - Error en anexo II faltan insumos
+                                fUnidadesMaterialChico = fCantidadMaterialChico * fConversorMaterialChico;
+                                bMaterialChico = true;
+                                //  FIN GADI6 TKT 4000291043 - Error en anexo II faltan insumos 
+
                             }
 
                         }
@@ -1573,7 +1593,7 @@ sap.ui.define([
 
                                 // calcular cantidad de bolsas chicas si está cargado el materialChico
                                 if (oInsumo.materialChico) {
-                                    fCantidadMaterialChico = ( fResto * fConversor ) / fConversorMaterialChico;
+                                    fCantidadMaterialChico = (fResto * fConversor) / fConversorMaterialChico;
                                     fUnidadesMaterialChico = fCantidadMaterialChico * fConversorMaterialChico;
                                     bMaterialChico = true;
                                 }
@@ -1598,12 +1618,12 @@ sap.ui.define([
 
                         //@vita
                         case "V":
-                            if (oInsumo.agregarVitagrow){
+                            if (oInsumo.agregarVitagrow) {
                                 fCantidad = fHa * oInsumo.cantidadVitagrowOriginal;
                                 fCantidad = fCantidad / fConversor;
-                                fCantidad = Math.ceil(fCantidad);                                    
+                                fCantidad = Math.ceil(fCantidad);
                             }
-                            else{
+                            else {
                                 fCantidad = 0;
                             }
 
@@ -1634,9 +1654,9 @@ sap.ui.define([
             };
 
             return oReturn;
-        },                 
-            
-        onChangeHectareas: function(oEvent){
+        },
+
+        onChangeHectareas: function (oEvent) {
             //var fHectareas = oEvent.getSource().getValue();
             var oLote = this.getModel("viewLoteMdl").getData();
 
@@ -1706,12 +1726,12 @@ sap.ui.define([
             */
             //@#
             else if ((oEvent.getSource().getSelectedKey() === "03")) { //misma coordenadas que semillas
-                if (this._operacion === "crear") this.byIdFragment("btnMapaEntregaN").setVisible(false);                
+                if (this._operacion === "crear") this.byIdFragment("btnMapaEntregaN").setVisible(false);
 
                 //this._copiarUbicacionEnEntregaSemillaInsumo();  //@#
                 var oData = this.getModel("viewLoteMdl").getData();
                 oData.direccionEntrega = oData.direccionEntregaSem;
-            }             
+            }
             //
         },
 
@@ -1743,8 +1763,8 @@ sap.ui.define([
 
             oData.direccionEntregaSem = aCoord[0];  //@#
             oData.direccionEntrega = oData.direccionEntregaSem;  //@#
-        },       
-        
+        },
+
         //@nueva
         //Copiar las coordenadas del poligono al Lugar de entrega de semilla
         _copiarUbicacionEnEntregaSemillaInsumo: function () {
@@ -1759,7 +1779,7 @@ sap.ui.define([
             var aCoord = oData.coordPoligono.split("/");
 
             oData.direccionEntregaSem = oData.direccionEntrega;
-        },           
+        },
 
         //Validar formato de fecha
         onChangeFecha: function (oEvent) {
@@ -1802,7 +1822,7 @@ sap.ui.define([
             var bErrorSemilla = false;
             var bSemillaFueraDeRango = false;
             var bMicrostarFueraDeRango = false;
-            
+
             //Validar datos
             if (oData.nombreCampo === "") {
                 sap.m.MessageToast.show("Debe indicar un Nombre de lote", { duration: 4000 });
@@ -1834,10 +1854,10 @@ sap.ui.define([
                 if (this._operacion === "editar") sap.ui.getCore().byId("btnMapaE").focus();
                 if (this._operacion === "crear") sap.ui.getCore().byId("btnMapaN").focus();
                 return;
-            }            
+            }
             //else if (parseInt(oData.rindeEsperado) <= 0 || oData.rindeEsperado === NaN || oData.rindeEsperado === "") {
             else if (parseInt(oData.rindeEsperado) < parseInt(this._minRinde) || oData.rindeEsperado === NaN || oData.rindeEsperado === "") {
-                sap.m.MessageToast.show("Debe indicar un Rinde mayor o igual a " + this._minRinde , { duration: 4000 });
+                sap.m.MessageToast.show("Debe indicar un Rinde mayor o igual a " + this._minRinde, { duration: 4000 });
                 sap.ui.getCore().byId("iRindeN").focus();
                 return;
             }
@@ -1877,23 +1897,23 @@ sap.ui.define([
                 sap.m.MessageToast.show("Debe indicar un Telefono  de contacto", { duration: 4000 });
                 sap.ui.getCore().byId("iTelContactoN").focus();
                 return;
-            }       
-            else if(oData.coordEntrega === "" && oData.direccionEntrega === ""){
-                sap.m.MessageToast.show("Debe indicar Lugar de entrega", {duration: 4000});
-                sap.ui.getCore().byId("cboLugarEntregaN").focus();                     
-                return;                    
-            }     
+            }
+            else if (oData.coordEntrega === "" && oData.direccionEntrega === "") {
+                sap.m.MessageToast.show("Debe indicar Lugar de entrega", { duration: 4000 });
+                sap.ui.getCore().byId("cboLugarEntregaN").focus();
+                return;
+            }
 
-            else if (this.byIdFragment("cboLugarEntregaNSem").getSelectedKey() === "02" && oData.coordEntregaSemilla === ""){
+            else if (this.byIdFragment("cboLugarEntregaNSem").getSelectedKey() === "02" && oData.coordEntregaSemilla === "") {
                 sap.m.MessageToast.show("Debe indicar el lugar de entrega de semilla", { duration: 4000 });
                 this.byIdFragment("cboLugarEntregaNSem").focus();
                 return;
-            }   
+            }
             else if (this.byIdFragment("cboLugarEntregaN").getSelectedKey() === "02" && oData.coordEntrega === "") {
                 sap.m.MessageToast.show("Debe indicar el lugar de entrega de insumos", { duration: 4000 });
                 this.byIdFragment("cboLugarEntregaN").focus();
                 return;
-            }   
+            }
 
             //@nueva
             else if (oData.coordEntregaSem === "" && oData.direccionEntregaSem === "") {
@@ -1905,45 +1925,45 @@ sap.ui.define([
                 sap.m.MessageToast.show("Debe indicar hectáreas totales del campo", { duration: 4000 });
                 this.byIdFragment("iHectareasTotalesN").focus();
                 return;
-            } */        
-            
+            } */
+
             /*else if (parseInt(oData.hectareasTotales) <= 0 || oData.hectareasTotales === NaN || oData.hectareasTotales === "") {
                 sap.m.MessageToast.show("Debe indicar hectáreas totales del campo", { duration: 4000 });
                 this.byIdFragment("iHectareasTotalesN").focus();
                 return;
-            } */           
-            
-            oData.insumos.forEach( (oInsumo)=>{
-                if(oInsumo.mostrarEnPantalla === true && oInsumo.tipoMaterial === "S"){
-                    if(parseFloat(oInsumo.cantidad) <= 0){
+            } */
+
+            oData.insumos.forEach((oInsumo) => {
+                if (oInsumo.mostrarEnPantalla === true && oInsumo.tipoMaterial === "S") {
+                    if (parseFloat(oInsumo.cantidad) <= 0) {
                         bErrorSemilla = true;
                     }
-                    if(parseFloat(oInsumo.cantidad) < this._minSemilla || parseFloat(oInsumo.cantidad) > this._maxSemilla){
+                    if (parseFloat(oInsumo.cantidad) < this._minSemilla || parseFloat(oInsumo.cantidad) > this._maxSemilla) {
                         bSemillaFueraDeRango = true;
-                    }                    
+                    }
                 }
-                if(oInsumo.tipoDeInsumo_ID === "M"){
-                    if(parseFloat(oInsumo.cantidad) < this._minMicrostar || parseFloat(oInsumo.cantidad) > this._maxMicrostar){
+                if (oInsumo.tipoDeInsumo_ID === "M") {
+                    if (parseFloat(oInsumo.cantidad) < this._minMicrostar || parseFloat(oInsumo.cantidad) > this._maxMicrostar) {
                         bMicrostarFueraDeRango = true;
-                    }      
-                }                   
-            });       
-            
-            if(bErrorSemilla === true){
-                sap.m.MessageToast.show("Debe indicar densidad de semilla", {duration: 4000});
-                return;                    
-            }          
-            if(bSemillaFueraDeRango === true){
-                sap.m.MessageToast.show("Debe indicar densidad de semilla dentro del rango permitido", {duration: 4000});
-                return;                    
-            }   
-            if(bMicrostarFueraDeRango === true){
-                sap.m.MessageToast.show("Debe indicar densidad de Microstar dentro del rango permitido", {duration: 4000});
-                return;                    
-            }                   
+                    }
+                }
+            });
+
+            if (bErrorSemilla === true) {
+                sap.m.MessageToast.show("Debe indicar densidad de semilla", { duration: 4000 });
+                return;
+            }
+            if (bSemillaFueraDeRango === true) {
+                sap.m.MessageToast.show("Debe indicar densidad de semilla dentro del rango permitido", { duration: 4000 });
+                return;
+            }
+            if (bMicrostarFueraDeRango === true) {
+                sap.m.MessageToast.show("Debe indicar densidad de Microstar dentro del rango permitido", { duration: 4000 });
+                return;
+            }
             //                  
-            
-            
+
+
             this.getModel("viewLoteMdl").setProperty("/highlight", "Success");
             this.getModel("viewLoteMdl").setProperty("/map", this.map);
             this.getModel("viewLoteMdl").setProperty("/map2", this.map2);
@@ -1964,11 +1984,11 @@ sap.ui.define([
 
         onVerMapaCampo: function (oEvent) {
             //@fragment
-            if(this._operacion === "crear" && this.mostrarVideo1 === true){
+            if (this._operacion === "crear" && this.mostrarVideo1 === true) {
                 //this.mostrarVideo1 = false;
                 this.onAyudaPoligono(oEvent);   //@fragment
                 return;
-            }                  
+            }
             //
 
             if (!this._oDialogMapa1) {
@@ -1987,7 +2007,7 @@ sap.ui.define([
                     //abrir video de ayuda
                     //if(this._operacion === "crear" && this.mostrarVideo1 === true){
                     //    this.mostrarVideo1 = false;
-                        //this.onAyudaPoligono();  //@fragment
+                    //this.onAyudaPoligono();  //@fragment
                     //}                        
                 }.bind(this));
             } else {
@@ -2000,7 +2020,7 @@ sap.ui.define([
 
                 //if(this._operacion === "crear" && this.mostrarVideo1 === true){
                 //    this.mostrarVideo1 = false;
-                    //this.onAyudaPoligono();   //@fragment
+                //this.onAyudaPoligono();   //@fragment
                 //}                    
             }
         },
@@ -2022,11 +2042,11 @@ sap.ui.define([
 
         onVerMapaEntrega: function (oEvent) {
             //@fragment
-            if(this._operacion === "crear" && this.mostrarVideo3 === true){
+            if (this._operacion === "crear" && this.mostrarVideo3 === true) {
                 //this.mostrarVideo1 = false;
                 this.onAyudaEntregas(oEvent);   //@fragment
                 return;
-            }                  
+            }
             //
 
             if (!this._oDialogMapa2) {
@@ -2044,7 +2064,7 @@ sap.ui.define([
                     //@ayuda
                     //if(this._operacion === "crear" && this.mostrarVideo2 === true){
                     //    this.mostrarVideo2 = false;
-                        //this.ayudaEntregas("insumos");
+                    //this.ayudaEntregas("insumos");
                     //}     
 
                 }.bind(this));
@@ -2055,7 +2075,7 @@ sap.ui.define([
                 //@ayuda
                 //if(this._operacion === "crear" && this.mostrarVideo2 === true){
                 //    this.mostrarVideo2 = false;
-                    //this.ayudaEntregas("insumos");
+                //this.ayudaEntregas("insumos");
                 //}                     
             }
         },
@@ -2070,7 +2090,7 @@ sap.ui.define([
                 if (this._operacion === "crear") sap.ui.getCore().byId("iCoordEntregaN").setVisible(true);
 
                 var oDataEntrega = { lat: this._maker2.internalPosition.lat(), lng: this._maker2.internalPosition.lng() };
-                this.getModel("viewLoteMdl").setProperty("/coordEntrega", oDataEntrega);                
+                this.getModel("viewLoteMdl").setProperty("/coordEntrega", oDataEntrega);
             }
 
             this._oDialogMapa2.close();
@@ -2092,8 +2112,8 @@ sap.ui.define([
             }
 
             this._oDialogMapa3.close();
-        },         
-        
+        },
+
         //@nueva
         onSeleccionarLugarSemilla: function (oEvent) {
             if (oEvent.getSource().getSelectedKey() === "01") {  //misma coord que lote
@@ -2112,16 +2132,16 @@ sap.ui.define([
                 if (this._operacion === "crear") this.byIdFragment("btnMapaEntregaNSem").setVisible(false);                
 
                 this._copiarUbicacionEnEntregaSemillaInsumo();
-            } */            
-        },        
+            } */
+        },
 
         //@nueva
-        onVerMapaEntregaSemilla: function(oEvent){
+        onVerMapaEntregaSemilla: function (oEvent) {
             //@fragment
-            if(this._operacion === "crear" && this.mostrarVideo2 === true){
+            if (this._operacion === "crear" && this.mostrarVideo2 === true) {
                 this.onAyudaEntregasSemillas(oEvent);   //@fragment
                 return;
-            }                  
+            }
             //
 
             if (!this._oDialogMapa3) {
@@ -2149,7 +2169,7 @@ sap.ui.define([
                 //    this.ayudaEntregas("semilla");
                 //}                  
             }
-        },                    
+        },
 
         //MAPAS---------------------------------------------------------------------------
         cargarMapas: function () {
@@ -2162,15 +2182,15 @@ sap.ui.define([
             var sUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAjQU1p7l6-AtR9FRwwAkhutE4fObWoy_c&libraries=drawing,places&v=weekly";
 
             //var sUrl = "https://maps.googleapis.com/maps/api/js?key=AIzaSyBIwzALxUPNbatRBj3Xi1Uhp0fFzwWNBkE&callback=initMap&libraries=drawing&v=weekly"
-            
+
             //this.loadGoogleMaps(sUrl, this.initMap.bind(this));  //@fragment
 
             //@fragment
-            if(typeof google !== "object"){
-                this.loadGoogleMaps(sUrl, this.initMap.bind(this));                    
+            if (typeof google !== "object") {
+                this.loadGoogleMaps(sUrl, this.initMap.bind(this));
             }
-            else if(typeof google === "object" && typeof google.maps !== "object"){
-                this.loadGoogleMaps(sUrl, this.initMap.bind(this)); 
+            else if (typeof google === "object" && typeof google.maps !== "object") {
+                this.loadGoogleMaps(sUrl, this.initMap.bind(this));
             }
 
         },
@@ -2336,14 +2356,14 @@ sap.ui.define([
                     }
                     */
                     //
-                    
+
                     that.getModel("viewLoteMdl").setProperty("/coordPoligono", sCoord);
                     that.getModel("viewLoteMdl").setProperty("/coordEdit", aCoordEdit);
                     that.getModel("viewLoteMdl").refresh();
 
                     //@mapa2
                     //habilito los demas controles que le siguen al boton de mapa poligono
-                    if(sCoord !== ""){
+                    if (sCoord !== "") {
                         that.onSeleccionarVariedad();
                     }
                     //                       
@@ -2383,12 +2403,12 @@ sap.ui.define([
         },   //fin initMap
 
         //@nueva
-        editarMap: function(){
+        editarMap: function () {
             var oData = this.getModel("viewLoteMdl").getData();
 
             //posiciono el mapa inicialmente en la localidad y provincia seleccionada para el lote
             var sDireccion = oData.localidad + ", " + oData.provincia;
-            this.setAddressInitial(this.geocoder, this.map, sDireccion);            
+            this.setAddressInitial(this.geocoder, this.map, sDireccion);
         },
 
         //inicializo el mapa para la ubicacion del punto de entrega
@@ -2403,9 +2423,9 @@ sap.ui.define([
             }*/
             var oCoordDefault = this.getCoordDefaultEntregas();
 
-            if(oCoordDefault === "" || oCoordDefault === null || oCoordDefault === undefined){
+            if (oCoordDefault === "" || oCoordDefault === null || oCoordDefault === undefined) {
                 oCoordDefault = { lat: -36.6192291, lng: -64.371276 };
-            }         
+            }
             //             
 
             this.map2 = new google.maps.Map(document.getElementById("map2"), {
@@ -2436,7 +2456,7 @@ sap.ui.define([
             //    sap.ui.getCore().drawingManager.setOptions({drawingControl: true});
             //    sap.m.MessageToast.show("Se ha habilitado la herramienta de dibujo de poligono");
             //})     
-            
+
             //@nuevamap
             /*
             //posiciono el mapa inicialmente en la localidad y provincia seleccionada para el lote
@@ -2451,9 +2471,9 @@ sap.ui.define([
             var oInput = document.getElementById("address2");
             var oOptions = {
                 types: [],
-                componentRestrictions: {country: 'ar'}
-            };           
-            
+                componentRestrictions: { country: 'ar' }
+            };
+
             var autocomplete = new google.maps.places.Autocomplete(oInput, oOptions);
             //
 
@@ -2461,7 +2481,7 @@ sap.ui.define([
             //marcador por defecto sobre el mapa stw
             this._maker2 = new google.maps.Marker({
                 position: oCoordDefault,
-                draggable: true                
+                draggable: true
             });
 
             this._maker2.setMap(this.map2);
@@ -2470,39 +2490,39 @@ sap.ui.define([
         },   //fin initMap2
 
         //@nuevamap
-        editarMap2: function(){
+        editarMap2: function () {
             var oData = this.getModel("viewLoteMdl").getData();
 
             this._maker2.setMap(null);
 
-            if(oData.coordEntrega !== null && oData.coordEntrega !== ""){
+            if (oData.coordEntrega !== null && oData.coordEntrega !== "") {
                 this._maker2 = new google.maps.Marker({
                     map: this.map2,
                     position: oData.coordEntrega,
                     draggable: true
-                });            
-                
+                });
+
                 this.map2.setZoom(12);
                 this.map2.setCenter(oData.coordEntrega);
 
             }
-            else{
+            else {
                 var oCoordDefault = this.getCoordDefaultEntregas();
 
-                if(oCoordDefault === "" || oCoordDefault === null || oCoordDefault === undefined){
+                if (oCoordDefault === "" || oCoordDefault === null || oCoordDefault === undefined) {
                     oCoordDefault = { lat: -36.6192291, lng: -64.371276 };
-                }            
-                
+                }
+
                 this._maker2 = new google.maps.Marker({
                     map: this.map2,
                     position: oCoordDefault,
                     draggable: true
-                });                 
-                
+                });
+
                 this.map2.setZoom(12);
-                this.map2.setCenter(oCoordDefault);                    
+                this.map2.setCenter(oCoordDefault);
             }
-        },        
+        },
 
         //@nueva
         //inicializo el mapa para la ubicacion del punto de entrega de semilla
@@ -2512,9 +2532,9 @@ sap.ui.define([
 
             var oCoordDefault = this.getCoordDefaultEntregas();
 
-            if(oCoordDefault === "" || oCoordDefault === null || oCoordDefault === undefined){
+            if (oCoordDefault === "" || oCoordDefault === null || oCoordDefault === undefined) {
                 oCoordDefault = { lat: -36.6192291, lng: -64.371276 };
-            }                
+            }
 
             this.map3 = new google.maps.Map(document.getElementById("map3"), {
                 zoom: 13,
@@ -2555,55 +2575,55 @@ sap.ui.define([
             var oInput = document.getElementById("address3");
             var oOptions = {
                 types: [],
-                componentRestrictions: {country: 'ar'}
-            };           
-            
-            this.autocomplete3 = new google.maps.places.Autocomplete(oInput, oOptions);      
+                componentRestrictions: { country: 'ar' }
+            };
+
+            this.autocomplete3 = new google.maps.places.Autocomplete(oInput, oOptions);
 
             //marcador por defecto sobre el mapa stw
             var myLatLng = oCoordDefault;
 
             this.marker3 = new google.maps.Marker({
                 position: myLatLng,
-                draggable: true                
+                draggable: true
             });
 
             this.marker3.setMap(this.map3);
         },   //fin initMap3        
 
         //@nuevamap
-        editarMap3: function(){
+        editarMap3: function () {
             var oData = this.getModel("viewLoteMdl").getData();
 
             this.marker3.setMap(null);
 
-            if(oData.coordEntregaSemilla !== null && oData.coordEntregaSemilla !== ""){
+            if (oData.coordEntregaSemilla !== null && oData.coordEntregaSemilla !== "") {
                 this.marker3 = new google.maps.Marker({
                     map: this.map3,
                     position: oData.coordEntregaSemilla,
                     draggable: true
-                });              
-                
+                });
+
                 this.map3.setZoom(14);
-                this.map3.setCenter(oData.coordEntregaSemilla);                    
+                this.map3.setCenter(oData.coordEntregaSemilla);
             }
-            else{
+            else {
                 var oCoordDefault = this.getCoordDefaultEntregas();
 
-                if(oCoordDefault === "" || oCoordDefault === null || oCoordDefault === undefined){
+                if (oCoordDefault === "" || oCoordDefault === null || oCoordDefault === undefined) {
                     oCoordDefault = { lat: -36.6192291, lng: -64.371276 };
-                }            
-                
+                }
+
                 this.marker3 = new google.maps.Marker({
                     map: this.map3,
                     position: oCoordDefault,
                     draggable: true
-                });             
-                
+                });
+
                 this.map3.setZoom(14);
-                this.map3.setCenter(oCoordDefault);                        
+                this.map3.setCenter(oCoordDefault);
             }
-        },                
+        },
 
         //buscador de direcciones para el mapa del poligono
         geocodeAddress: function (geocoder, resultsMap) {
@@ -2693,31 +2713,31 @@ sap.ui.define([
                     );
                 }
             });
-        },       
-        
+        },
+
         //@nueva
-        getCoordDefaultEntregas: function(sPath){
+        getCoordDefaultEntregas: function (sPath) {
             //para las entregas por default el punto de entrega es el lote dibujado en el mapa
             var oData = this.getModel("viewLoteMdl").getData();
             var oCoordenadasReturn = {};
 
-            if(oData.coordEdit.length > 0){
+            if (oData.coordEdit.length > 0) {
                 var oCoordenadas = {
                     lat: oData.coordEdit[0].lat,
                     lng: oData.coordEdit[0].lng
-                }                
+                }
 
                 oCoordenadasReturn = oCoordenadas;
             }
-            else{
+            else {
                 oCoordenadasReturn = "";
             }
 
             return oCoordenadasReturn;
-        },         
+        },
 
         //@ayuda
-        onAyudaPoligono: function(oEvent){
+        onAyudaPoligono: function (oEvent) {
             //var oControl = this.byIdFragment("iconAyudaPoligono");   //@fragment
             var oControl = oEvent.getSource();   //@fragment
             var sPath = jQuery.sap.getModulePath("hb4.zhb4_mispedidos") + "/media/ayuda1.mp4";
@@ -2738,7 +2758,7 @@ sap.ui.define([
                     source = document.getElementById('sourceAyuda1');
                     source.setAttribute('src', sPath);
                     video.load();
-                    video.play();                        
+                    video.play();
                 }.bind(this));
             } else {
                 this._oDialogAyudaPoligono.open();
@@ -2748,34 +2768,34 @@ sap.ui.define([
                 source = document.getElementById('sourceAyuda1');
                 source.setAttribute('src', sPath);
                 video.load();
-                video.play();                    
-            }                
+                video.play();
+            }
         },
 
         //@ayuda
-        onCerrarAyudaPoligono: function(oEvent){
+        onCerrarAyudaPoligono: function (oEvent) {
             //@fragment
             /*var oControl = this.byIdFragment("popAyudaPoligono");
             oControl.close();*/
-            
+
             this._oDialogAyudaPoligono.close();
 
-            if(this._operacion === "crear" && this.mostrarVideo1 === true){
+            if (this._operacion === "crear" && this.mostrarVideo1 === true) {
                 this.mostrarVideo1 = false;
                 this.onVerMapaCampo();
-            }                  
+            }
             //                 
         },
-        
+
         //@ayuda
-        onAyudaEntregas: function(oEvent){
+        onAyudaEntregas: function (oEvent) {
             //this.ayudaEntregas("insumos");   //@fragment
             this.abrirMapa = "insumos";   //@fragment
             this.ayudaEntregas(oEvent);   //@fragment            
         },
-        
+
         //@ayuda
-        onAyudaEntregasSemillas: function(oEvent){
+        onAyudaEntregasSemillas: function (oEvent) {
             //this.ayudaEntregas("semilla");  //@fragment
             this.abrirMapa = "semillas";   //@fragment  
             this.ayudaEntregas(oEvent);   //@fragment            
@@ -2783,13 +2803,13 @@ sap.ui.define([
 
         //@ayuda
         //ayudaEntregas: function(sTipoEntrega){  //@fragment 
-        ayudaEntregas: function(oEvent){
+        ayudaEntregas: function (oEvent) {
             //var oControl = null;  //@fragment  
             var oControl = oEvent.getSource();  //@fragment  
             var sPath = jQuery.sap.getModulePath("hb4.zhb4_mispedidos") + "/media/ayuda2.mp4";
             var video = null;
-            var source = null;        
-            
+            var source = null;
+
             //@fragment
             /*
             if(sTipoEntrega === "insumos"){
@@ -2814,7 +2834,7 @@ sap.ui.define([
                     source = document.getElementById('sourceAyuda2');
                     source.setAttribute('src', sPath);
                     video.load();
-                    video.play();                         
+                    video.play();
                 }.bind(this));
             } else {
                 this._oDialogAyudaEntregas.open();
@@ -2824,71 +2844,71 @@ sap.ui.define([
                 source = document.getElementById('sourceAyuda2');
                 source.setAttribute('src', sPath);
                 video.load();
-                video.play();                     
-            }                
+                video.play();
+            }
         },
 
         //@ayuda
-        onCerrarAyudaEntregas: function(oEvent){
+        onCerrarAyudaEntregas: function (oEvent) {
             //var oControl = this.byIdFragment("popAyudaEntregas");  //@fragment
             //oControl.close();           //@fragment
-            
+
             //@fragment
             this._oDialogAyudaEntregas.close();
 
-            if(this._operacion === "crear" && this.mostrarVideo2 === true && this.abrirMapa === "semillas"){
+            if (this._operacion === "crear" && this.mostrarVideo2 === true && this.abrirMapa === "semillas") {
                 this.mostrarVideo2 = false;
                 this.onVerMapaEntregaSemilla();
-            }          
-            
-            if(this._operacion === "crear" && this.mostrarVideo3 === true && this.abrirMapa === "insumos"){
+            }
+
+            if (this._operacion === "crear" && this.mostrarVideo3 === true && this.abrirMapa === "insumos") {
                 this.mostrarVideo3 = false;
                 this.onVerMapaEntrega();
-            }                   
+            }
             //                
-        },                    
+        },
 
         //ayuda
-        onProvinciaRequested: function(oEvent){
+        onProvinciaRequested: function (oEvent) {
             this.byIdFragment("cboProvinciaN").setBusy(true);
         },
 
         //ayuda
-        onProvinciaReceived: function(oEvent){
+        onProvinciaReceived: function (oEvent) {
             this.byIdFragment("cboProvinciaN").setBusy(false);
         },
-                
+
         //ayuda
-        onLocalidadRequested: function(oEvent){
-            this.byIdFragment("cboLocalidadN").setBusy(true);                 
+        onLocalidadRequested: function (oEvent) {
+            this.byIdFragment("cboLocalidadN").setBusy(true);
         },
 
         //ayuda
-        onLocalidadReceived: function(oEvent){
-            this.byIdFragment("cboLocalidadN").setBusy(false);                    
-        },       
+        onLocalidadReceived: function (oEvent) {
+            this.byIdFragment("cboLocalidadN").setBusy(false);
+        },
 
-        onValidarHaNumber: function(oEvent){
+        onValidarHaNumber: function (oEvent) {
             var oInput = oEvent.getSource();
             var sVal = oEvent.getParameter("value");
 
-            if(sVal !== ""){  
+            if (sVal !== "") {
                 oInput.setValue(parseInt(sVal));
                 this.onChangeHectareas();
             }
         },
 
-        onValidarHaNumberOtros: function(oEvent){
+        onValidarHaNumberOtros: function (oEvent) {
             var oInput = oEvent.getSource();
             var sVal = oEvent.getParameter("value");
 
-            if(sVal !== ""){
+            if (sVal !== "") {
                 oInput.setValue(parseInt(sVal));
             }
-        },         
-        
-// FIRMA NUEVO LOTE -----------------------------------------------------------------------------------------------
-		firmarEnmiendaNuevoLote: function (oEvent) {
+        },
+
+        // FIRMA NUEVO LOTE -----------------------------------------------------------------------------------------------
+        firmarEnmiendaNuevoLote: function (oEvent) {
             if (!this.oLoteDialog) {
                 this.oLoteDialog = new Dialog({
                     type: DialogType.Message,
@@ -3054,7 +3074,7 @@ sap.ui.define([
                     //
                 };
 
-                if(oDatos.haTotales === "" || oDatos.haTotales === null) oDatos.haTotales = "0";
+                if (oDatos.haTotales === "" || oDatos.haTotales === null) oDatos.haTotales = "0";
 
                 //si la direccion es una coordenada separada por @ lo reemplazo por coma
                 oDatos.direccionEntrega = oDatos.direccionEntrega.replace("@", ",");
