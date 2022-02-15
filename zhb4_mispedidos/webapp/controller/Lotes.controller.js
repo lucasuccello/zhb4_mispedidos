@@ -726,7 +726,9 @@ sap.ui.define([
                     if (oDataReturn.precio === 0 || oDataReturn.precio === null) {
                         this.getModel("landingMdl").read("/Cultivos('SO')", {
                             success: function (oDataReturn, oResponse) {
+                                
                                 this.obtenerPrecioFuturoSoja(oDataReturn.simboloPrecioFuturo, oDataReturn.precioFuturoDefault);
+
                             }.bind(this),
                             error: function (oError) {
                             }
@@ -786,6 +788,11 @@ sap.ui.define([
                 simbolo: simbolo
             });
 
+            //Ajuste, ahora solo se usa el precio Default
+            this._precioFuturoSoja = parseFloat(precioDefault);
+            return;
+
+
             this.getView().getModel("landingMdl").read(sPath, {
                 success: function (oData) {
                     this._precioFuturoSoja = parseFloat(oData.precio);
@@ -804,6 +811,11 @@ sap.ui.define([
             var sPath = this.getModel("landingMdl").createKey("/PreciosFuturosActuales", {
                 simbolo: simbolo
             });
+
+
+            //Ajuste, ahora solo se usa el precio Default
+            this._precioFuturoTrigo = parseFloat(precioDefault);
+            return;
 
             this.getView().getModel("landingMdl").read(sPath, {
                 success: function (oData) {

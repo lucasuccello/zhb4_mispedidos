@@ -81,6 +81,13 @@ sap.ui.define([
                     var sPath = oModel.createKey("/PreciosFuturosActuales", {
                         simbolo: oSoja.simboloPrecioFuturo
                     });
+
+
+                    this._precioFuturoSoja = parseFloat(oSoja.precioFuturoDefault);
+
+                    this.getView().byId("_tileSoja").setValue(this._precioFuturoSoja);
+                    return;
+
                     oModel.read(sPath, {
                         success: function (oPrecioSoja) {
                             this._precioFuturoSoja = oPrecioSoja.precio;
@@ -104,6 +111,12 @@ sap.ui.define([
                     var sPath = oModel.createKey("/PreciosFuturosActuales", {
                         simbolo: oTrigo.simboloPrecioFuturo
                     });
+
+                    this.precioFuturoDefault = parseFloat(oTrigo.precioFuturoDefault);
+
+                    this.getView().byId("_tileSoja").setValue(this.precioFuturoDefault);
+                    return;
+
                     oModel.read(sPath, {
                         success: function (oPrecioTrigo) {
                             this._precioFuturoTrigo = oPrecioTrigo.precio;
