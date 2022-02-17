@@ -1301,7 +1301,10 @@ sap.ui.define([
             var fConversor = parseFloat(oInsumo.conversor);
             var fCantidadDensidadAux = parseFloat(oInsumo.cantidad);
             var fResto = 0;
-            var fPrecio = parseFloat(oInsumo.precio);
+            var fPrecio = parseFloat(oInsumo.precio ? oInsumo.precio : 0);
+            
+            
+
             var fAporte = 0;
             var fHectareasPurga = parseFloat(this.getModel("landingMdl").getProperty("/Configuraciones/HECTAREAS_PURGA")) || 3; // hectareas de purga a restar para calculo de semillas
             var fMinHectareasParaBigbag = parseFloat(this.getModel("landingMdl").getProperty("/Configuraciones/MIN_HECTAREAS_PARA_SOLO_BIGBAG")) || 150; // minimo hectareas para enviar bigbag de semillas
